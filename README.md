@@ -1,3 +1,65 @@
+# TODO
+
+## read differance btw comp and stateless comp
+
+## setup git account
+
+## Define all components
+Answer
+User
+Post
+List
+Statistics
+LeaderBoard
+
+## Draw a hierchy btwn components
+## What events happen in the cmp 
+Post
+----
+Gives new questions
+Updates List / unanswered or answered questions
+Updates Leaderboard
+
+Answer
+------
+Updates List / unanswered or answered questions
+Updates Statistics for questions
+Updates Leaderboard
+
+User
+-----
+Updates ? Leaderboard
+
+## Decide what states lives in the store
+- Question
+id, text
+
+ListOfQuestions
+- Qid, answered?
+
+Statistics
+- Qid, A: #answered; %answered, B:#answered; %answered
+
+Leaderboard
+- Uid, #answered, #asked
+
+## Define routers to all components
+
+## Try out the redux store
+...to update it with one action
+
+## Define all actions
+- put them in a separate file
+ACTION_POST_QUESTION V
+ACTION_UPDATE_STATISTICS V
+ACTION_UPDATE_LIST V
+ACTION_UPDATE_LEADERBOARD V
+
+## Define reducers
+- use switch / case statements
+
+## define user log in component
+
 # Would You Rather Project
 
 This is the starter code for the final assessment project for Udacity's React & Redux course.
