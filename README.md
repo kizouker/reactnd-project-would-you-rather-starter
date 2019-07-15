@@ -3,6 +3,10 @@
 ## read differance btw comp and stateless comp
 
 ## setup git account
+git remote -v
+git remote rm origin
+git remote add origin https://github.com/kizouker/reactnd-project-would-you-rather-starter.git
+git push --set-upstream origin master
 
 ## Define all components
 Answer
@@ -14,6 +18,7 @@ LeaderBoard
 
 ## Draw a hierchy btwn components
 ## What events happen in the cmp 
+
 Post
 ----
 Gives new questions
@@ -33,6 +38,12 @@ Updates ? Leaderboard
 ## Decide what states lives in the store
 - Question
 id, text
+
+| id | String | The question’s unique identifier |
+| author        | String | The author’s unique identifier |
+| timestamp | String | The time when the question was created|
+| optionOne | Object | The first voting option|
+| optionTwo 
 
 ListOfQuestions
 - Qid, answered?

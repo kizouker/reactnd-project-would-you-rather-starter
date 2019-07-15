@@ -2,18 +2,19 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {createStore} from 'redux';
+import Answer from 'Answer';
 
 /**
  * Redux Store
  */
-const store = createStore(questions, ['use redux']);
+const store = createStore(questionsR, ['use redux']);
 
 store.dispatch({
   type : 'ACTION_',
   text : 'Read the docs'
 })
 
-function questions(state=[], action){
+function questionsR(state=[], action){
   switch(action.type) {
     case 'ACTION_' : 
       return ;
@@ -59,13 +60,41 @@ const boundUpdateStatistics = text => store.dispatch(updateStatistics(text));
 const boundUpdateList = text => store.dispatch(updateList(text));
 const boundUpdateLeaderboard = text => store.dispatch(updateLeaderboard(text));
 
+questions = [];
+users = [] ;
+
+let question = {
+    id : '',
+    author : '',
+    timestamp: '',
+    optionOne: '',
+    optionTwo: ''
+}
+
+let user = {
+  id : '',
+  name : '',
+  avatarURL: '',
+  questions: [],
+  answers: {id: '', value : ''}
+}
+/**
+ * 
+ * 
+Answer V
+User V
+Post V
+List V
+Statistics V
+LeaderBoard V
+ */
+
 
 function App() {
   boundPostQuestion('hej');
   boundUpdateStatistics('hej');
   boundUpdateList('hej');
   boundUpdateLeaderboard('hej');
-
 
   return (
     <div className="App">
@@ -88,3 +117,5 @@ function App() {
 }
 
 export default App;
+
+
