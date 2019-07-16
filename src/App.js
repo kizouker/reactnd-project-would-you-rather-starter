@@ -10,7 +10,7 @@ import Post from './Post';
 import User from './User';
 import NotFound from './NotFound';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
-
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 /**
@@ -120,7 +120,7 @@ function App() {
       <body>
 
       <Router>
-          <div>
+          <div class="menu">
             <ul>
               <li>
                 <Link to="/list">List</Link>
