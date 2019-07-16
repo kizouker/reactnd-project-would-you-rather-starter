@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -10,14 +10,66 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1vmin);
   color: white;
 }
+
+h2 {
+  color: black;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  font-style: italic;
+}
+
+table {
+  align-items: center;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+
+div.form
+{
+    display: block;
+    text-align: center;
+}
+form
+{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  background-color: rgb(192, 198, 202);
+  padding: 20px;
+  justify-content: space-evenly;
+  text-align: center;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+.grid-item:nth-child(even) {background-color: #f2f2f2;}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
 
 .App-link {
   color: #61dafb;

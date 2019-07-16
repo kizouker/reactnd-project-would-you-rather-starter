@@ -2,7 +2,16 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {createStore} from 'redux';
-import Answer from 'Answer';
+import Answer from './Answer';
+import LeaderBoard from './LeaderBoard';
+import List from './List';
+import Statistics from './Statistics';
+import Post from './Post';
+import User from './User';
+import NotFound from './NotFound';
+import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+
+
 
 /**
  * Redux Store
@@ -60,8 +69,8 @@ const boundUpdateStatistics = text => store.dispatch(updateStatistics(text));
 const boundUpdateList = text => store.dispatch(updateList(text));
 const boundUpdateLeaderboard = text => store.dispatch(updateLeaderboard(text));
 
-questions = [];
-users = [] ;
+let questions = [];
+let users = [] ;
 
 let question = {
     id : '',
@@ -89,6 +98,8 @@ Statistics V
 LeaderBoard V
  */
 
+ 
+
 
 function App() {
   boundPostQuestion('hej');
@@ -99,22 +110,58 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+         Would you rather...
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+       
       </header>
+
+      
+      <body>
+
+      <Router>
+          <div>
+            <ul>
+              <li>
+                <Link to="/list">List</Link>
+              </li>
+              <li>
+                <Link to="/statistics">Statistics</Link>
+              </li>
+              <li>
+                <Link to="/leaderboard">LeaderBoard</Link>
+              </li>
+              <li>
+                <Link to="/post">Post new Question</Link>
+              </li>
+              <li>
+                <Link to="/answer">Answer Questions</Link>
+              </li>
+              <li>
+                <Link to="/user">User Settings</Link>
+              </li>
+            </ul>
+            <hr />
+         <Switch>      
+            <Route exact path="/list" component={List} />
+            <Route path="/statistics" component={Statistics} />
+            <Route path="/leaderboard" component={LeaderBoard} />
+            <Route path="/post" component={Post} />
+            <Route path="/answer" component={Answer} />
+            <Route path="/user" component={User} />
+        </Switch>
+            
+          </div>
+          </Router>
+        
+      </body>
     </div>
   );
 }
+
+// <Answer> </Answer>
+// <Post> </Post>
+// <User> </User>
 
 export default App;
 

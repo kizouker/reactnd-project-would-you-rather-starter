@@ -16,6 +16,7 @@ List
 Statistics
 LeaderBoard
 
+- definiera alla 
 ## Draw a hierchy btwn components
 ## What events happen in the cmp 
 
