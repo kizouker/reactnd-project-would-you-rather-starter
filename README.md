@@ -8,6 +8,31 @@ git remote rm origin
 git remote add origin https://github.com/kizouker/reactnd-project-would-you-rather-starter.git
 git push --set-upstream origin master
 
+
+## Define all views
+
+### Documentation
+
+
+## Project plan, etc
+
+https://onedrive.live.com/edit.aspx?resid=9E495D9EC53B2CA3%21692&nd=1
+
+https://onedrive.live.com/?id=9E495D9EC53B2CA3%21691&cid=9E495D9EC53B2CA3
+
+
+## General
+https://reactjs.org/
+https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
+https://classroom.udacity.com/nanodegrees/nd019/parts/7dab5516-d1ae-45d3-b8f8-d782b5534caf/modules/20a434da-4fde-4774-9113-99835bf80eaa/lessons/78a0081e-2af5-4961-95b0-b473fe5209b7/concepts/6a600a1d-d8c8-4ce9-a90d-4f581fa38c87
+https://review.udacity.com/#!/rubrics/1567/view
+
+# Example app
+http://either.io/7095/would-you-rather
+
+
+
 ## Define all components
 Answer
 User

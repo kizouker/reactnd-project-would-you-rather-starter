@@ -12,7 +12,7 @@ import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const routing = (
   <Router>
-    <div>
+    <div className="menu">
       <ul>
         <li>
           <Link to="/">Home</Link>
