@@ -74,27 +74,31 @@ function App() {
   
       <Router>
           <div className="menu">
-            <ul>
-              <li>
-                <Link to="/list">List Questions</Link>
-              </li>
-              <li>
-                <Link to="/statistics">Statistics</Link>
-              </li>
-              <li>
-                <Link to="/leaderboard">LeaderBoard</Link>
-              </li>
-              <li>
-                <Link to="/post">Post new Question</Link>
-              </li>
-              <li>
-                <Link to="/answer">Answer Questions</Link>
-              </li>
-              <li>
-                <Link to="/user">User Settings</Link>
-              </li>
-            </ul>
-            <hr />
+            <nav>
+            <table>
+              <tr>
+                <td>
+                  <Link to="/list">| List Questions |</Link> 
+                </td>
+                <td>
+                  <Link to="/leaderboard">| LeaderBoard |</Link> 
+                </td>
+                <td>
+                  <Link to="/post">| Post new Question |</Link> 
+                </td>
+                <td>
+                  <Link to="/answer">| Answer Questions |</Link>
+                </td>
+                <td>
+                  <Link to="/user">| User Settings |</Link>
+                </td>
+                <td>
+                  <Link to="/statistics">| Statistics |</Link> 
+                </td>
+              </tr>
+            </table>
+            </nav>
+            <hr/>
          <Switch>      
             <Route exact path="/list" component={List} />
             <Route path="/statistics" component={Statistics} />
