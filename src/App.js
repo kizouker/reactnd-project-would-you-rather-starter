@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {createStore} from 'redux';
+
 import Answer from './Answer';
 import LeaderBoard from './LeaderBoard';
 import List from './List';
@@ -12,8 +12,9 @@ import NotFound from './NotFound';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import {postQuestion, updateStatistics, updateList, updateLeaderboard} from './actions';
+import {connect} from 'react-redux';
 
-//import store from './Store.js';
+//import this.props.store from './this.props.store.js';
 
 import {ACTION_POST_QUESTION,ACTION_UPDATE_STATISTICS,
   ACTION_UPDATE_LIST, ACTION_UPDATE_LEADERBOARD} from "./actionTypes.js";
@@ -21,17 +22,17 @@ import {ACTION_POST_QUESTION,ACTION_UPDATE_STATISTICS,
 import reducer from './reducers';
 
 /**
- * Redux Store
+ * Redux this.props.this.props.store
  */
-const store = createStore(reducer, ['use redux']);
+// const this.props.store = createthis.props.store(reducer, ['use redux']);
 
 /**
  * Bound action creator
  */
-const boundPostQuestion = text => store.dispatch(postQuestion(text));
-const boundUpdateStatistics = text => store.dispatch(updateStatistics(text));
-const boundUpdateList = text => store.dispatch(updateList(text));
-const boundUpdateLeaderboard = text => store.dispatch(updateLeaderboard(text));
+// const boundPostQuestion = text => this.props.store.dispatch(postQuestion(text));
+// const boundUpdateStatistics = text => this.props.store.dispatch(updateStatistics(text));
+// const boundUpdateList = text => this.props.store.dispatch(updateList(text));
+// const boundUpdateLeaderboard = text => this.props.store.dispatch(updateLeaderboard(text));
 
 let questions = [];
 let users = [] ;
@@ -62,10 +63,10 @@ Statistics V
 LeaderBoard V
  */
 function App() {
-  boundPostQuestion('hej');
-  boundUpdateStatistics('hej');
-  boundUpdateList('hej');
-  boundUpdateLeaderboard('hej');
+  // boundPostQuestion('hej');
+  // boundUpdateStatistics('hej');
+  // boundUpdateList('hej');
+  // boundUpdateLeaderboard('hej');
   return (
     <div className="App">
       <header className="App-header">
@@ -120,6 +121,12 @@ function App() {
 // <Post> </Post>
 // <User> </User>
 
-export default App;
+
+// const mapStateToProps = (state, ownProps) => ({
+//   question: state.todos[ownProps.id]
+// })
+
+
+export default connect()(App);
 
 

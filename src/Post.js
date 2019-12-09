@@ -5,7 +5,7 @@ import {postQuestion} from './actions.js'
 class Post extends React.Component{
   constructor(props){
     super(props);
-    this.store = this.props.store.bind(this);
+   // this.store = this.props.store.bind(this);
     this.state = { 
         question : {
           question : "",
@@ -27,7 +27,7 @@ class Post extends React.Component{
     const value = target.value;
     const name = target.name;
   
-    this.store.dispatch(postQuestion("Post a new question"));
+  // this.store.dispatch(postQuestion("Post a new question"));
 /*   this.setState( currentState => ({
        question : {
         ...currentState.question,
