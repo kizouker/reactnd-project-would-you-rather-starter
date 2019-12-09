@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createStore } from 'redux'
-import reducer from './reducers.js'
+import reducers from './reducers.js'
 import {Provider} from 'react-redux'
 
-const store = createStore(reducer, ['Use Redux'])
+const store = createStore(reducers, ['Use Redux'])
 
 
 console.log(store.getState())
