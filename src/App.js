@@ -20,6 +20,7 @@ import {ACTION_POST_QUESTION,ACTION_UPDATE_STATISTICS,
   ACTION_UPDATE_LIST, ACTION_UPDATE_LEADERBOARD} from "./actionTypes.js";
 
 import reducer from './reducers';
+import { GET_INITIAL_QUESTIONS } from './actions/questions';
 
 /**
  * Redux this.props.this.props.store
@@ -62,11 +63,25 @@ List V
 Statistics V
 LeaderBoard V
  */
-function App() {
+class App extends React.Component{
   // boundPostQuestion('hej');
   // boundUpdateStatistics('hej');
   // boundUpdateList('hej');
   // boundUpdateLeaderboard('hej');
+    constructor(props){
+      super(props)
+      this.state = this.props.store.getState();
+
+    }
+
+  componentDidMount(){
+      this.store.dispatch(GET_INITIAL_QUESTIONS);
+  }
+
+ 
+  render (){
+
+   
   return (
     <div className="App">
       <header className="App-header">
@@ -111,22 +126,15 @@ function App() {
             
           </div>
           </Router>
-        
- 
     </div>
   );
+  }
 }
 
-// <Answer> </Answer>
-// <Post> </Post>
-// <User> </User>
+const mapStateToProps = ({state}) => ({
+  question: state.questions
+})
 
-
-// const mapStateToProps = (state, ownProps) => ({
-//   question: state.todos[ownProps.id]
-// })
-
-
-export default connect()(App);
+export default connect(mapStateToProps()(App));
 
 
