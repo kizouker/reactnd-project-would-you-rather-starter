@@ -1,5 +1,5 @@
 import React from 'react';
-import {postQuestion} from './actions.js'
+import {postQuestion} from '../actions.js'
 
    
 class Post extends React.Component{

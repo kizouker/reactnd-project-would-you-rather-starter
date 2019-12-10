@@ -6,14 +6,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { createStore } from 'redux'
 import reducers from './reducers/index.js'
 import {Provider} from 'react-redux'
+import middleware from './middleware';
 
-const store = createStore(reducers, ['Use Redux'])
-
-console.log("stre")
-
-
+const store = createStore(reducers, middleware);
 console.log(store.getState())
-// [ 'Use Redux', 'Read the docs' ]
 
 
 ReactDOM.render(

@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import Answer from './Answer';
-import LeaderBoard from './LeaderBoard';
-import List from './List';
-import Statistics from './Statistics';
-import Post from './Post';
-import User from './User';
-import NotFound from './NotFound';
+import Answer from './components/Answer';
+import LeaderBoard from './components/LeaderBoard';
+import List from './components/List';
+import Statistics from './components/Statistics';
+import Post from './components/Post';
+import User from './components/User';
+import NotFound from './components/NotFound';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import {postQuestion, updateStatistics, updateList, updateLeaderboard} from './actions';
@@ -70,12 +69,16 @@ class App extends React.Component{
   // boundUpdateLeaderboard('hej');
     constructor(props){
       super(props)
-      this.state = this.props.store.getState();
+      console.log(this.props);
+      //this.state = this.props.store.getState(); // everything comes from redux now - we don't need to
+      //bind this to get the state...it comes from mapstatetoprops and from connect
 
     }
 
   componentDidMount(){
-      this.store.dispatch(GET_INITIAL_QUESTIONS);
+
+    //log the props to see the dispatch method/function
+   this.props.dispatch(GET_INITIAL_QUESTIONS);
   }
 
  
@@ -130,11 +133,14 @@ class App extends React.Component{
   );
   }
 }
-
-const mapStateToProps = ({state}) => ({
-  question: state.questions
+// {} descructering ...ecma6 - const {sd} = state
+const mapStateToProps = (state ) => ({
+  questions: state.questions
 })
 
-export default connect(mapStateToProps()(App));
+//export default connect(mapStateToProps()) (App); wrong - for some reason we are not calling the
+//mapstatetoprops. we are passing it as an argument to connect
+
+export default connect(mapStateToProps) (App);
 
 
