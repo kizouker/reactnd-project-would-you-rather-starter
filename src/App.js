@@ -12,6 +12,8 @@ import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import {postQuestion, updateStatistics, updateList, updateLeaderboard} from './actions';
 import {connect} from 'react-redux';
+import {handleInitialData} from './actions/questions.js'
+import Menu from './components/Menu.js'
 
 //import this.props.store from './this.props.store.js';
 
@@ -34,34 +36,8 @@ import { GET_INITIAL_QUESTIONS } from './actions/questions';
 // const boundUpdateList = text => this.props.store.dispatch(updateList(text));
 // const boundUpdateLeaderboard = text => this.props.store.dispatch(updateLeaderboard(text));
 
-let questions = [];
-let users = [] ;
 
-let question = {
-    id : '',
-    author : '',
-    timestamp: '',
-    optionOne: '',
-    optionTwo: ''
-}
 
-let user = {
-  id : '',
-  name : '',
-  avatarURL: '',
-  questions: [],
-  answers: {id: '', value : ''}
-}
-/**
- * 
- * 
-Answer V
-User V
-Post V
-List V
-Statistics V
-LeaderBoard V
- */
 class App extends React.Component{
   // boundPostQuestion('hej');
   // boundUpdateStatistics('hej');
@@ -69,74 +45,63 @@ class App extends React.Component{
   // boundUpdateLeaderboard('hej');
     constructor(props){
       super(props)
-      console.log(this.props);
+      //console.log(this.props);
       //this.state = this.props.store.getState(); // everything comes from redux now - we don't need to
       //bind this to get the state...it comes from mapstatetoprops and from connect
 
     }
 
-  componentDidMount(){
-
+  componentWillMount(){
     //log the props to see the dispatch method/function
-   this.props.dispatch(GET_INITIAL_QUESTIONS);
+   this.props.dispatch(handleInitialData());
   }
 
- 
+  handleToggle = () => {
+    console.log("Toggle")
+  }
   render (){
-
-   
+    
   return (
     <div className="App">
       <header className="App-header">
         <p>Would you rather...</p>
       </header>
   
-      <Router>
-          <div className="menu">
-            <nav>
-            <table>
-              <tr>
-                <td>
-                  <Link to="/list">| List Questions |</Link> 
-                </td>
-                <td>
-                  <Link to="/leaderboard">| LeaderBoard |</Link> 
-                </td>
-                <td>
-                  <Link to="/post">| Post new Question |</Link> 
-                </td>
-                <td>
-                  <Link to="/answer">| Answer Questions |</Link>
-                </td>
-                <td>
-                  <Link to="/user">| User Settings |</Link>
-                </td>
-                <td>
-                  <Link to="/statistics">| Statistics |</Link> 
-                </td>
-              </tr>
-            </table>
-            </nav>
-            <hr/>
-         <Switch>      
-            <Route exact path="/list" component={List} />
-            <Route path="/statistics" component={Statistics} />
-            <Route path="/leaderboard" component={LeaderBoard} />
-            <Route path="/post" component={Post}/>
-            <Route path="/answer" component={Answer} />
-            <Route path="/user" component={User} />
-        </Switch>
-            
-          </div>
-          </Router>
+     <Menu></Menu>
+          <div className="List">
+             <h2 className="component-title">List of Questions</h2>
+             <div className="grid-container"></div>
+             <div className="grid-item">
+                  <h3>UnAnswered questions</h3>  
+
+              <button id="switchState" name="switchState" onClick={this.handleToggle}>
+                switchState 
+              </button>
+              {//** change text above "unAnswered" >-> "answered"  do a filter
+              }
+              <div className="unAnswered">
+                <List></List>
+             </div>
+             <div className="answered">
+              <List></List>
+             </div>
+            </div>
+        </div>
     </div>
   );
   }
 }
 // {} descructering ...ecma6 - const {sd} = state
-const mapStateToProps = (state ) => ({
-  questions: state.questions
-})
+// const mapStateToProps = ( state ) => ({
+//   questions: state.questions
+// })
+
+const mapStateToProps = ( state ) => {
+  console.log("inside map state to props, state: ", state)
+  return {
+    questions: state.questions
+  }
+}
 
 //export default connect(mapStateToProps()) (App); wrong - for some reason we are not calling the
 //mapstatetoprops. we are passing it as an argument to connect
