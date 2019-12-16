@@ -1,6 +1,4 @@
 import React from 'react';
-import {postQuestion} from '../actions.js'
-
    
 class Post extends React.Component{
   constructor(props){
@@ -23,9 +21,9 @@ class Post extends React.Component{
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    // const target = event.target;
+    // const value = target.value;
+    // const name = target.name;
   
   // this.store.dispatch(postQuestion("Post a new question"));
 /*   this.setState( currentState => ({

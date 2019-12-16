@@ -1,6 +1,5 @@
 import React from 'react';
 import '../App.css';
-import {createStore} from 'redux';
 import Answer from './Answer';
 import LeaderBoard from './LeaderBoard';
 import List from './List';

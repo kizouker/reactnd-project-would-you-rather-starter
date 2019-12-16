@@ -1,32 +1,21 @@
 import React from 'react';
 import './App.css';
 
-import Answer from './components/Answer';
-import LeaderBoard from './components/LeaderBoard';
+//import Answer from './components/Answer';
+//import LeaderBoard from './components/LeaderBoard';
 import List from './components/List';
-import Statistics from './components/Statistics';
-import Post from './components/Post';
-import User from './components/User';
-import NotFound from './components/NotFound';
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+//import Statistics from './components/Statistics';
+//import Post from './components/Post';
+//import User from './components/User';
+//import NotFound from './components/NotFound';
+//import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import {postQuestion, updateStatistics, updateList, updateLeaderboard} from './actions';
+//import {postQuestion, updateStatistics, updateList, updateLeaderboard} from './actions';
 import {connect} from 'react-redux';
 import {handleInitialData} from './actions/questions.js'
 import Menu from './components/Menu.js'
 
-//import this.props.store from './this.props.store.js';
-
-import {ACTION_POST_QUESTION,ACTION_UPDATE_STATISTICS,
-  ACTION_UPDATE_LIST, ACTION_UPDATE_LEADERBOARD} from "./actionTypes.js";
-
-import reducer from './reducers';
-import { GET_INITIAL_QUESTIONS } from './actions/questions';
-
-/**
- * Redux this.props.this.props.store
- */
-// const this.props.store = createthis.props.store(reducer, ['use redux']);
+//import { GET_INITIAL_QUESTIONS } from './actions/questions';
 
 /**
  * Bound action creator
@@ -36,20 +25,11 @@ import { GET_INITIAL_QUESTIONS } from './actions/questions';
 // const boundUpdateList = text => this.props.store.dispatch(updateList(text));
 // const boundUpdateLeaderboard = text => this.props.store.dispatch(updateLeaderboard(text));
 
-
-
 class App extends React.Component{
-  // boundPostQuestion('hej');
-  // boundUpdateStatistics('hej');
-  // boundUpdateList('hej');
-  // boundUpdateLeaderboard('hej');
-    constructor(props){
-      super(props)
-      //console.log(this.props);
-      //this.state = this.props.store.getState(); // everything comes from redux now - we don't need to
-      //bind this to get the state...it comes from mapstatetoprops and from connect
 
-    }
+    // constructor(props){
+    //   super(props)
+    // }
 
   componentWillMount(){
     //log the props to see the dispatch method/function
@@ -97,7 +77,7 @@ class App extends React.Component{
 // })
 
 const mapStateToProps = ( state ) => {
-  console.log("inside map state to props, state: ", state)
+  // console.log("inside map state to props, state: ", state)
   return {
     questions: state.questions
   }
