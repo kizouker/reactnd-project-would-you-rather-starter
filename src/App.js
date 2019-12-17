@@ -62,9 +62,6 @@ class App extends React.Component{
               <div className="unAnswered">
                 <List></List>
              </div>
-             <div className="answered">
-              <List></List>
-             </div>
             </div>
         </div>
     </div>
