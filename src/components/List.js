@@ -49,9 +49,10 @@ constructor(props){
                     { array.map ((el) => {
                           return(
                             <tbody key={el.id}>
-                                <tr>
+                                {/** <tr>
                                   <td>id: {el.id}</td> 
                                 </tr>
+                                **/}
                                 <tr>
                                   <td>{el.optionOne.text}</td> 
                                 </tr>
@@ -74,13 +75,10 @@ constructor(props){
         }       
     }
  
-  
-
-    
-
 const mapStateToProps = ( state ) => {
   //  console.log("inside map state to props, state: ", state)
    return {
+     //users : state.shared.users,
      questions: state.shared.questions
    }
 }

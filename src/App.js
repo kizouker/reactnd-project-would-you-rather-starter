@@ -26,10 +26,13 @@ import Menu from './components/Menu.js'
 // const boundUpdateLeaderboard = text => this.props.store.dispatch(updateLeaderboard(text));
 
 class App extends React.Component{
-
-    // constructor(props){
-    //   super(props)
-    // }
+  constructor(props){
+    super(props);
+    this.state = {
+      unAnswered : true
+    };
+    this.handleToggle = this.handleToggle.bind(this);
+  }
 
   componentWillMount(){
     //log the props to see the dispatch method/function
@@ -38,9 +41,17 @@ class App extends React.Component{
 
   handleToggle = () => {
     console.log("Toggle")
+    //  let currentState = this.state.like;
+    this.setState( state => ({  unAnswered : !state.unAnswered,
+    }));
+
+    // let className = this.state.like ? 'classLike' : 'classNotLike';
+    console.log("Toggle: " + this.state.unAnswered);
   }
+
+ 
   render (){
-    
+    const { unAnswered } = this.state;
   return (
     <div className="App">
       <header className="App-header">
@@ -52,15 +63,24 @@ class App extends React.Component{
              <h2 className="component-title">List of Questions</h2>
              <div className="grid-container"></div>
              <div className="grid-item">
-                  <h3>UnAnswered questions</h3>  
-
+      
               <button id="switchState" name="switchState" onClick={this.handleToggle}>
-                switchState 
+                { unAnswered && (<div>
+                                    <h3> unAnswered </h3>
+                                    <List></List>
+                                  </div>) 
+                } 
+                { !unAnswered && (<div>
+                                    <h3> unAnswered </h3>
+                                    <List></List>
+                                  </div>) 
+                } 
+               
               </button>
               {//** change text above "unAnswered" >-> "answered"  do a filter
               }
               <div className="unAnswered">
-                <List></List>
+                
              </div>
             </div>
         </div>
@@ -73,12 +93,30 @@ class App extends React.Component{
 //   questions: state.questions
 // })
 
+// check if answers is empty or not
+//check in the users array // 
+// for all users, check if id 8xf0y6ziyjabvozdd253nd exist in answers
+// return true or false
+
+let fn = () => {
+
+
+}
+
 const mapStateToProps = ( state ) => {
-  // console.log("inside map state to props, state: ", state)
+  console.log("inside map state to props App, state: ", state)
   return {
-    questions: state.questions
+    users : state.users,
+    questions: state.questions,
+    unAnsweredQuestions: state.questions && state.questions.filter(/*TODO: Filter here by unanswered)*/),
+    answeredQuestions: state.questions && state.questions.filter(/*TODO: Filter here by answered)*/)
+
   }
 }
+
+
+
+
 
 //export default connect(mapStateToProps()) (App); wrong - for some reason we are not calling the
 //mapstatetoprops. we are passing it as an argument to connect

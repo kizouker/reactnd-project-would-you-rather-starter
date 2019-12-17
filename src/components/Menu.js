@@ -15,7 +15,7 @@ const routing = (
      <table>
         <thead>
               <tr>
-                <th>Name</th> 
+                <th>xxxx</th> 
               </tr>
         </thead>
         <tbody>
@@ -56,12 +56,56 @@ const routing = (
   </Router>
 )
 
-ReactDOM.render(routing, document.getElementById('root'))
+// ReactDOM.render(routing, document.getElementById('root'))
 
 class Menu extends React.Component{
   render (){
     return(<div className="Menu">
-            <h2 className="component-title">Menu</h2>
+               <h2 className="component-title">Menu</h2>
+               <Router>
+        <div className="menu">
+     <table>
+        <thead>
+              <tr>
+                <th></th> 
+              </tr>
+        </thead>
+        <tbody>
+              <tr>
+                <td>
+                  <Link to="/list">| List Questions |</Link> 
+                </td>
+                <td>
+                  <Link to="/leaderboard">| LeaderBoard |</Link> 
+                </td>
+                <td>
+                  <Link to="/post">| Post new Question |</Link> 
+                </td>
+                <td>
+                  <Link to="/answer">| Answer Questions |</Link>
+                </td>
+                <td>
+                  <Link to="/user">| User Settings |</Link>
+                </td>
+                <td>
+                  <Link to="/statistics">| Statistics |</Link> 
+                </td>
+              </tr>
+          </tbody>
+      </table> 
+        
+            <hr/>
+         <Switch>      
+            <Route exact path="/list" component={List} />
+            <Route path="/statistics" component={Statistics} />
+            <Route path="/leaderboard" component={LeaderBoard} />
+            <Route path="/post" component={Post}/>
+            <Route path="/answer" component={Answer} />
+            <Route path="/user" component={User} />
+        </Switch>
+            
+          </div>
+  </Router>
             </div>);
   }
  }
