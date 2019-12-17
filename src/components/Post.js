@@ -2,6 +2,7 @@
 import {postQuestion} from '../actions/questions.js';
 import React from 'react';
 import { connect } from 'react-redux';
+import { formatQuestion } from '../_DATA.js'
 
 
 class Post extends React.Component{
@@ -10,18 +11,21 @@ class Post extends React.Component{
    // this.store = this.props.store.bind(this);
     this.state = { 
         question : {
-          question1: "",
-          alternative1 : "",
-          alternative2 : "",
+          author : "",
+          optioneOne : "",
+          optioneTwo : "",
           answered: false 
         }
       }
     }
     
    handleSubmit = (event) => {
+    const {author, optioneOne, optioneTwo} = this.state.question;
+
     console.log("handleSubmit ---");
     alert('An new question was posted');
-    this.props.dispatch(postQuestion(this.state.question));
+    this.props.dispatch(postQuestion(formatQuestion(optioneOne, optioneTwo, author)));
+
     console.log (this.props);
     event.preventDefault();
  
@@ -34,7 +38,7 @@ class Post extends React.Component{
     
     this.setState( currentState => ({
         question : {
-          ...currentState.question,
+         // ...currentState.question,
           [name]:value
         }
       }));
@@ -43,7 +47,7 @@ class Post extends React.Component{
   }
 
   render (){
-    const {question1, alternative1, alternative2} = this.state.question;
+    const {question1, optioneOne, optioneTwo} = this.state.question;
     //formatQuestion
     //handleInput => parent
     //dispatcher function
@@ -59,11 +63,11 @@ class Post extends React.Component{
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
-              <textarea name="alternative1"  rows="3" cols="100" placeholder="alternative1" 
+              <textarea name="optionOne"  rows="3" cols="100" placeholder="optionOne" 
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
-              <textarea name="alternative2"  rows="3" cols="100" placeholder="alternative2" 
+              <textarea name="optionTwo"  rows="3" cols="100" placeholder="optionTwo" 
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
