@@ -1,4 +1,5 @@
 import {_getQuestions } from '../_DATA.js';
+import {ACTION_POST_QUESTION} from '../actionTypes'
 
 export const GET_INITIAL_QUESTIONS = 'GET_INITIAL_QUESTIONS'
 
@@ -8,6 +9,13 @@ export function receiveQuestions(questions){
             questions
         }
 }
+
+export function postQuestion(text) {
+    return { 
+            type: ACTION_POST_QUESTION, 
+            text 
+        }
+  }
 
 export const handleInitialData = () => {
     return (dispatch) => {
@@ -22,9 +30,6 @@ export const handleInitialData = () => {
             })
         }
     }
-
-    
-    
 
 //new fn that calls the api and gets the initial questions
 // aysnc middleware

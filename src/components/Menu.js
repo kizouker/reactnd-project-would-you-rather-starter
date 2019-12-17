@@ -44,7 +44,7 @@ const routing = (
         
             <hr/>
          <Switch>      
-            <Route exact path="/list" component={List} />
+            <Route path="/list" component={List} />
             <Route path="/statistics" component={Statistics} />
             <Route path="/leaderboard" component={LeaderBoard} />
             <Route path="/post" component={Post}/>

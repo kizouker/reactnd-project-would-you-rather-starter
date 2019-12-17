@@ -4,9 +4,7 @@ import {ACTION_POST_QUESTION, ACTION_UPDATE_STATISTICS,
 /**
  * Action creators
  */
-export function postQuestion(text) {
-    return { type: ACTION_POST_QUESTION, text }
-  }
+
 export function updateStatistics(text) {
   return { type: ACTION_UPDATE_STATISTICS, text }
 }

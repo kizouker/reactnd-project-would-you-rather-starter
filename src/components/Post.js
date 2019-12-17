@@ -1,12 +1,16 @@
+
+import {postQuestion} from '../actions/questions.js';
 import React from 'react';
-   
+import { connect } from 'react-redux';
+
+
 class Post extends React.Component{
   constructor(props){
     super(props);
    // this.store = this.props.store.bind(this);
     this.state = { 
         question : {
-          question : "",
+          question1: "",
           alternative1 : "",
           alternative2 : "",
           answered: false 
@@ -17,21 +21,24 @@ class Post extends React.Component{
    handleSubmit = (event) => {
     console.log("handleSubmit ---");
     alert('An new question was posted');
+    this.props.dispatch(postQuestion(this.state.question));
+    console.log (this.props);
     event.preventDefault();
+ 
   }
 
   handleInputChange(event) {
-    // const target = event.target;
-    // const value = target.value;
-    // const name = target.name;
-  
-  // this.store.dispatch(postQuestion("Post a new question"));
-/*   this.setState( currentState => ({
-       question : {
-        ...currentState.question,
-         [name]:value
-       }
-    })); */
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    
+    this.setState( currentState => ({
+        question : {
+          ...currentState.question,
+          [name]:value
+        }
+      }));
+
     console.log(this.state);
   }
 
@@ -48,15 +55,15 @@ class Post extends React.Component{
           <h3>Would you rather:</h3>
           <div className="form">
             <form onSubmit={e=>this.handleSubmit(e)}>
-              <textarea name="question" value={question1} rows="3" cols="100" placeholder="Question" 
+              <textarea name="question1"  rows="3" cols="100" placeholder="Question" 
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
-              <textarea name="alternative1" value={alternative1} rows="3" cols="100" placeholder="alternative1" 
+              <textarea name="alternative1"  rows="3" cols="100" placeholder="alternative1" 
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
-              <textarea name="alternative2" value={alternative2} rows="3" cols="100" placeholder="alternative2" 
+              <textarea name="alternative2"  rows="3" cols="100" placeholder="alternative2" 
                 onChange={e=> this.handleInputChange(e)}>
               </textarea>
               <br></br>
@@ -67,4 +74,10 @@ class Post extends React.Component{
   }
  }
  
- export default Post;
+ let mapStateToProps = (state)  => {
+   return {
+    state
+   }
+ }
+
+ export default connect(mapStateToProps)(Post);
