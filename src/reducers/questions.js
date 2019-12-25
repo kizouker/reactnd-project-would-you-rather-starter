@@ -7,7 +7,8 @@ const questions =  (state = {}, action) => {
                     ...state,
                     ...state.questions,
                     [action.question.id] : action.question,
-                        
+                    
+     
                 }
                 console.log ("in q reducer");
                 console.log(returnvalue);
