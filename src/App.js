@@ -15,6 +15,8 @@ import {connect} from 'react-redux';
 import {handleInitialData} from './actions/questions.js'
 import Menu from './components/Menu.js'
 
+//this.filterAnsweredQuestions = this.filterAnsweredQuestions.bind(this);
+
 //import { GET_INITIAL_QUESTIONS } from './actions/questions';
 
 /**
@@ -32,6 +34,7 @@ class App extends React.Component{
       unAnswered : true
     };
     this.handleToggle = this.handleToggle.bind(this);
+
   }
 
   componentWillMount(){
@@ -98,9 +101,35 @@ class App extends React.Component{
 // for all users, check if id 8xf0y6ziyjabvozdd253nd exist in answers
 // return true or false
 
-let fn = () => {
 
+//using es6 fn
+var filterUnAnsweredQuestions = (state)  => {
+  console.log("filterUnAnsweredQuestions");
+  let user = 'sarahedo';
+  let users = state.users;
 
+  state.questions.map( q => {
+   return answersForUser(users, user).find(q.id); 
+  })
+}
+
+var filterAnsweredQuestions = (state)  => {
+  console.log("filterAnsweredQuestions");
+  let user = 'sarahedo';
+  let users = state.users;
+
+  let returnValue;
+
+  state.questions.map( q => {
+    if(answersForUser(users, user).find(q.id)){
+      returnValue.push(q.id);
+    }
+  })
+  return returnValue;
+}
+
+var answersForUser = (users, user) => {
+  return users[user].answers;
 }
 
 const mapStateToProps = ( state ) => {
@@ -108,15 +137,10 @@ const mapStateToProps = ( state ) => {
   return {
     users : state.users,
     questions: state.questions,
-    unAnsweredQuestions: state.questions && state.questions.filter(/*TODO: Filter here by unanswered)*/),
-    answeredQuestions: state.questions && state.questions.filter(/*TODO: Filter here by answered)*/)
-
-  }
+    unAnsweredQuestions: state.questions && state.users && ((state) => filterUnAnsweredQuestions(state)) (/*TODO: Filter here by unanswered)*/),
+  answeredQuestions: state.questions && state.users && ((state) => filterAnsweredQuestions(state)) (/*TODO: Filter here by answered)*/)
+    }
 }
-
-
-
-
 
 //export default connect(mapStateToProps()) (App); wrong - for some reason we are not calling the
 //mapstatetoprops. we are passing it as an argument to connect

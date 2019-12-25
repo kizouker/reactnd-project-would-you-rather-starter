@@ -1,7 +1,5 @@
 import {_getQuestions } from '../_DATA.js';
-import {ACTION_POST_QUESTION} from '../actionTypes'
-
-export const GET_INITIAL_QUESTIONS = 'GET_INITIAL_QUESTIONS'
+import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS } from '../actionTypes'
 
 export function receiveQuestions(questions){
     return {    
@@ -10,10 +8,10 @@ export function receiveQuestions(questions){
         }
 }
 
-export function postQuestion(text) {
+export function postQuestion(question) {
     return { 
             type: ACTION_POST_QUESTION, 
-            text 
+            question 
         }
   }
 

@@ -6,7 +6,7 @@ const questions =  (state = {}, action) => {
                 let returnvalue =  { 
                     ...state,
                     ...state.questions,
-                    ['asdf'] : action.text,
+                    [action.question.id] : action.question,
                         
                 }
                 console.log ("in q reducer");
