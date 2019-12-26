@@ -23,7 +23,6 @@ export const handleInitialData = () => {
                 // let response = dispatch(receiveQuestions(data));
                 // console.log("response" + response);
                 // return response;
-
                 dispatch(receiveQuestions(data));
             })
         }

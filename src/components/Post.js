@@ -17,26 +17,6 @@ class Post extends React.Component{
       this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-
-    // formatQuestion = ( optionOneText, optionTwoText, author ) => {
-
-    //   console.log("optionOneText: " + optionOneText + ", optionTwoText :"+ optionTwoText + ", author: "+  author);
-    //   return {
-    //     id: generateUID(),
-    //     timestamp: Date.now(),
-    //     author,
-    //     optionOne: {
-    //       votes: [],
-    //       text: optionOneText,
-    //     },
-    //     optionTwo: {
-    //       votes: [],
-    //       text: optionTwoText,
-    //     }
-    //   }
-    // }
-    
-    
   handleSubmit = (event) => {
       // const {author, optionOne, optionTwo} = this.state.question;
       //Something with this is wrong...
@@ -50,20 +30,18 @@ class Post extends React.Component{
 
     console.log(this.state.question.optionOne + " "  + this.state.question.optionTwo + " " + this.state.question.author);
 
-
-
     // problem with args to formatQuestion ...where formatQuestion ({optionOneText, optionTwoText, author} )
     let question = formatQuestion(this.state.question.optionOne, this.state.question.optionTwo, 
-      this.state.question.author);
+    this.state.question.author);
 
-      let id = question.id;
-     // author = question.author;
+    let id = question.id;
+    // author = question.author;
 
-      console.log ("New question");
-      console.log (question);
-      console.log ("New question");
+    console.log ("New question");
+    console.log (question);
+    console.log ("New question");
 
-      console.log(this.state)
+    console.log(this.state)
     this.props.dispatch(postQuestion(question));
 
      //console.log (this.props);
@@ -77,7 +55,6 @@ class Post extends React.Component{
     /** problem: state is not updated directly it's postponed */
     /** solved - problem was declaration with beloq */
      // const {author, optionOne, optionTwo} = this.state.question;
-
 
     this.setState( currentState => ({
       question : {
@@ -139,7 +116,7 @@ class Post extends React.Component{
  
  let mapStateToProps = (state)  => {
    return {
-      questions : state.questions
+      state
    }
  }
 
