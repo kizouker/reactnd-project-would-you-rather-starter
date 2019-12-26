@@ -113,10 +113,10 @@ var answersForUser = (users, user) => {
 }
 
 const mapStateToProps = ( state ) => {
-  console.log("inside map state to props App, state: ", state)
+ // console.log("inside map state to props App, state: ", state)
   return {
     users : state.users,
- // questions: state.questions,
+     questions: state.questions,
     unAnsweredQuestions: state.questions && state.users && ((state) => filterUnAnsweredQuestions(state)) (/*TODO: Filter here by unanswered)*/),
     answeredQuestions: state.questions && state.users && ((state) => filterAnsweredQuestions(state)) (/*TODO: Filter here by answered)*/)
     }

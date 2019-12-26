@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import {connect} from 'react-redux';
 import Answer from './Answer';
 import LeaderBoard from './LeaderBoard';
 import List from './List';
@@ -110,4 +111,14 @@ class Menu extends React.Component{
   }
  }
  
- export default Menu;
+
+ const mapStateToProps = ( state ) => {
+//  console.log("inside map state to props App, state: ", state)
+  return {
+    users : state.users,
+     questions: state.questions,
+    }
+}
+
+
+ export default connect(mapStateToProps) (Menu);
