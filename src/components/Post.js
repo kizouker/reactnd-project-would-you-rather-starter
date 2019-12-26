@@ -80,8 +80,8 @@ class Post extends React.Component{
 
 
     this.setState( currentState => ({
-      ...currentState.question,
       question : {
+          ...currentState.question,
           [name]: value
         }
       }
