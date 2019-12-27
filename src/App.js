@@ -18,7 +18,7 @@ class App extends React.Component{
       unAnswered : true
     };
     this.handleToggle = this.handleToggle.bind(this);
-
+console.log(this.props.store);
   }
 
   componentWillMount(){
@@ -38,6 +38,10 @@ class App extends React.Component{
 
   render (){
     const { unAnswered } = this.state;
+    console.log(" i render");
+    console.log(this.props.store);
+    console.log();
+    console.log(" i render");
   return (
     <div className="App">
       <header className="App-header">
@@ -52,19 +56,25 @@ class App extends React.Component{
               <button id="switchState" name="switchState" onClick={this.handleToggle}>
                 { unAnswered && (<div>
                                     <h3> unAnswered </h3>
-                                    <List></List>
+                                  
+                                    {console.log(this.props.store)}
+                                    <List questions={this.props.unAnsweredQuestions}> </List>
                                   </div>) 
                 } 
                 { !unAnswered && (<div>
-                                    <h3> unAnswered </h3>
-                                    <List></List>
+                                    <h3> Answered </h3>
+                                    {console.log(this.props.store)}
+                                    <List questions={this.props.AnsweredQuestions}></List>
                                   </div>) 
                 }
               </button>
               {//** change text above "unAnswered" >-> "answered"  do a filter
-              }
+
               <div className="unAnswered">
-             </div>
+                </div>
+              }
+              
+             
             </div>
         </div>
     </div>
@@ -84,27 +94,48 @@ class App extends React.Component{
 
 //using es6 fn
 var filterUnAnsweredQuestions = (state)  => {
-  console.log("filterUnAnsweredQuestions");
-  let user = 'sarahedo';
-  let users = state.users;
+  console.log("inside filterUnAnsweredQuestions")
+  console.log(state);
 
-  state.questions.map( q => {
+  console.log("inside filterUnAnsweredQuestions")
+if (state !== undefined){
+  let users = state.users;
+  let questions = state.questions;
+
+  if (users!== undefined && questions !== undefined){
+
+  console.log("filterUnAnsweredQuestions");
+
+  console.log("inside filterUnAnsweredQuestions")
+  console.log(users);
+  console.log(questions);
+  console.log("inside filterUnAnsweredQuestions")
+
+  let user = 'sarahedo';
+  
+  questions.map( q => {
    return answersForUser(users, user).find(q.id); 
-  })
+      })
+  }}
 }
 
-var filterAnsweredQuestions = (state)  => {
+var filterAnsweredQuestions = (users, questions)  => {
   console.log("filterAnsweredQuestions");
   let user = 'sarahedo';
-  let users = state.users;
 
+  console.log("inside filterAnsweredQuestions")
+  console.log(users);
+  console.log(questions);
+  console.log("inside filterAnsweredQuestions")
+  
   let returnValue;
 
-  state.questions.map( q => {
+  returnValue = questions.map( q => {
     if(answersForUser(users, user).find(q.id)){
       returnValue.push(q.id);
     }
-  })
+    return returnValue;
+    })
   return returnValue;
 }
 
@@ -113,14 +144,19 @@ var answersForUser = (users, user) => {
 }
 
 const mapStateToProps = ( state ) => {
- // console.log("inside map state to props App, state: ", state)
+ console.log("inside map state to props App, state: ", state)
   return {
-    users : state.users,
-     questions: state.questions,
-    unAnsweredQuestions: state.questions && state.users && ((state) => filterUnAnsweredQuestions(state)) (/*TODO: Filter here by unanswered)*/),
-    answeredQuestions: state.questions && state.users && ((state) => filterAnsweredQuestions(state)) (/*TODO: Filter here by answered)*/)
+      users : state.users,
+      questions: state.questions,
+      unAnsweredQuestions: ((state ) => filterUnAnsweredQuestions(state)) (/*TODO: Filter here by unanswered)*/),
+     // answeredQuestions: state.questions && state.users && ((state) => filterAnsweredQuestions(state)) (/*TODO: Filter here by answered)*/)
     }
 }
+// the idea is to prepare the component with the data it needs
+// ie filter the questions _before_ it is initialised
+// but the problem arises since I want to pass _state_ to filter
+// but it says filter is undefined
+
 
 //export default connect(mapStateToProps()) (App); wrong - for some reason we are not calling the
 //mapstatetoprops. we are passing it as an argument to connect

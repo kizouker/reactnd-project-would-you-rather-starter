@@ -34,7 +34,7 @@ constructor(props){
 //scope 2 -inside class 
   render (){
     //scope 3 -inside RE 
-    console.log(this.props.questions)
+    //console.log(this.props.questions)
     let questionsObj = this.props.questions;
     let questionsArray = Object.values(questionsObj);
 

@@ -3,12 +3,7 @@ import { GET_INITIAL_USERS} from '../actionTypes.js'
 const shared =  (state = {}, action) => {
     let returnvalue;
         switch (action.type){       
-            case GET_INITIAL_USERS: 
-                returnvalue =  { 
-                    ...state,
-                    users :  action.users, 
-                }
-                return returnvalue;
+           
             default :
                 return state;
     }
