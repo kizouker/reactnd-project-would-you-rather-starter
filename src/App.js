@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {handleInitialQuestionsData} from './actions/questions.js'
 import {handleInitialUserData} from './actions/users.js'
 import Menu from './components/Menu.js'
+import { findDOMNode } from 'react-dom';
 
 /**
  * Bound action creator
@@ -56,7 +57,7 @@ class App extends React.Component{
                 { !unAnswered && (<div>
                                     <h3> Answered </h3>
                                     {console.log(this.props)} 
-                                    <List questions={this.props.AnsweredQuestions}></List>
+                                    <List questions={this.props.answeredQuestions}></List>
                                   </div>) 
                 }
               </button>
@@ -85,58 +86,95 @@ class App extends React.Component{
 
 
 //using es6 fn
+// var filterUnansweredQuestions = (questions, users)  => {
+//   var questionsArray = Object.values(questions);
+//   //var usersArray = Object.values(users);
+//   // problem state is not passed to the function it is not bound
+//   //inside the comp you use bind - but outside what to use?
+//   console.log("inside filterUnAnsweredQuestions")
+//   if (questionsArray !== undefined && users !== undefined){
+//   let user = 'sarahedo';
+//   let result= [];
+//      questionsArray.map( q => {
+//       let element = answersForUser(users, user).find( qid => {
+//                                                 return qid !== q.id;
+//                                         }); 
+//       console.log(element)
+//       result.push(element);
+//       }) 
+//       console.log("result")
+//       console.log(result)
+//     return result;
+//   }
+// }
+
 var filterUnansweredQuestions = (questions, users)  => {
   var questionsArray = Object.values(questions);
   //var usersArray = Object.values(users);
   // problem state is not passed to the function it is not bound
   //inside the comp you use bind - but outside what to use?
   console.log("inside filterUnAnsweredQuestions")
-  if (questionsArray !== undefined && users !== undefined){
-    console.log(users);
-    console.log(questionsArray);
-    console.log("inside filterUnAnsweredQuestions")
-
   let user = 'sarahedo';
-  let result= [];
-     questionsArray.map( q => {
-      let element = answersForUser(users, user).find(name => {
-                                                          return name === q.author;
-                                                        }); 
-      result.push(q);
-      console.log("element")
-      console.log(q)
-      }) 
-      console.log("result")
-      console.log(result)
-    return result;
+  let result, result2 = [];
+  let returnValue = [];
+
+  if (questionsArray !== undefined && users !== undefined){
+    result2 = answersForUser(users, user);
   }
+
+  result = Object.keys(result2);
+  console.log("Resulöt")
+  console.log(result)
+
+  questionsArray.map(q => {
+
+    if (result.includes(q.id)){
+      returnValue.push(q);
+    }
+  })
+
+  console.log("result")
+  console.log(returnValue)
+return returnValue;
+
 }
 
   var answersForUser = (users, user) => {
     console.log("answersForUser");
     console.log(users);
-    let resultArray = Object.values(users[user].answers);
+    let result = users[user].answers;
 
-    return resultArray;
+    return result;
   }
 
-var filterAnsweredQuestions = (users, questions)  => {
+var filterAnsweredQuestions = (questions, users )  => {
+  var questionsArray = Object.values(questions);
   console.log("filterAnsweredQuestions");
   let user = 'sarahedo';
 
   console.log(users);
-  console.log(questions);
-  console.log("inside filterAnsweredQuestions")
-  let returnValue;
-  returnValue = questions.map( q => {
-    if(answersForUser(users, user).find(q.id)){
-      returnValue.push(q.id);
+  console.log(questionsArray);
+ 
+  let result = [];
+    questionsArray.map( q => {
+      let resultArray = Object.values(answersForUser(users, user));
+    if(!resultArray.includes(q)){
+      result.push(q);
     }
-    return returnValue;
+      console.log("result")
+      console.log(result)
+      
+      return result;
     })
-  return returnValue;
-}
+  }
 
+function isInArray(element1, element2){
+if (element1 === element2){
+  return true;
+} else {
+  return false;
+}
+}
 function isEmptyObj(obj){
   return Object.keys(obj).length === 0 && obj.constructor === Object
 }
@@ -147,13 +185,17 @@ const mapStateToProps = ( state ) => {
  console.log("inside map state to props App, state: ", state)
    //inside mapStateToProps
               let unansweredQuestions = null; // null, [] or {}, depending on your approaches
-             if (state && !isEmpty(state.questions)  && !isEmpty(state.users) ) {
+              let answeredQuestions = null;
+
+              if (state && !isEmpty(state.questions)  && !isEmpty(state.users) ) {
                   console.log("State questions are filled: ", state.questions, state.users);
                   unansweredQuestions = filterUnansweredQuestions(state.questions, state.users);
+                  answeredQuestions = filterAnsweredQuestions(state.questions, state.users);
                   return {
-                  users : state.users,
+                    users : state.users,
                     questions: state.questions,
-                    unAnsweredQuestions: unansweredQuestions
+                    unAnsweredQuestions: unansweredQuestions,
+                    answeredQuestions: answeredQuestions
                   }
               } else 
                   return {

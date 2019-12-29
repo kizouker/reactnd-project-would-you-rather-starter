@@ -11,17 +11,19 @@ constructor(props){
 //scope 2 -inside class 
   render (){
     //scope 3 -inside RE 
-    //console.log(this.props.questions)
+    console.log(this.props.questions)
     let questionsObj = this.props.questions;
-    let questionsArray = Object.values(questionsObj);
-
+    let  questionsArray=[];
+    if (questionsObj !== undefined && questionsObj !== null) {
+     questionsArray = Object.values(questionsObj);
+  }
   //  let questionsValueArray = Object.values(this.props.questions)[0];
   // printConse(questionsValueArray);
 
     // if (questions !== undefined) {
      // let array = Object.values(questionsValueArray);
       //console.log("array :" + array);
-      if (questionsArray !== undefined) { 
+      if (questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0) { 
         return(<div>
                 <table>
                   <thead> 
@@ -64,16 +66,17 @@ constructor(props){
         }       
       
  
-const mapStateToProps = ( state ) => {
-  //  console.log("inside map state to props, state: ", state)
-   return {
-     //users : state.shared.users,
-     questions: state.questions
-   }
-}
+// const mapStateToProps = ( state ) => {
+//   //  console.log("inside map state to props, state: ", state)
+//    return {
+//      //users : state.shared.users,
+//     unAnsweredQuestions: unansweredQuestions,
+//     answeredQuestions: answeredQuestions
+//    }
+// }
 
 
-export default connect(mapStateToProps)(List);
+export default List;
 
 
 {/** 
