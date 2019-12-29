@@ -1,12 +1,14 @@
 import React from 'react';
 import '../App.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Answer from './Answer';
 import LeaderBoard from './LeaderBoard';
 import List from './List';
 import Statistics from './Statistics';
 import Post from './Post';
 import User from './User';
+import Login from './Login';
+
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 class Menu extends React.Component{
@@ -23,6 +25,9 @@ class Menu extends React.Component{
         </thead>
         <tbody>
               <tr>
+                <td>
+                  <Link to="/login">| Login |</Link> 
+                </td>
                 <td>
                   <Link to="/list">| List Questions |</Link> 
                 </td>
@@ -46,7 +51,8 @@ class Menu extends React.Component{
       </table> 
         
             <hr/>
-         <Switch>      
+         <Switch>  
+            <Route path="/login" component={Login} />    
             <Route exact path="/list" component={List} />
             <Route path="/statistics" component={Statistics} />
             <Route path="/leaderboard" component={LeaderBoard} />
