@@ -34,8 +34,7 @@ class Post extends React.Component{
     let question = formatQuestion(this.state.question.optionOne, this.state.question.optionTwo, 
     this.state.question.author);
 
-    let id = question.id;
-    // author = question.author;
+
 
     console.log ("New question");
     console.log (question);

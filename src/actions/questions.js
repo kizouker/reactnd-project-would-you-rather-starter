@@ -15,20 +15,12 @@ export function postQuestion(question) {
         }
   }
 
-export const handleInitialData = () => {
+export const handleInitialQuestionsData = () => {
     return (dispatch) => {
         return _getQuestions()
             .then(res  => res)
             .then ((data) => {
-                // let response = dispatch(receiveQuestions(data));
-                // console.log("response" + response);
-                // return response;
                 dispatch(receiveQuestions(data));
             })
         }
     }
-
-//new fn that calls the api and gets the initial questions
-// aysnc middleware
-// dispatch
-// and then return the action above
