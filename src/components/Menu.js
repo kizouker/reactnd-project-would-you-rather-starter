@@ -28,7 +28,8 @@ class Menu extends React.Component{
                 <td>
                   <Link to="/login">| Login |</Link> 
                 </td>
-                <td>
+                {console.log(this.props.authenticatedUser)}
+                {!isEmpty(this.props.authenticatedUser) && <div> <td>
                   <Link to="/list">| List Questions |</Link> 
                 </td>
                 <td>
@@ -45,7 +46,10 @@ class Menu extends React.Component{
                 </td>
                 <td>
                   <Link to="/statistics">| Statistics |</Link> 
-                </td>
+                </td> 
+                
+                </div>}
+                
               </tr>
           </tbody>
       </table> 
@@ -71,8 +75,13 @@ class Menu extends React.Component{
 //  console.log("inside map state to props App, state: ", state)
   return {
     users : state.users,
-     questions: state.questions,
+    questions: state.questions,
+    authenticatedUser : state.shared.authenticatedUser,
     }
+}
+
+function isEmpty(val){
+  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
 
  export default connect(mapStateToProps) (Menu);

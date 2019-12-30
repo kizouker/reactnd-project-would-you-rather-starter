@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { handleInitialQuestionsData } from './actions/questions.js'
 import { handleInitialUserData } from './actions/users.js'
 import Menu from './components/Menu.js'
+import shared from './reducers/shared';
 
 class App extends React.Component{
   constructor(props){
@@ -14,13 +15,17 @@ class App extends React.Component{
       unAnswered : true
     };
     this.handleToggle = this.handleToggle.bind(this);
-    console.log(this.props.store);
+   
   }
 
   componentWillMount(){
+  
     //log the props to see the dispatch method/function
-   this.props.dispatch(handleInitialQuestionsData());
-   this.props.dispatch(handleInitialUserData());
+//    if (!isEmpty(this.props.authenticatedUser)){
+      this.props.dispatch(handleInitialQuestionsData());
+      
+ //   }
+    this.props.dispatch(handleInitialUserData());
   }
 
   handleToggle = () => {
@@ -29,6 +34,8 @@ class App extends React.Component{
   }
 
   render (){
+
+    console.log(this.props.authenticatedUser);
     const { unAnswered } = this.state;
   return (
     <div className="App">
@@ -42,15 +49,15 @@ class App extends React.Component{
              <div className="grid-container"></div>
              <div className="grid-item">
               <button id="switchState" name="switchState" onClick={this.handleToggle}>
-                { unAnswered && (<div>
+                {  unAnswered && (<div>
                                     <h3> unAnswered </h3>            
                                     <List questions={this.props.unAnsweredQuestions}> </List>
-                                  </div>) 
+                                  </div>)
                 } 
                 { !unAnswered && (<div>
                                     <h3> Answered </h3>
                                     <List questions={this.props.answeredQuestions}></List>
-                                  </div>) 
+                                  </div>)
                 }
               </button>
               {//** change text above "unAnswered" >-> "answered"  do a filter
@@ -68,10 +75,10 @@ class App extends React.Component{
 //   questions: state.questions
 // })
 
-var filterUnansweredQuestions = (questions, users)  => {
+var filterUnansweredQuestions = (questions, users, user)  => {
   console.log("inside filterUnAnsweredQuestions")
   var questionsArray = Object.values(questions);
-  let user = 'sarahedo';
+
   let result, result2 = [];
   let returnValue = [];
 
@@ -96,10 +103,9 @@ var answersForUser = (users, user) => {
   return result;
 }
 
-var filterAnsweredQuestions = (questions, users )  => {
+var filterAnsweredQuestions = (questions, users, user )  => {
   var questionsArray = Object.values(questions);
 
-  let user = 'sarahedo';
   let result = [];
     questionsArray.map( q => {
                          let resultArray = Object.values(answersForUser(users, user));
@@ -114,7 +120,7 @@ function isEmptyObj(obj){
   return Object.keys(obj).length === 0 && obj.constructor === Object
 }
 function isEmpty(val){
-  return (isEmptyObj(val) || val === undefined || val == null || val.length <= 0  ) ? true : false;
+  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
 
 const mapStateToProps = ( state ) => {
@@ -123,20 +129,22 @@ const mapStateToProps = ( state ) => {
               let unansweredQuestions = null; // null, [] or {}, depending on your approaches
               let answeredQuestions = null;
 
-              if (state && !isEmpty(state.questions)  && !isEmpty(state.users) ) {
-                  console.log("State questions are filled: ", state.questions, state.users);
-                  unansweredQuestions = filterUnansweredQuestions(state.questions, state.users);
-                  answeredQuestions = filterAnsweredQuestions(state.questions, state.users);
+              if (state && !isEmpty(state.questions)  && !isEmpty(state.users) &&  !isEmpty(state.shared.authenticatedUser)) {
+                  console.log("State questions are filled: ", state.questions, state.users, state.shared.authenticatedUser);
+                  unansweredQuestions = filterUnansweredQuestions(state.questions, state.users, state.shared.authenticatedUser);
+                  answeredQuestions = filterAnsweredQuestions(state.questions, state.users, state.shared.authenticatedUser);
                   return {
                     users : state.users,
                     questions: state.questions,
                     unAnsweredQuestions: unansweredQuestions,
-                    answeredQuestions: answeredQuestions
+                    answeredQuestions: answeredQuestions,
+                    authenticatedUser : state.shared.authenticatedUser
                   }
                 } else 
                   return {
                     users : state.users,
                     questions: state.questions,
+                    authenticatedUser : state.shared.authenticatedUser
                   }
   }
           

@@ -16,11 +16,13 @@ class Login extends React.Component{
     }
 
     handleClick = (e) => {
-
         if (!this.state.authenticated){
             this.setAuthUser(this.state.authenticatedUser)
-        }
+        } else{
+            this.setAuthUser('');
+            this.setState({authenticatedUser : ''})
 
+        }
         this.state.authenticated ? (this.setState({authenticated : false})) : 
                                     (this.setState({authenticated : true}))
         console.log("authenticated: " + this.state.authenticated);
@@ -73,15 +75,10 @@ class Login extends React.Component{
                             onChange={this._onSelect} 
                             value={this.state.authenticatedUser} 
                             placeholder="Choose user to login:"/>
-
                  <button onClick={this.handleClick} name="loginBtn"> 
                      { this.state.authenticated && <div>Logout</div>} 
-
-                           
                      { !this.state.authenticated && <div>Login</div>} 
                 </button>
-
-               
               </div>
               );
     }
