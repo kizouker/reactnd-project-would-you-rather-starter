@@ -3,41 +3,47 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import { connect } from 'react-redux';
 
+import { setAuthenticatedUser } from '../actions/shared.js'
+
 class Login extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
+        this.state = {  
             authenticated : false,
+            authenticatedUser : ''
+        }
+        this._onSelect = this._onSelect.bind(this);
+    }
+
+    handleClick = (e) => {
+
+        if (!this.state.authenticated){
+            this.setAuthUser(this.state.authenticatedUser)
         }
 
-    }
-
-    handleClick = () => {
         this.state.authenticated ? (this.setState({authenticated : false})) : 
                                     (this.setState({authenticated : true}))
-
-        console.log("authenticated : " + this.state.authenticated);
+        console.log("authenticated: " + this.state.authenticated);
     }
-   
-   
-                    
+
+    setAuthUser = ( value ) => {
+        console.log("setAuthenticatedUser");
+        this.props.dispatch(setAuthenticatedUser(value));
+        console.log("setAuthenticatedUser");
+    }
+
+    _onSelect = ( obj ) => {
+        console.log(" _onSelect")
+        console.log(obj)
+        console.log(" _onSelect")
+
+        this.setState({authenticatedUser : obj.value})
+    }
+    
     render (){
         function isEmpty(val){
-            return ( val === undefined || val == null || val.length <= 0  ) ? true : false;
+            return ( val === undefined || val == null || val.length <= 0 ) ? true : false;
           }
-      //  console.log(this.props.users);
-        const options1 = [
-            'one', 'two', 'three'
-          ]
-
-          // get the users id:s and handle and pop in the dropdown
-
-          // when one user is selected and press login  - the user handle is set in the store
-          const options2 = [
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two', className: 'myOptionClassName' },
-          ]
-
           let users = this.props.users;
           let optionsDyn = [];
 
@@ -53,24 +59,19 @@ class Login extends React.Component{
                     console.log(object);
                     console.log("user");
                     optionsDyn.push(object);
+                    return optionsDyn; // TODO:
             })
         }
         console.log("optionsDyn");
         console.log(optionsDyn);
         console.log("optionsDyn");
-
-          const options = [
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two', className: 'myOptionClassName' },
-          ]
- 
-        const defaultOption = optionsDyn[0]; 
-
+        const defaultOption = optionsDyn[0]; //TODO: fix default option
+   
       return(<div className="Login">
                  <h2 className="component-title">Login</h2>
                  <Dropdown options={optionsDyn} 
                             onChange={this._onSelect} 
-                            value={defaultOption} 
+                            value={this.state.authenticatedUser} 
                             placeholder="Choose user to login:"/>
 
                  <button onClick={this.handleClick} name="loginBtn"> 
@@ -79,6 +80,8 @@ class Login extends React.Component{
                            
                      { !this.state.authenticated && <div>Login</div>} 
                 </button>
+
+               
               </div>
               );
     }
@@ -86,7 +89,6 @@ class Login extends React.Component{
 
 const mapStateToProps = ( state ) => {
     console.log("inside map state to props Login, state: ", state)
-
     return {
         users : state.users,
       }

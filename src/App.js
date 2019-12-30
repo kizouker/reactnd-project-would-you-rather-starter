@@ -84,7 +84,9 @@ var filterUnansweredQuestions = (questions, users)  => {
     if (result.includes(q.id)){
       returnValue.push(q);
     }
-  })
+    return returnValue;
+  }
+ )
   return returnValue;
 }
 
