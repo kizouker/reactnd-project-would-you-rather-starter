@@ -7,6 +7,35 @@ class List extends React.Component{
   
 constructor(props){
   super(props);
+  this.state = {
+    id : '',
+    option : '',
+  }
+  this.handleVote = this.handleVote.bind(this);
+}
+
+
+
+handleVote = ( e, el ) => {
+  if (!(isEmpty(el))){
+    let id1 = el.id;
+    console.log(id1);
+  }
+
+  console.log("vote");
+
+  // let specificQuestion = questions[id]
+  let option = e.target.value;
+  
+ 
+
+  this.setState({option : option});
+
+  console.log(e.target.value);
+  
+  // id:option|[x].votes[userid]
+  console.log("vote");
+
 }
 //scope 2 -inside class 
   render (){
@@ -32,25 +61,21 @@ constructor(props){
                     </tr>
                   </thead>
                     { 
-                    //console.log("för loopen")
-                    //contains the wrong things
-                    //console.log(array)
-                    //
-                    //console.log("för loopen");
       }
                     {questionsArray.map ((el) => {
                           return(
                             <tbody key={el.id}>
-                                {/** <tr>
-                                  <td>id: {el.id}</td> 
-                                </tr>
-                                **/}
-                                
                                 <tr>
-                                  <td>{el.optionOne.text}</td> 
+                                  <td>{el.optionOne.text} 
+                                    <button value="OptionOne" 
+                                      onClick={ (e, el) => this.handleVote(e, el)}> Vote 
+                                    </button>
+                                  </td> 
+                                  <td>   ...   or   ...   </td>
+                                  <td>{el.optionTwo.text} <button value="OptionTwo" onClick={this.handleVote}> Vote </button></td> 
                                 </tr>
-                                <tr>
-                                  <td>{el.optionTwo.text}</td> 
+                                <tr>                         
+                                  <td> </td>
                                 </tr>     
                               </tbody>
                             )
@@ -66,14 +91,15 @@ constructor(props){
         }       
       
  
-// const mapStateToProps = ( state ) => {
-//   //  console.log("inside map state to props, state: ", state)
-//    return {
-//      //users : state.shared.users,
-//     unAnsweredQuestions: unansweredQuestions,
-//     answeredQuestions: answeredQuestions
-//    }
-// }
+const mapStateToProps = ( state ) => {
+  //  console.log("inside map state to props, state: ", state)
+   return {
+     //users : state.shared.users,
+    questions : state.questions,
+    //unAnsweredQuestions: unansweredQuestions,
+   // answeredQuestions: answeredQuestions
+   }
+}
 
 
 export default List;
@@ -106,3 +132,10 @@ function printConse (arg){
   }
 
 **/}
+
+
+
+function isEmpty(val){
+  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
+}
+
