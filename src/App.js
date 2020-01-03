@@ -54,7 +54,10 @@ class App extends React.Component{
              <div className="grid-container"></div>
              <div className="grid-item">
               <button id="switchState" name="switchState" onClick={this.handleToggle}>
-                {  unAnswered && (<div>
+                Toggle
+              </button>
+
+              {  unAnswered && (<div>
                                     <h3> unAnswered </h3>            
                                     <List questions={this.props.unAnsweredQuestions}> </List>
                                   </div>)
@@ -64,7 +67,6 @@ class App extends React.Component{
                                     <List questions={this.props.answeredQuestions}></List>
                                   </div>)
                 }
-              </button>
               {//** change text above "unAnswered" >-> "answered"  do a filter
               <div className="unAnswered">
                 </div>
@@ -85,6 +87,7 @@ var filterUnansweredQuestions = (questions, users, user)  => {
   var questionsArray = Object.values(questions);
 
   let result, result2 = [];
+
   let returnValue = [];
 
   if (questionsArray !== undefined && users !== undefined){

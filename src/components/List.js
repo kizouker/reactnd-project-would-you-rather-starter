@@ -1,7 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { updateQuestion } from '../actions/questions'
-  
+import { connect } from 'react-redux';
+import Answer from './Answer';
+import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+
 class List extends React.Component{
 // https://stackoverflow.com/questions/50735735/order-of-component-life-cycle-with-react-redux-connect-and-redux-data
   
@@ -11,39 +12,8 @@ constructor(props){
     id : '',
     option : '',
   }
-  this.handleVote = this.handleVote.bind(this);
 }
 
-handleVote = ( e) => {
-  let option = e.target.name;
-  let id = e.target.value;
-  let user = this.props.authenticatedUser.authenticatedUser;
-  let questions = this.props.questions;
-
-  if (!isEmpty(id) && !isEmpty(option) && !isEmpty(user)) {
-
-    let question = questions[id];
-    let _option = question[option];
-    let _v = _option.votes;
-    _v.push(user);
-
-      question[option].votes = _v;
-      console.log("newq");
-    console.log(question);
-      console.log("newq");
-      console.log("id");
-      console.log(id);
-
-
-this.props.dispatch(updateQuestion(id, question))
-      
-    
-
-    console.log("votes");
-  
-  //  this.setState({option : option});
-    }
-  }
 
 //scope 2 -inside class 
   render (){
@@ -61,7 +31,9 @@ this.props.dispatch(updateQuestion(id, question))
 
     if (!isEmpty(users) && questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0
       ) { 
-      return(<div>
+      return(
+        <Router>
+            <div>
               <table>
                 <thead> 
                   <tr>
@@ -69,27 +41,33 @@ this.props.dispatch(updateQuestion(id, question))
                   </tr>
                 </thead>
                   {questionsArray.map ((el) => {
-
-                    
                         return(
                           <tbody key={el.id}>
                               <tr>
-                                <td>{el.optionOne.text} 
-                                  <button name="optionOne" value={el.id}
-                                    onClick={ (e) => this.handleVote(e)}> Vote 
-                                  </button>
-                                 Votes: {el.optionOne.votes.length} 
-                                 <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
+                              <td>... {el.author} ...
+                                <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
+                                wonders if you, would you rather...
                                 </td>
+                                <td>{el.optionOne.text} 
+                                 
+                                 Votes: {el.optionOne.votes.length} 
+                                 </td>
                                 <td>   ...   or   ...   </td>
                                 <td>{el.optionTwo.text}  
-                                  <button name="optionTwo" value={el.id}
-                                      onClick={ (e) => this.handleVote(e)}> Vote 
-                                    </button> 
+                                 
                                     Votes: {el.optionTwo.votes.length} 
-                                    <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
-                            
-                                </td> 
+                                   
+                                </td>
+                                 
+                                  <td>
+                                    <Link to={{
+                                          pathname : '/answer',   
+                                          state: {
+                                                question : el,
+                                              }
+                                          }}>| Answer Poll |
+                                    </Link>
+                                  </td>        
                               </tr>
                                 <tr>                         
                                 <td></td>
@@ -100,19 +78,19 @@ this.props.dispatch(updateQuestion(id, question))
                     )
                   }
                 </table>
-            </div>);
+                <Switch>
+                    <Route path="/answer" component={Answer}></Route>
+                </Switch>
+            </div>
+            </Router>);
               } else{
                 return null;
             }
           }
         }         
-      
- 
 const mapStateToProps = ( state ) => {
   //  console.log("inside map state to props, state: ", state)
    return {
-   
-    
     questions : state.questions,
     authenticatedUser : state.authenticatedUser,
     users : state.users,

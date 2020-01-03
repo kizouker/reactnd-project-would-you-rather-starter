@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
-import Answer from './Answer';
 import LeaderBoard from './LeaderBoard';
 import List from './List';
 import Statistics from './Statistics';
@@ -42,9 +41,6 @@ class Menu extends React.Component{
                     <Link to="/post">| Post new Question |</Link> 
                   </td>
                   <td>
-                    <Link to="/answer">| Answer Questions |</Link>
-                  </td>
-                  <td>
                     <Link to="/user">| User Settings |</Link>
                   </td>
                   <td>
@@ -61,7 +57,6 @@ class Menu extends React.Component{
             <Route path="/statistics" component={Statistics} />
             <Route path="/leaderboard" component={LeaderBoard} />
             <Route path="/post" component={Post}/>
-            <Route path="/answer" component={Answer} />
             <Route path="/user" component={User} />
         </Switch>
             
@@ -78,10 +73,10 @@ class Menu extends React.Component{
     questions: state.questions,
     authenticatedUser : state.authenticatedUser,
     }
-}
-
+  }
+  
 function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
 
- export default connect(mapStateToProps) (Menu);
+ export default connect(mapStateToProps) (Menu)
