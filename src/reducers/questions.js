@@ -1,6 +1,4 @@
-import {ACTION_POST_QUESTION} from '../actionTypes'
-
-import { GET_INITIAL_QUESTIONS } from '../actionTypes.js'
+import {ACTION_POST_QUESTION,  GET_INITIAL_QUESTIONS, ACTION_UPDATE_QUESTION } from '../actionTypes.js'
 
 const questions =  (state = {}, action) => {
     let returnvalue;
@@ -20,6 +18,14 @@ const questions =  (state = {}, action) => {
                     [action.question.id] : action.question,
                 }
                 return returnvalue;
+
+            case ACTION_UPDATE_QUESTION: 
+                returnvalue =  { 
+                ...state,
+                ...state.questions,
+                [action.id] : action.question,
+            }
+           return returnvalue;
             default :
                 return state;
     }

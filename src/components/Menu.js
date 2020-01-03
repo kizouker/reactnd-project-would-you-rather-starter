@@ -25,32 +25,32 @@ class Menu extends React.Component{
         </thead>
         <tbody>
               <tr>
-                <td>
-                  <Link to="/login">| Login |</Link> 
-                </td>
-                {console.log(this.props.authenticatedUser)}
-                {!isEmpty(this.props.authenticatedUser) && <div> <td>
-                  <Link to="/list">| List Questions |</Link> 
-                </td>
-                <td>
-                  <Link to="/leaderboard">| LeaderBoard |</Link> 
-                </td>
-                <td>
-                  <Link to="/post">| Post new Question |</Link> 
-                </td>
-                <td>
-                  <Link to="/answer">| Answer Questions |</Link>
-                </td>
-                <td>
-                  <Link to="/user">| User Settings |</Link>
-                </td>
-                <td>
-                  <Link to="/statistics">| Statistics |</Link> 
-                </td> 
-                
-                </div>}
-                
+                  <td>
+                    <Link to="/login">| Login |</Link> 
+                  </td>
               </tr>
+                {console.log(this.props.authenticatedUser.authenticatedUser)}
+                {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
+                <tr>
+                  <td>
+                    <Link to="/list">| List Questions |</Link> 
+                  </td>
+                  <td>
+                    <Link to="/leaderboard">| LeaderBoard |</Link> 
+                  </td>
+                  <td>
+                    <Link to="/post">| Post new Question |</Link> 
+                  </td>
+                  <td>
+                    <Link to="/answer">| Answer Questions |</Link>
+                  </td>
+                  <td>
+                    <Link to="/user">| User Settings |</Link>
+                  </td>
+                  <td>
+                    <Link to="/statistics">| Statistics |</Link> 
+                  </td>                
+                </tr>}  
           </tbody>
       </table> 
         
@@ -76,7 +76,7 @@ class Menu extends React.Component{
   return {
     users : state.users,
     questions: state.questions,
-    authenticatedUser : state.shared.authenticatedUser,
+    authenticatedUser : state.authenticatedUser,
     }
 }
 

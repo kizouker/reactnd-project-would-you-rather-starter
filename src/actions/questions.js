@@ -1,5 +1,6 @@
 import {_getQuestions } from '../_DATA.js';
-import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS } from '../actionTypes'
+import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS, 
+    ACTION_UPDATE_QUESTION } from '../actionTypes'
 
 export function receiveQuestions(questions){
     return {    
@@ -11,6 +12,14 @@ export function receiveQuestions(questions){
 export function postQuestion(question) {
     return { 
             type: ACTION_POST_QUESTION, 
+            question 
+        }
+  }
+
+  export function updateQuestion(id, question) {
+    return { 
+            type: ACTION_UPDATE_QUESTION, 
+            id,
             question 
         }
   }

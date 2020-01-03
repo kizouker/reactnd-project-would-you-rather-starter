@@ -5,8 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { handleInitialQuestionsData } from './actions/questions.js'
 import { handleInitialUserData } from './actions/users.js'
+import { handleInitialData } from './actions/shared.js'
+
 import Menu from './components/Menu.js'
-import shared from './reducers/shared';
 
 class App extends React.Component{
   constructor(props){
@@ -15,17 +16,14 @@ class App extends React.Component{
       unAnswered : true
     };
     this.handleToggle = this.handleToggle.bind(this);
-   
   }
 
   componentWillMount(){
-  
-    //log the props to see the dispatch method/function
-//    if (!isEmpty(this.props.authenticatedUser)){
-      this.props.dispatch(handleInitialQuestionsData());
-      
- //   }
-    this.props.dispatch(handleInitialUserData());
+    // this.props.dispatch(handleInitialQuestionsData());
+    // this.props.dispatch(handleInitialUserData());
+
+    this.props.dispatch(handleInitialData());
+    
   }
 
   handleToggle = () => {
@@ -34,8 +32,15 @@ class App extends React.Component{
   }
 
   render (){
-
-    console.log(this.props.authenticatedUser);
+    // console.log(this.props.questions)
+    let users = this.props.users;
+    if (!isEmpty(users)){
+      // console.log("user is not empty");
+      console.log(users);
+    }else{
+      // console.log("user is empty");
+    }
+    
     const { unAnswered } = this.state;
   return (
     <div className="App">
@@ -76,7 +81,7 @@ class App extends React.Component{
 // })
 
 var filterUnansweredQuestions = (questions, users, user)  => {
-  console.log("inside filterUnAnsweredQuestions")
+  // console.log("inside filterUnAnsweredQuestions")
   var questionsArray = Object.values(questions);
 
   let result, result2 = [];
@@ -120,7 +125,7 @@ function isEmptyObj(obj){
   return Object.keys(obj).length === 0 && obj.constructor === Object
 }
 function isEmpty(val){
-  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
+  return (val === undefined || val == null || val.length <= 0  || isEmptyObj(val)) ? true : false;
 }
 
 const mapStateToProps = ( state ) => {
@@ -129,22 +134,22 @@ const mapStateToProps = ( state ) => {
               let unansweredQuestions = null; // null, [] or {}, depending on your approaches
               let answeredQuestions = null;
 
-              if (state && !isEmpty(state.questions)  && !isEmpty(state.users) &&  !isEmpty(state.shared.authenticatedUser)) {
-                  console.log("State questions are filled: ", state.questions, state.users, state.shared.authenticatedUser);
-                  unansweredQuestions = filterUnansweredQuestions(state.questions, state.users, state.shared.authenticatedUser);
-                  answeredQuestions = filterAnsweredQuestions(state.questions, state.users, state.shared.authenticatedUser);
+              if (state && !isEmpty(state.questions)  && !isEmpty(state.users) &&  !isEmpty(state.authenticatedUser.authenticatedUser)) {
+                  console.log("State questions are filled: ", state.questions, state.users, state.authenticatedUser.authenticatedUser);
+                  unansweredQuestions = filterUnansweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);
+                  answeredQuestions = filterAnsweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);
                   return {
                     users : state.users,
                     questions: state.questions,
                     unAnsweredQuestions: unansweredQuestions,
                     answeredQuestions: answeredQuestions,
-                    authenticatedUser : state.shared.authenticatedUser
+                    authenticatedUser : state.authenticatedUser.authenticatedUser
                   }
                 } else 
                   return {
                     users : state.users,
                     questions: state.questions,
-                    authenticatedUser : state.shared.authenticatedUser
+                    authenticatedUser : state.authenticatedUser.authenticatedUser
                   }
   }
           

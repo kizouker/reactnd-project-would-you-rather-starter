@@ -3,7 +3,7 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import { connect } from 'react-redux';
 
-import { setAuthenticatedUser } from '../actions/shared.js'
+import { setAuthenticatedUser } from '../actions/authedUser'
 
 class Login extends React.Component{
     constructor(props){
@@ -25,19 +25,20 @@ class Login extends React.Component{
         }
         this.state.authenticated ? (this.setState({authenticated : false})) : 
                                     (this.setState({authenticated : true}))
-        console.log("authenticated: " + this.state.authenticated);
+   //     console.log("authenticated: " + this.state.authenticated);
     }
 
     setAuthUser = ( value ) => {
-        console.log("setAuthenticatedUser");
+        // console.log("setAuthenticatedUser");
+        // console.log(this.props)
         this.props.dispatch(setAuthenticatedUser(value));
-        console.log("setAuthenticatedUser");
+        // console.log("setAuthenticatedUser");
     }
 
     _onSelect = ( obj ) => {
-        console.log(" _onSelect")
-        console.log(obj)
-        console.log(" _onSelect")
+        // console.log(" _onSelect")
+        // console.log(obj)
+        // console.log(" _onSelect")
 
         this.setState({authenticatedUser : obj.value})
     }
@@ -57,16 +58,16 @@ class Login extends React.Component{
                         value : user.id,
                         label : user.name
                     }
-                    console.log("user");
-                    console.log(object);
-                    console.log("user");
+                    // console.log("user");
+                    // console.log(object);
+                    // console.log("user");
                     optionsDyn.push(object);
                     return optionsDyn; // TODO:
             })
         }
-        console.log("optionsDyn");
-        console.log(optionsDyn);
-        console.log("optionsDyn");
+        // console.log("optionsDyn");
+        // console.log(optionsDyn);
+        // console.log("optionsDyn");
         const defaultOption = optionsDyn[0]; //TODO: fix default option
    
       return(<div className="Login">
@@ -87,7 +88,9 @@ class Login extends React.Component{
 const mapStateToProps = ( state ) => {
     console.log("inside map state to props Login, state: ", state)
     return {
+        state,
         users : state.users,
+        authenticatedUser : state.authenticatedUser
       }
 }
 

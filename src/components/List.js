@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
-
+import { updateQuestion } from '../actions/questions'
+  
 class List extends React.Component{
 // https://stackoverflow.com/questions/50735735/order-of-component-life-cycle-with-react-redux-connect-and-redux-data
   
@@ -14,126 +14,115 @@ constructor(props){
   this.handleVote = this.handleVote.bind(this);
 }
 
+handleVote = ( e) => {
+  let option = e.target.name;
+  let id = e.target.value;
+  let user = this.props.authenticatedUser.authenticatedUser;
+  let questions = this.props.questions;
+
+  if (!isEmpty(id) && !isEmpty(option) && !isEmpty(user)) {
+
+    let question = questions[id];
+    let _option = question[option];
+    let _v = _option.votes;
+    _v.push(user);
+
+      question[option].votes = _v;
+      console.log("newq");
+    console.log(question);
+      console.log("newq");
+      console.log("id");
+      console.log(id);
 
 
-handleVote = ( e, el ) => {
-  if (!(isEmpty(el))){
-    let id1 = el.id;
-    console.log(id1);
+this.props.dispatch(updateQuestion(id, question))
+      
+    
+
+    console.log("votes");
+  
+  //  this.setState({option : option});
+    }
   }
 
-  console.log("vote");
-
-  // let specificQuestion = questions[id]
-  let option = e.target.value;
-  
- 
-
-  this.setState({option : option});
-
-  console.log(e.target.value);
-  
-  // id:option|[x].votes[userid]
-  console.log("vote");
-
-}
 //scope 2 -inside class 
   render (){
     //scope 3 -inside RE 
-    console.log(this.props.questions)
-    let questionsObj = this.props.questions;
-    let  questionsArray=[];
-    if (questionsObj !== undefined && questionsObj !== null) {
-     questionsArray = Object.values(questionsObj);
-  }
-  //  let questionsValueArray = Object.values(this.props.questions)[0];
-  // printConse(questionsValueArray);
+    console.log(this.props)
+    let users = this.props.users;
+    console.log(users);
 
-    // if (questions !== undefined) {
-     // let array = Object.values(questionsValueArray);
-      //console.log("array :" + array);
-      if (questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0) { 
-        return(<div>
-                <table>
-                  <thead> 
-                    <tr>
-                      <th>Would you rather...</th> 
-                    </tr>
-                  </thead>
-                    { 
-      }
-                    {questionsArray.map ((el) => {
-                          return(
-                            <tbody key={el.id}>
-                                <tr>
-                                  <td>{el.optionOne.text} 
-                                    <button value="OptionOne" 
-                                      onClick={ (e, el) => this.handleVote(e, el)}> Vote 
-                                    </button>
-                                  </td> 
-                                  <td>   ...   or   ...   </td>
-                                  <td>{el.optionTwo.text} <button value="OptionTwo" onClick={this.handleVote}> Vote </button></td> 
-                                </tr>
+    let questionsObj = this.props.questions;
+    let questionsArray=[];
+
+    if (questionsObj !== undefined && questionsObj !== null) {
+      questionsArray = Object.values(questionsObj);
+    }
+
+    if (!isEmpty(users) && questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0
+      ) { 
+      return(<div>
+              <table>
+                <thead> 
+                  <tr>
+                    <th>Would you rather...</th> 
+                  </tr>
+                </thead>
+                  {questionsArray.map ((el) => {
+
+                    
+                        return(
+                          <tbody key={el.id}>
+                              <tr>
+                                <td>{el.optionOne.text} 
+                                  <button name="optionOne" value={el.id}
+                                    onClick={ (e) => this.handleVote(e)}> Vote 
+                                  </button>
+                                 Votes: {el.optionOne.votes.length} 
+                                 <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
+                                </td>
+                                <td>   ...   or   ...   </td>
+                                <td>{el.optionTwo.text}  
+                                  <button name="optionTwo" value={el.id}
+                                      onClick={ (e) => this.handleVote(e)}> Vote 
+                                    </button> 
+                                    Votes: {el.optionTwo.votes.length} 
+                                    <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
+                            
+                                </td> 
+                              </tr>
                                 <tr>                         
-                                  <td> </td>
+                                <td></td>
                                 </tr>     
-                              </tbody>
-                            )
-                          }
-                      )
-                    }
-                 </table>
-              </div>);
-                } else{
-                  return null;
-              }
+                            </tbody>
+                          )
+                        }
+                    )
+                  }
+                </table>
+            </div>);
+              } else{
+                return null;
             }
-        }       
+          }
+        }         
       
  
 const mapStateToProps = ( state ) => {
   //  console.log("inside map state to props, state: ", state)
    return {
-     //users : state.shared.users,
+   
+    
     questions : state.questions,
+    authenticatedUser : state.authenticatedUser,
+    users : state.users,
     //unAnsweredQuestions: unansweredQuestions,
    // answeredQuestions: answeredQuestions
    }
 }
 
 
-export default List;
-
-
-{/** 
-//scope 1 -outside class 
-function printConse (arg){
-  if (arg !== undefined){
-    let questionsValues = Object.values(arg); // the right thing
-    console.log("Object.values(this.props)");
-    console.log(questionsValues);
-  }
-  if (arg !== undefined){
-    let questionsKeys = Object.keys(arg);
-    console.log("Object.keys(this.props)"); // the wrong thing
-    console.log(questionsKeys);
-    if (arg[0] !== undefined){
-      let  questionsValueArray = Object.values(arg)[0];
-        console.log("Object.values(this.props)[0]");
-        console.log(questionsValueArray);
-        
-        let array = Object.values(questionsValueArray)
-        console.log("Object.values(questionsValueArray)");
-        console.log(array);
-  }
-
-
-  }
-  }
-
-**/}
-
-
+export default connect(mapStateToProps) (List);
 
 function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;

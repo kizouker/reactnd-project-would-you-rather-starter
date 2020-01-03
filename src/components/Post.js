@@ -21,14 +21,14 @@ class Post extends React.Component{
       // const {author, optionOne, optionTwo} = this.state.question;
       //Something with this is wrong...
 
-    console.log("handleSubmit ---");
+    // console.log("handleSubmit ---");
     alert('An new question was posted');
         
-    console.log("state")
-    console.log(this.state)
-    console.log("state")
+    // // console.log("state")
+    // console.log(this.state)
+    // console.log("state")
 
-    console.log(this.state.question.optionOne + " "  + this.state.question.optionTwo + " " + this.state.question.author);
+    // console.log(this.state.question.optionOne + " "  + this.state.question.optionTwo + " " + this.state.question.author);
 
     // problem with args to formatQuestion ...where formatQuestion ({optionOneText, optionTwoText, author} )
     let question = formatQuestion(this.state.question.optionOne, this.state.question.optionTwo, 
@@ -36,9 +36,9 @@ class Post extends React.Component{
 
 
 
-    console.log ("New question");
-    console.log (question);
-    console.log ("New question");
+    // console.log ("New question");
+    // console.log (question);
+    // console.log ("New question");
 
     console.log(this.state)
     this.props.dispatch(postQuestion(question));
