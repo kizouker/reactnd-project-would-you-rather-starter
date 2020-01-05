@@ -2,10 +2,8 @@ import React from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
 import LeaderBoard from './LeaderBoard';
-import List from './List';
 import Statistics from './Statistics';
 import Post from './Post';
-import User from './User';
 import Login from './Login';
 
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
@@ -32,16 +30,10 @@ class Menu extends React.Component{
                 {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
                 <tr>
                   <td>
-                    <Link to="/list">| List Questions |</Link> 
-                  </td>
-                  <td>
                     <Link to="/leaderboard">| LeaderBoard |</Link> 
                   </td>
                   <td>
                     <Link to="/post">| Post new Question |</Link> 
-                  </td>
-                  <td>
-                    <Link to="/user">| User Settings |</Link>
                   </td>
                   <td>
                     <Link to="/statistics">| Statistics |</Link> 
@@ -53,11 +45,9 @@ class Menu extends React.Component{
             <hr/>
          <Switch>  
             <Route path="/login" component={Login} />    
-            <Route exact path="/list" component={List} />
             <Route path="/statistics" component={Statistics} />
             <Route path="/leaderboard" component={LeaderBoard} />
             <Route path="/post" component={Post}/>
-            <Route path="/user" component={User} />
         </Switch>
             
           </div>

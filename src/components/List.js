@@ -28,7 +28,6 @@ constructor(props){
     if (questionsObj !== undefined && questionsObj !== null) {
       questionsArray = Object.values(questionsObj);
     }
-
     if (!isEmpty(users) && questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0
       ) { 
       return(

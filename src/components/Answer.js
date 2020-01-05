@@ -20,9 +20,9 @@ handleVote = ( e) => {
     let question = questions[id];
     let _option = question[option];
     let _v = _option.votes;
+    
     _v.push(user);
-      question[option].votes = _v;
-
+    question[option].votes = _v;
     this.props.dispatch(updateQuestion(id, question))
     }
   }
@@ -63,20 +63,17 @@ handleVote = ( e) => {
       }
  }
  const mapStateToProps = ( state ) => {
-  //  console.log("inside map state to props, state: ", state)
    return {
     questions : state.questions,
     authenticatedUser : state.authenticatedUser.authenticatedUser,
     users : state.users,
-    //unAnsweredQuestions: unansweredQuestions,
-   // answeredQuestions: answeredQuestions
    }
 }
-
-
-export default connect(mapStateToProps) (Answer);
 
 function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
+
+export default connect(mapStateToProps) (Answer);
+
 
