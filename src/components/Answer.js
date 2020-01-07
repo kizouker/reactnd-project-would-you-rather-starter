@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateQuestion } from '../actions/questions'
+
 class Answer extends React.Component{
   constructor(props){
     super(props);
@@ -12,6 +13,14 @@ class Answer extends React.Component{
 
 handleVote = ( e) => {
   let option = e.target.name;
+  let oppositOption;
+
+  if (option === "optionOne"){
+    oppositOption = "optionTwo";
+  } else{
+    oppositOption ="optionOne"
+  }
+
   let id = e.target.value;
   let user = this.props.authenticatedUser;
   let questions = this.props.questions;
@@ -20,10 +29,19 @@ handleVote = ( e) => {
     let question = questions[id];
     let _option = question[option];
     let _v = _option.votes;
-    
-    _v.push(user);
-    question[option].votes = _v;
-    this.props.dispatch(updateQuestion(id, question))
+
+    let _oppositOption = question[oppositOption];
+    let _v_o = _oppositOption.votes;
+
+    if (!(_v.includes(user)) && !(_v_o.includes(user))){
+      _v.push(user);
+      question[option].votes = _v;
+      this.props.dispatch(updateQuestion(id, question))
+
+    } else{
+      alert("You already voted for this option");
+    }
+     
     }
   }
   render (){
