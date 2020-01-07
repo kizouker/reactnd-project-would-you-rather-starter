@@ -1,4 +1,4 @@
-import {GET_INITIAL_USERS} from '../actionTypes'
+import { GET_INITIAL_USERS, ACTION_UPDATE_USERS } from '../actionTypes'
 
 const users =  (state = {}, action) => {
     let returnvalue ;
@@ -8,9 +8,15 @@ const users =  (state = {}, action) => {
                     ...state,
                     ...state.users,
                     ...action.users, 
-                }
-             //   console.log("inside user reducer", state);
-              
+                }           
+                return returnvalue;
+                
+            case ACTION_UPDATE_USERS: 
+                returnvalue =  { 
+                    // ...state,
+                    // ...state.users,
+                    ...action.users, 
+                }           
                 return returnvalue;
 
             default :

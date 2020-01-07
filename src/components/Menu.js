@@ -5,27 +5,27 @@ import LeaderBoard from './LeaderBoard';
 import Statistics from './Statistics';
 import Post from './Post';
 import Login from './Login';
+import '../App.css';
 
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 class Menu extends React.Component{
   render (){
-    return(<div className="Menu">
-               <h2 className="component-title">Menu</h2>
-               <Router>
-        <div className="menu">
+    return(
+    <Router>
+
+    <div className="login">
+     
+    </div>
+        
+    <div className="menu">
      <table>
         <thead>
               <tr>
-                <th></th> 
+                <th> <Link to="/login"> | Login | </Link> </th> 
               </tr>
         </thead>
         <tbody>
-              <tr>
-                  <td>
-                    <Link to="/login">| Login |</Link> 
-                  </td>
-              </tr>
                 {console.log(this.props.authenticatedUser.authenticatedUser)}
                 {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
                 <tr>
@@ -41,18 +41,14 @@ class Menu extends React.Component{
                 </tr>}  
           </tbody>
       </table> 
-        
-            <hr/>
-         <Switch>  
-            <Route path="/login" component={Login} />    
-            <Route path="/statistics" component={Statistics} />
-            <Route path="/leaderboard" component={LeaderBoard} />
-            <Route path="/post" component={Post}/>
+        <Switch>  
+          <Route path="/login" component={Login} />    
+          <Route path="/statistics" component={Statistics} />
+          <Route path="/leaderboard" component={LeaderBoard} />
+          <Route path="/post" component={Post}/>
         </Switch>
-            
-          </div>
-  </Router>
-            </div>);
+      </div>
+    </Router>);
   }
  }
  

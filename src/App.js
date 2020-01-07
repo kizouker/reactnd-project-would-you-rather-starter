@@ -3,8 +3,6 @@ import './App.css';
 import List from './components/List';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
-import { handleInitialQuestionsData } from './actions/questions.js'
-import { handleInitialUserData } from './actions/users.js'
 import { handleInitialData } from './actions/shared.js'
 
 import Menu from './components/Menu.js'
@@ -19,11 +17,7 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    // this.props.dispatch(handleInitialQuestionsData());
-    // this.props.dispatch(handleInitialUserData());
-
     this.props.dispatch(handleInitialData());
-    
   }
 
   handleToggle = () => {
@@ -32,6 +26,8 @@ class App extends React.Component{
   }
 
   render (){
+    console.log("unanswererd", this.props.unansweredQuestions);
+    console.log("answererd", this.props.answeredQuestions);
     // console.log(this.props.questions)
     let users = this.props.users;
     if (!isEmpty(users)){
@@ -50,7 +46,7 @@ class App extends React.Component{
   
      <Menu></Menu>
           <div className="List">
-             <h2 className="component-title">List of Questions</h2>
+             <h3 className="component-title">List of Questions</h3>
              <div className="grid-container"></div>
              <div className="grid-item">
               <button id="switchState" name="switchState" onClick={this.handleToggle}>
@@ -58,12 +54,12 @@ class App extends React.Component{
               </button>
 
               {  unAnswered && (<div>
-                                    <h3> unAnswered </h3>            
+                                    <h4> unAnswered </h4>            
                                     <List questions={this.props.unAnsweredQuestions}> </List>
                                   </div>)
                 } 
                 { !unAnswered && (<div>
-                                    <h3> Answered </h3>
+                                    <h4> Answered </h4>
                                     <List questions={this.props.answeredQuestions}></List>
                                   </div>)
                 }
@@ -77,52 +73,53 @@ class App extends React.Component{
   );
   }
 }
-// {} descructering ...ecma6 - const {sd} = state
-// const mapStateToProps = ( state ) => ({
-//   questions: state.questions
-// })
-
 var filterUnansweredQuestions = (questions, users, user)  => {
-  // console.log("inside filterUnAnsweredQuestions")
-  var questionsArray = Object.values(questions);
-
-  let result, result2 = [];
-
+  
+  let answersForUserArray = [];
   let returnValue = [];
+  let questionsArray = [];
 
-  if (questionsArray !== undefined && users !== undefined){
-    result2 = answersForUser(users, user);
-  }
-
-  result = Object.keys(result2);
-  questionsArray.map(q => {
-    if (result.includes(q.id)){
-      returnValue.push(q);
-    }
-    return returnValue;
-  }
- )
+  if (!isEmpty(questions) && !isEmpty(users)){
+    answersForUserArray = Object.keys(answersForUser(users, user));
+    questionsArray = Object.values(questions);
+    questionsArray.map(q => {
+                            if (!answersForUserArray.includes(q.id)){
+                              returnValue.push(q);
+                            }
+                          //return returnValue;
+                        }
+                      )
   return returnValue;
+
+  } else {
+    return [];
+  }
 }
 
 var answersForUser = (users, user) => {
   let result = users[user].answers;
-
   return result;
 }
 
 var filterAnsweredQuestions = (questions, users, user )  => {
-  var questionsArray = Object.values(questions);
+  let questionsArray = [];
+  let answersForUserArray= [];
 
-  let result = [];
-    questionsArray.map( q => {
-                         let resultArray = Object.values(answersForUser(users, user));
-    if(!resultArray.includes(q)){
-      result.push(q);
-    }    
+  if (!isEmpty(questions) && !isEmpty(users)){
+      questionsArray = Object.values(questions);
+      answersForUserArray= Object.values(answersForUser(users, user));
+      let result = [];
+      questionsArray.map( q => {
+                            if(answersForUserArray.includes(q)){
+                              result.push(q);
+                            }    
+                          return result;
+      })
       return result;
-    })
-}
+      }else {
+        return [];
+      }
+  }
 
 function isEmptyObj(obj){
   return Object.keys(obj).length === 0 && obj.constructor === Object

@@ -71,7 +71,7 @@ class Login extends React.Component{
         const defaultOption = optionsDyn[0]; //TODO: fix default option
    
       return(<div className="Login">
-                 <h2 className="component-title">Login</h2>
+                 <div className="component-title"></div>
                  <Dropdown options={optionsDyn} 
                             onChange={this._onSelect} 
                             value={this.state.authenticatedUser} 

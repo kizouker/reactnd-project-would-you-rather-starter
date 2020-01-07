@@ -1,16 +1,15 @@
-import {postQuestion} from '../actions/questions.js';
+import { saveQuestion } from '../actions/questions.js';
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatQuestion } from '../_DATA.js'
 
 class Post extends React.Component{
   constructor(props){
     super(props);
     this.state = { 
         question : {
-          author : 'sarahedo',
-          optionOne : 'Option one',
-          optionTwo : 'Option Two'
+          author : '',
+          optionOne : '',
+          optionTwo : ''
         }
       }
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,36 +17,18 @@ class Post extends React.Component{
     }
 
   handleSubmit = (event) => {
-      // const {author, optionOne, optionTwo} = this.state.question;
-      //Something with this is wrong...
-
-    // console.log("handleSubmit ---");
     alert('An new question was posted');
-        
-    // // console.log("state")
-    // console.log(this.state)
-    // console.log("state")
-
-    // console.log(this.state.question.optionOne + " "  + this.state.question.optionTwo + " " + this.state.question.author);
-
-    // problem with args to formatQuestion ...where formatQuestion ({optionOneText, optionTwoText, author} )
-    let question = formatQuestion(this.state.question.optionOne, this.state.question.optionTwo, 
-    this.state.question.author);
-
-
-
-    // console.log ("New question");
-    // console.log (question);
-    // console.log ("New question");
-
-    console.log(this.state)
-    this.props.dispatch(postQuestion(question));
-
-     //console.log (this.props);
-     event.preventDefault();
+    console.log("handleSubmit", this.props.authenticatedUser);
+  let question = {  optionOne : this.state.question.optionOne,
+                      optionTwo : this.state.question.optionTwo,
+                      author : this.props.authenticatedUser
+                  };
+  this.props.dispatch(saveQuestion(question));
+    event.preventDefault();
   }
 
   handleInputChange(event) {
+   console.log("handleInputChange", this.props.authenticatedUser);
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -66,9 +47,7 @@ class Post extends React.Component{
   }
 
     render (){
-      // let  {optionOne, optionTwo} = this.state.question;
-      //formatQuestion
-      //handleInput => parent
+        //handleInput => parent
       //dispatcher function
       //reducer, samma sak?
       //sätt och hämta
@@ -77,45 +56,24 @@ class Post extends React.Component{
             <h2 className="component-title">Post a new question</h2>
             <h3>Would you rather:</h3>
             <div className="form">
-
                 <form onSubmit={this.handleSubmit}>
                   <input name="optionOne" type="text" placeholder="1" onChange={this.handleInputChange}>
                   </input>
-
                   <input name="optionTwo" type="text" placeholder="2" onChange={this.handleInputChange}>
                   </input>
-
-                  <br></br>
-                
-                  <input type="submit" value="submit"/>
-
-                  {/** 
-                   
-                  <textarea name="question1"  type="text" value={this.state.question.question1} rows="3" cols="100" placeholder="Question" 
-                      onChange={e=> this.handleInputChange(e)}>
-                  </textarea>
-                  <br></br>
-                  <textarea name="optionOne"  type="text"  value={this.state.question.optionOne} rows="3" cols="100" placeholder="optionOne" 
-                    onChange={e=> this.handleInputChange(e)}>
-                  </textarea>
-                  <br></br>
-                  <textarea name="optionTwo"  type="text"  value={this.state.question.optionTwo} rows="3" cols="100" placeholder="optionTwo" 
-                    onChange={e=> this.handleInputChange(e)}>
-                  </textarea>
                   <br></br>
                   <input type="submit" value="submit"/>
-
-                  */}
                 </form>
             </div>
           </div>);
       }
   }
 
- 
  let mapStateToProps = (state)  => {
    return {
-      state
+    users : state.users,
+    questions: state.questions,
+    authenticatedUser : state.authenticatedUser.authenticatedUser,
    }
  }
 

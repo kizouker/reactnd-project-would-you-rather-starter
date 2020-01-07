@@ -10,7 +10,8 @@ const questions =  (state = {}, action) => {
                     ...action.questions, 
                 }
                 return returnvalue;
-
+            
+                //same as in _DATA.js...
             case ACTION_POST_QUESTION: 
                  returnvalue =  { 
                     ...state,

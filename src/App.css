@@ -15,18 +15,23 @@
 
 .nav {
   padding: 30px;
-
   align-items: center;
   justify-content: center;
 }
 
 .menu {
  padding: 30px;
-
  align-items: center;
  justify-content: center;
 }
 
+.login {
+  padding: 5px;
+  color: black;
+  text-align: left;
+  align-items: right;
+  justify-content: right;
+}
 h2 {
   padding: 5px;
   color: black;

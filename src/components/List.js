@@ -13,8 +13,6 @@ constructor(props){
     option : '',
   }
 }
-
-
 //scope 2 -inside class 
   render (){
     //scope 3 -inside RE 
@@ -97,7 +95,6 @@ const mapStateToProps = ( state ) => {
    // answeredQuestions: answeredQuestions
    }
 }
-
 
 export default connect(mapStateToProps) (List);
 
