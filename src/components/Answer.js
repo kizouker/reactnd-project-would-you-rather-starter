@@ -6,6 +6,7 @@ class Answer extends React.Component{
   constructor(props){
     super(props);
     this.handleVote = this.handleVote.bind(this);
+    this.returnNoUsers = this.returnNoUsers.bind(this);
     this.state = {
       optionOne : 'true',
     }
@@ -20,19 +21,22 @@ class Answer extends React.Component{
 
   }
 
-handleVote = ( e) => {
+returnNoUsers = () => {
+  let usersArray = Object.values(this.props.users);
+  if (!isEmpty(usersArray)){
+    return usersArray.length;
+  }else {
+    return 0;
+  }
+}  
+
+handleVote = ( e ) => {
   let user = this.props.authenticatedUser;
   let questions2 = this.props.questions;
-
- 
-  // const {user, questions2} = this.props;
   let option = e.target.name;
-
   let optionOneVotes, optionTwoVotes;
 
-
-  // let oppositOption;
-
+console.log("# of users", this.returnNoUsers());
 
   // what option is chosen?
   if (option === "optionOne"){
