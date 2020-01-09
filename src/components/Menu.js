@@ -5,9 +5,10 @@ import LeaderBoard from './LeaderBoard';
 import Statistics from './Statistics';
 import Post from './Post';
 import Login from './Login';
-import '../App.css';
 
+import '../App.css';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+import Categories from './Categories';
 
 class Menu extends React.Component{
   render (){
@@ -30,6 +31,9 @@ class Menu extends React.Component{
                 {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
                 <tr>
                   <td>
+                    <Link to="/">| HomePage |</Link> 
+                  </td>
+                  <td>
                     <Link to="/leaderboard">| LeaderBoard |</Link> 
                   </td>
                   <td>
@@ -42,16 +46,25 @@ class Menu extends React.Component{
           </tbody>
       </table> 
         <Switch>  
+          <Route exact path="/" component={Categories} />   
           <Route path="/login" component={Login} />    
           <Route path="/statistics" component={Statistics} />
           <Route path="/leaderboard" component={LeaderBoard} />
           <Route path="/post" component={Post}/>
+          <Route component={NoMatch} />
         </Switch>
       </div>
     </Router>);
   }
  }
  
+ const NoMatch = ({ location }) => (
+  <div>
+    <h3>404</h3>
+
+    <h3> cannot access<code>{location.pathname}</code> while user not logged in</h3>
+  </div>)
+
  const mapStateToProps = ( state ) => {
 //  console.log("inside map state to props App, state: ", state)
   return {

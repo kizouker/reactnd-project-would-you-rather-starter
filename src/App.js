@@ -4,75 +4,27 @@ import List from './components/List';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { handleInitialData } from './actions/shared.js'
-
 import Menu from './components/Menu.js'
+import Categories from './components/Categories.js'
 
 class App extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      unAnswered : true
-    };
-    this.handleToggle = this.handleToggle.bind(this);
   }
 
   componentWillMount(){
     this.props.dispatch(handleInitialData());
   }
 
-  handleToggle = () => {
-    this.setState( state => ({  unAnswered : !state.unAnswered,
-    }));
-  }
-
-  render (){
-    console.log("unanswererd", this.props.unansweredQuestions);
-    console.log("answererd", this.props.answeredQuestions);
-    // console.log(this.props.questions)
-    let users = this.props.users;
-    if (!isEmpty(users)){
-      // console.log("user is not empty");
-      console.log(users);
-    }else{
-      // console.log("user is empty");
-    }
-    
-    const { unAnswered } = this.state;
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>Would you rather...</p>
-      </header>
-  
-     <Menu></Menu>
-          <div className="List">
-             <h3 className="component-title">List of Questions</h3>
-             <div className="grid-container"></div>
-             <div className="grid-item">
-              <button id="switchState" name="switchState" onClick={this.handleToggle}>
-                Toggle
-              </button>
-
-              {  unAnswered && (<div>
-                                    <h4> unAnswered </h4>            
-                                    <List questions={this.props.unAnsweredQuestions}> </List>
-                                  </div>)
-                } 
-                { !unAnswered && (<div>
-                                    <h4> Answered </h4>
-                                    <List questions={this.props.answeredQuestions}></List>
-                                  </div>)
-                }
-              {//** change text above "unAnswered" >-> "answered"  do a filter
-              <div className="unAnswered">
-                </div>
-              }
-            </div>
-        </div>
-    </div>
-  );
-  }
+  render(){
+    return(
+    <div>
+        <Menu></Menu>
+       
+      </div>);
+    } 
 }
+
 var filterUnansweredQuestions = (questions, users, user)  => {
   
   let answersForUserArray = [];

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import Categories from './Categories';
 // import { useParams } from "react-router";
 import Answer from './Answer';
 
@@ -82,13 +82,12 @@ constructor(props){
                     )
                   }
                 </table>
-
-
-                <Switch>  
-                    <Route path='/questions/:id' component={Answer}></Route>
+                <Switch>   
+                    <Route exact path='/questions/:id' component={Answer}></Route>
                 </Switch>
 
-
+    
+)
                 {/* <Switch>  
                     <Route path=':/id' children={<Child />}></Route>
                 </Switch> */}
@@ -101,6 +100,8 @@ constructor(props){
             }
           }
         }         
+
+
 
 // const Child = (() => { 
 
@@ -116,19 +117,19 @@ constructor(props){
 //   }
 //  )
 
-const Child = ((props) => { 
+// const Child = ((props) => { 
 
-  let { id } = props.match.params;
+//   let { id } = props.match.params;
 
-  console.log( id );
+//   console.log( id );
 
-  return (
-    <div>
-        <h3>{id}</h3>
-    </div>
-   );
-  }
- )
+//   return (
+//     <div>
+//         <h3>{id}</h3>
+//     </div>
+//    );
+//   }
+//  )
 
 
 const mapStateToProps = ( state ) => {
