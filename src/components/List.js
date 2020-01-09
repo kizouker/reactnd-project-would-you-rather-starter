@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+// import { useParams } from "react-router";
 import Answer from './Answer';
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+
+import { Route, Link, BrowserRouter as Router, Switch } 
+  from 'react-router-dom'
 
 class List extends React.Component{
 // https://stackoverflow.com/questions/50735735/order-of-component-life-cycle-with-react-redux-connect-and-redux-data
@@ -57,8 +61,11 @@ constructor(props){
                                 </td>
                                  
                                   <td>
+
+                                    {/* <Link to='/answers/6'> Answer poll
+                                    </Link> */}
                                     <Link to={{
-                                          pathname : '/answer',   
+                                          pathname : '/questions/:' + el.id,   
                                           state: {
                                                 question : el,
                                               }
@@ -75,9 +82,18 @@ constructor(props){
                     )
                   }
                 </table>
-                <Switch>
-                    <Route path="/answer" component={Answer}></Route>
+
+
+                <Switch>  
+                    <Route path='/questions/:id' component={Answer}></Route>
                 </Switch>
+
+
+                {/* <Switch>  
+                    <Route path=':/id' children={<Child />}></Route>
+                </Switch> */}
+
+                
             </div>
             </Router>);
               } else{
@@ -85,6 +101,36 @@ constructor(props){
             }
           }
         }         
+
+// const Child = (() => { 
+
+//   let { id } = useParams();
+
+//   console.log( id );
+
+//   return (
+//     <div>
+//         <h3>{id}</h3>
+//     </div>
+//    );
+//   }
+//  )
+
+const Child = ((props) => { 
+
+  let { id } = props.match.params;
+
+  console.log( id );
+
+  return (
+    <div>
+        <h3>{id}</h3>
+    </div>
+   );
+  }
+ )
+
+
 const mapStateToProps = ( state ) => {
   //  console.log("inside map state to props, state: ", state)
    return {
