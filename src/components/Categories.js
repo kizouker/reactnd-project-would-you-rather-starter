@@ -11,7 +11,8 @@ class Categories extends React.Component{
       this.handleToggle = this.handleToggle.bind(this);
     }
     handleToggle = () => {
-        this.setState( state => ({  unAnswered : !state.unAnswered,
+        this.setState( state => 
+            ({  unAnswered : !state.unAnswered,
         }));
     }
 
@@ -31,26 +32,38 @@ render (){
                             <button id="switchState" name="switchState" onClick={this.handleToggle}>
                                 Toggle
                             </button>
-                            <List></List>
+                            {/* <List></List> */}
 
-        {/* {  unAnswered && (<div>
-                            <h4> unAnswered </h4>            
-                            <List questions={this.props.unAnsweredQuestions}> </List>
-                            </div>)
-        } 
-        { !unAnswered && (<div>
-                            <h4> Answered </h4>
-                            <List questions={this.props.answeredQuestions}></List>
-                            </div>)
-        } */}
-                        </div>
+                                {  unAnswered && (<div>
+                                                    <h4> unAnswered </h4>            
+                                                    {/* <List questions={this.props.unAnsweredQuestions}> </List> */}
+                                                    <List answered={unAnswered}> </List> 
+                                                    </div>)
+                                } 
+                                { !unAnswered && (<div>
+                                                    <h4> Answered </h4>
+                                                    <List answered={unAnswered}></List>
+                                                    </div>)
+                                }
+                                                </div>
                 </div>
             </div>)
         }
     }
 
-export default Categories;
+    
 
-
+const mapStateToProps = ( state ) => {
+    //  console.log("inside map state to props, state: ", state)
+     return {
+          questions : state.questions,
+          unAnsweredQuestions: state.unansweredQuestions,
+          answeredQuestions: state.answeredQuestions,
+          authenticatedUser : state.authenticatedUser,
+          users : state.users,
+     }
+  }
+  
+  export default connect(mapStateToProps) (Categories);
 
              

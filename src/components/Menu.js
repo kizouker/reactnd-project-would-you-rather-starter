@@ -11,6 +11,28 @@ import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Categories from './Categories';
 
 class Menu extends React.Component{
+  constructor(props){
+    super(props);
+    this.userLoggedIn = this.userLoggedIn.bind(this);
+  }
+
+  userLoggedIn = () => {
+    let user = this.props.authenticatedUser.authenticatedUser;
+    let msg_1 = "No user"; 
+    let msg_2 = " is currently logged in";
+    let msg  = "";
+
+    if(!isEmpty(user)){
+      msg = user + msg_2;
+    }else {
+      msg = msg_1 + msg_2;
+    }
+    return (<div>
+      <h5>
+        {msg}
+      </h5>
+    </div>)
+  }
   render (){
     return(
     <Router>
@@ -27,9 +49,14 @@ class Menu extends React.Component{
               </tr>
         </thead>
         <tbody>
+
+         
                 {console.log(this.props.authenticatedUser.authenticatedUser)}
                 {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
                 <tr>
+                  <td>
+                  {this.userLoggedIn()}
+                  </td>
                   <td>
                     <Link to="/">| HomePage |</Link> 
                   </td>
@@ -61,7 +88,6 @@ class Menu extends React.Component{
  const NoMatch = ({ location }) => (
   <div>
     <h3>404</h3>
-
     <h3> cannot access<code>{location.pathname}</code> while user not logged in</h3>
   </div>)
 

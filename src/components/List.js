@@ -19,19 +19,26 @@ constructor(props){
 }
 //scope 2 -inside class 
   render (){
+    const { answered } = this.props;
+    let questionsObj = this.props.questions;
+    
+      if(!answered){
+          questionsObj =this.props.unAnsweredQuestions; 
+      } else {
+        questionsObj =this.props.answeredQuestions;
+      }
     //scope 3 -inside RE 
     console.log(this.props)
     let users = this.props.users;
     console.log(users);
-
-    let questionsObj = this.props.questions;
-    let questionsArray=[];
+    
+    let questionsArray = [];
 
     if (questionsObj !== undefined && questionsObj !== null) {
       questionsArray = Object.values(questionsObj);
     }
-    if (!isEmpty(users) && questionsArray !== null && questionsArray !== undefined  && questionsArray.length > 0
-      ) { 
+    if (!isEmpty(users) && questionsArray !== null && 
+          questionsArray !== undefined  && questionsArray.length > 0) { 
       return(
         <Router>
             <div>
@@ -46,7 +53,8 @@ constructor(props){
                           <tbody key={el.id}>
                               <tr>
                               <td>... {el.author} ...
-                                <img src={window.location.origin + users[el.author].avatarURL} width="10%" height="10%"/>
+                                <img src={window.location.origin + users[el.author].avatarURL} 
+                                  width="10%" height="10%"/>
                                 wonders if you, would you rather...
                                 </td>
                                 <td>{el.optionOne.text} 
@@ -56,6 +64,7 @@ constructor(props){
                                 <td>   ...   or   ...   </td>
                                 <td>{el.optionTwo.text}  
                                  
+
                                     Votes: {el.optionTwo.votes.length} 
                                    
                                 </td>
@@ -95,53 +104,47 @@ constructor(props){
                 
             </div>
             </Router>);
-              } else{
-                return null;
-            }
-          }
-        }         
-
-
-
-// const Child = (() => { 
-
-//   let { id } = useParams();
-
-//   console.log( id );
-
-//   return (
-//     <div>
-//         <h3>{id}</h3>
-//     </div>
-//    );
-//   }
-//  )
-
-// const Child = ((props) => { 
-
-//   let { id } = props.match.params;
-
-//   console.log( id );
-
-//   return (
-//     <div>
-//         <h3>{id}</h3>
-//     </div>
-//    );
-//   }
-//  )
-
+        } else{
+          return null;
+      }
+    }
+}         
 
 const mapStateToProps = ( state ) => {
-  //  console.log("inside map state to props, state: ", state)
-   return {
-    questions : state.questions,
-    authenticatedUser : state.authenticatedUser,
-    users : state.users,
-    //unAnsweredQuestions: unansweredQuestions,
-   // answeredQuestions: answeredQuestions
+  console.log("inside map state to props App, state: ", state)
+    //inside mapStateToProps
+               let unansweredQuestions = []; // null, [] or {}, depending on your approaches
+               let answeredQuestions = [];
+ 
+                console.log("unans", unansweredQuestions);
+                console.log("ans", answeredQuestions);
+
+               if (state && !isEmpty(state.questions) && !isEmpty(state.users)
+                   &&  !isEmpty(state.authenticatedUser.authenticatedUser)) {
+                     console.log("State questions are filled: ", state.questions, state.users, state.authenticatedUser.authenticatedUser);
+                     unansweredQuestions = filterUnansweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);
+                     answeredQuestions = filterAnsweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);                 
+                    
+                   //saometin is over-running the state...too it's not 
+                   // logged by the middleware logger
+                   return {
+                           users : state.users,
+                           questions: state.questions,
+                           unAnsweredQuestions: unansweredQuestions,
+                           answeredQuestions: answeredQuestions,
+                           authenticatedUser : state.authenticatedUser.authenticatedUser
+                         }     
+                    } else {
+
+                    return {
+                      users : state.users,
+                      questions: state.questions,
+                      unAnsweredQuestions: unansweredQuestions,
+                      answeredQuestions: answeredQuestions,
+                      authenticatedUser : state.authenticatedUser.authenticatedUser
+                    }       
+                   }
    }
-}
 
 export default connect(mapStateToProps) (List);
 
@@ -149,3 +152,53 @@ function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
 
+const filterUnansweredQuestions = (questions, users, user)  => {
+  let answersForUserArray = [];
+  let returnValue = [];
+  let questionsArray = [];
+
+  if (!isEmpty(questions) && !isEmpty(users)){
+    answersForUserArray = Object.keys(answersForUser(users, user));
+    questionsArray = Object.values(questions);
+    questionsArray.map(q => {
+                    if (!(isInArray(q.id, answersForUserArray))){
+                            // if (!(answersForUserArray.includes(q.id))){
+                              returnValue.push(q);
+                            }
+                          //return returnValue;
+                        }
+                          )
+      return returnValue;
+          } else {
+              return [];
+            }
+}
+
+const filterAnsweredQuestions = (questions, users, user )  => {
+  let questionsArray = [];
+  let answersForUserArray= [];
+
+  if (!isEmpty(questions) && !isEmpty(users)){
+      questionsArray = Object.values(questions);
+      answersForUserArray= Object.keys(answersForUser(users, user));
+      let result = [];
+      questionsArray.map( q => {
+                            if(isInArray(q.id, answersForUserArray)){
+                              result.push(q);
+                            }    
+                          return result;
+      })
+        return result;
+      }else {
+        return [];
+      }
+}
+
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+    
+var answersForUser = (users, user) => {
+  let result = users[user].answers;
+  return result;
+}
