@@ -5,6 +5,7 @@ import LeaderBoard from './LeaderBoard';
 import Statistics from './Statistics';
 import Post from './Post';
 import Login from './Login';
+import Answer from './Answer';
 
 import '../App.css';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
@@ -34,13 +35,7 @@ class Menu extends React.Component{
     </div>)
   }
   render (){
-    return(
-    <Router>
-
-    <div className="login">
-     
-    </div>
-        
+    return(<Router>        
     <div className="menu">
      <table>
         <thead>
@@ -49,8 +44,6 @@ class Menu extends React.Component{
               </tr>
         </thead>
         <tbody>
-
-         
                 {console.log(this.props.authenticatedUser.authenticatedUser)}
                 {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
                 <tr>
@@ -78,7 +71,8 @@ class Menu extends React.Component{
           <Route path="/statistics" component={Statistics} />
           <Route path="/leaderboard" component={LeaderBoard} />
           <Route path="/post" component={Post}/>
-          <Route component={NoMatch} />
+          <Route exact path='/questions/:id' component={Answer}/>
+          <Route component={ NoMatch } />
         </Switch>
       </div>
     </Router>);

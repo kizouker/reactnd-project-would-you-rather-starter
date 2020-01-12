@@ -18,7 +18,8 @@ class App extends React.Component{
     return(
     <div>
         <Menu></Menu>
-      </div>);
+        {/* route to <HomePage>*/}
+    </div>)
     } 
 }
 
@@ -38,8 +39,6 @@ const mapStateToProps = ( state ) => {
     //  console.log("inside map state to props, state: ", state)
      return {
           questions : state.questions,
-          unAnsweredQuestions: state.unansweredQuestions,
-          answeredQuestions: state.answeredQuestions,
           authenticatedUser : state.authenticatedUser,
           users : state.users,
      }

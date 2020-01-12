@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Categories from './Categories';
-// import { useParams } from "react-router";
 import Answer from './Answer';
-
 import { Route, Link, BrowserRouter as Router, Switch } 
   from 'react-router-dom'
 
@@ -22,16 +20,13 @@ constructor(props){
     const { answered } = this.props;
     let questionsObj = this.props.questions;
     
-      if(!answered){
-          questionsObj =this.props.unAnsweredQuestions; 
-      } else {
-        questionsObj =this.props.answeredQuestions;
-      }
+    if(!answered){
+        questionsObj =this.props.unAnsweredQuestions; 
+    } else {
+      questionsObj =this.props.answeredQuestions;
+    }
     //scope 3 -inside RE 
-    console.log(this.props)
     let users = this.props.users;
-    console.log(users);
-    
     let questionsArray = [];
 
     if (questionsObj !== undefined && questionsObj !== null) {
@@ -39,9 +34,7 @@ constructor(props){
     }
     if (!isEmpty(users) && questionsArray !== null && 
           questionsArray !== undefined  && questionsArray.length > 0) { 
-      return(
-        <Router>
-            <div>
+      return(<div>
               <table>
                 <thead> 
                   <tr>
@@ -49,61 +42,36 @@ constructor(props){
                   </tr>
                 </thead>
                   {questionsArray.map ((el) => {
-                        return(
-                          <tbody key={el.id}>
-                              <tr>
-                              <td>... {el.author} ...
+                    return(<tbody key={el.id}>
+                            <tr>
+                             <td>... {el.author} ...
                                 <img src={window.location.origin + users[el.author].avatarURL} 
                                   width="10%" height="10%"/>
                                 wonders if you, would you rather...
-                                </td>
-                                <td>{el.optionOne.text} 
-                                 
-                                 Votes: {el.optionOne.votes.length} 
-                                 </td>
-                                <td>   ...   or   ...   </td>
-                                <td>{el.optionTwo.text}  
-                                 
-
-                                    Votes: {el.optionTwo.votes.length} 
-                                   
-                                </td>
-                                 
-                                  <td>
-
-                                    {/* <Link to='/answers/6'> Answer poll
-                                    </Link> */}
-                                    <Link to={{
-                                          pathname : '/questions/:' + el.id,   
-                                          state: {
-                                                question : el,
-                                              }
-                                          }}>| Answer Poll |
-                                    </Link>
-                                  </td>        
-                              </tr>
-                                <tr>                         
-                                <td></td>
-                                </tr>     
-                            </tbody>
-                          )
+                              </td>
+                              <td>{el.optionOne.text}    
+                                  Votes: {el.optionOne.votes.length} 
+                              </td>
+                              <td>   ...   or   ...   </td>
+                              <td>{el.optionTwo.text}  
+                              Votes: {el.optionTwo.votes.length}
+                              </td>          
+                              <td>
+                                <Link to={{
+                                  pathname : '/questions/' + el.id,   
+                                  state: {
+                                    question : el,
+                                  }
+                                  }}>| Answer Poll |
+                                </Link>
+                              </td>        
+                            </tr>
+                          </tbody>)
                         }
                     )
                   }
                 </table>
-                <Switch>   
-                    <Route exact path='/questions/:id' component={Answer}></Route>
-                </Switch>
-
-    
-)
-                {/* <Switch>  
-                    <Route path=':/id' children={<Child />}></Route>
-                </Switch> */}
-
-                
-            </div>
-            </Router>);
+            </div>)
         } else{
           return null;
       }
@@ -112,39 +80,37 @@ constructor(props){
 
 const mapStateToProps = ( state ) => {
   console.log("inside map state to props App, state: ", state)
-    //inside mapStateToProps
-               let unansweredQuestions = []; // null, [] or {}, depending on your approaches
-               let answeredQuestions = [];
- 
-                console.log("unans", unansweredQuestions);
-                console.log("ans", answeredQuestions);
+  //inside mapStateToProps
+  let unansweredQuestions = []; 
+  let answeredQuestions = [];
 
-               if (state && !isEmpty(state.questions) && !isEmpty(state.users)
-                   &&  !isEmpty(state.authenticatedUser.authenticatedUser)) {
-                     console.log("State questions are filled: ", state.questions, state.users, state.authenticatedUser.authenticatedUser);
-                     unansweredQuestions = filterUnansweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);
-                     answeredQuestions = filterAnsweredQuestions(state.questions, state.users, state.authenticatedUser.authenticatedUser);                 
-                    
-                   //saometin is over-running the state...too it's not 
-                   // logged by the middleware logger
-                   return {
-                           users : state.users,
-                           questions: state.questions,
-                           unAnsweredQuestions: unansweredQuestions,
-                           answeredQuestions: answeredQuestions,
-                           authenticatedUser : state.authenticatedUser.authenticatedUser
-                         }     
-                    } else {
+  let qs = state.questions;
+  let u = state.users;
+  let au = state.authenticatedUser.authenticatedUser;
 
-                    return {
-                      users : state.users,
-                      questions: state.questions,
-                      unAnsweredQuestions: unansweredQuestions,
-                      answeredQuestions: answeredQuestions,
-                      authenticatedUser : state.authenticatedUser.authenticatedUser
-                    }       
-                   }
-   }
+  console.log("unans", unansweredQuestions);
+  console.log("ans", answeredQuestions);
+
+  if (state && !isEmpty(qs) && !isEmpty(u) && !isEmpty(au)){
+      unansweredQuestions = filterUnansweredQuestions(qs, u, au);
+      answeredQuestions = filterAnsweredQuestions(qs, u, au);                 
+    return {
+              users : u,
+              questions: qs,
+              unAnsweredQuestions: unansweredQuestions,
+              answeredQuestions: answeredQuestions,
+              authenticatedUser : au
+            }     
+  } else {
+    return {
+      users : u,
+      questions: qs,
+      unAnsweredQuestions: unansweredQuestions,
+      answeredQuestions: answeredQuestions,
+      authenticatedUser : au
+    }       
+  }
+}
 
 export default connect(mapStateToProps) (List);
 
@@ -162,22 +128,22 @@ const filterUnansweredQuestions = (questions, users, user)  => {
     questionsArray = Object.values(questions);
     questionsArray.map(q => {
                     if (!(isInArray(q.id, answersForUserArray))){
-                            // if (!(answersForUserArray.includes(q.id))){
+
                               returnValue.push(q);
                             }
-                          //return returnValue;
+                          return returnValue;
                         }
-                          )
+                      )
       return returnValue;
-          } else {
-              return [];
-            }
+    } 
+    else{
+        return [];
+    }
 }
 
 const filterAnsweredQuestions = (questions, users, user )  => {
   let questionsArray = [];
   let answersForUserArray= [];
-
   if (!isEmpty(questions) && !isEmpty(users)){
       questionsArray = Object.values(questions);
       answersForUserArray= Object.keys(answersForUser(users, user));
@@ -189,10 +155,11 @@ const filterAnsweredQuestions = (questions, users, user )  => {
                           return result;
       })
         return result;
-      }else {
-        return [];
       }
-}
+      else {
+        return [];
+    }
+  }
 
 function isInArray(value, array) {
   return array.indexOf(value) > -1;

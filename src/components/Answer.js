@@ -16,15 +16,7 @@ class Answer extends React.Component{
   }
   componentDidMount() {
     const { question } = this.props.location.state; 
-
-    // let user = this.props.authenticatedUser;
-    // let questions2 = this.props.questions;
-
-      //
-
   }
-
-
   countNoVotesPerQuestion = () => {
     let questionsArr = Object.values(this.props.questions);
     let questionKeys = Object.keys(this.props.questions);

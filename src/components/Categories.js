@@ -32,11 +32,8 @@ render (){
                             <button id="switchState" name="switchState" onClick={this.handleToggle}>
                                 Toggle
                             </button>
-                            {/* <List></List> */}
-
                                 {  unAnswered && (<div>
-                                                    <h4> unAnswered </h4>            
-                                                    {/* <List questions={this.props.unAnsweredQuestions}> </List> */}
+                                                    <h4> unAnswered </h4>          
                                                     <List answered={unAnswered}> </List> 
                                                     </div>)
                                 } 
@@ -50,8 +47,6 @@ render (){
             </div>)
         }
     }
-
-    
 
 const mapStateToProps = ( state ) => {
     //  console.log("inside map state to props, state: ", state)
