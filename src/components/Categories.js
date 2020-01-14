@@ -11,14 +11,12 @@ class Categories extends React.Component{
       this.handleToggle = this.handleToggle.bind(this);
     }
     handleToggle = () => {
-        this.setState( state => 
-            ({  unAnswered : !state.unAnswered,
+        this.setState( currentState => 
+            ({  unAnswered : !currentState.unAnswered,
         }));
     }
 
 render (){
-        // console.log(this.props.questions)
-        let users = this.props.users;
         const { unAnswered } = this.state;
 
         return (
@@ -34,12 +32,12 @@ render (){
                             </button>
                                 {  unAnswered && (<div>
                                                     <h4> unAnswered </h4>          
-                                                    <List answered={unAnswered}> </List> 
+                                                    <List unanswered={unAnswered}> </List> 
                                                     </div>)
                                 } 
                                 { !unAnswered && (<div>
                                                     <h4> Answered </h4>
-                                                    <List answered={unAnswered}></List>
+                                                    <List unanswered={unAnswered}></List>
                                                     </div>)
                                 }
                                                 </div>
@@ -51,11 +49,6 @@ render (){
 const mapStateToProps = ( state ) => {
     //  console.log("inside map state to props, state: ", state)
      return {
-          questions : state.questions,
-          unAnsweredQuestions: state.unansweredQuestions,
-          answeredQuestions: state.answeredQuestions,
-          authenticatedUser : state.authenticatedUser,
-          users : state.users,
      }
   }
   

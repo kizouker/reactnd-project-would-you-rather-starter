@@ -17,23 +17,26 @@ constructor(props){
 }
 //scope 2 -inside class 
   render (){
-    const { answered } = this.props;
+    const { unanswered } = this.props;
     let questionsObj = this.props.questions;
     
-    if(!answered){
-        questionsObj =this.props.unAnsweredQuestions; 
+    if(!unanswered){
+        questionsObj =this.props.answeredQuestions;
     } else {
-      questionsObj =this.props.answeredQuestions;
+        questionsObj =this.props.unAnsweredQuestions; 
     }
+
+    console.log("Answered? :" + this.props.answered);
+    console.log("questionsObj", questionsObj);
+
     //scope 3 -inside RE 
     let users = this.props.users;
     let questionsArray = [];
 
-    if (questionsObj !== undefined && questionsObj !== null) {
+    if (!(isEmpty(questionsObj))) {
       questionsArray = Object.values(questionsObj);
     }
-    if (!isEmpty(users) && questionsArray !== null && 
-          questionsArray !== undefined  && questionsArray.length > 0) { 
+    if (!isEmpty(users) && !(isEmpty(questionsArray))) { 
       return(<div>
               <table>
                 <thead> 
@@ -125,15 +128,18 @@ const filterUnansweredQuestions = (questions, users, user)  => {
 
   if (!isEmpty(questions) && !isEmpty(users)){
     answersForUserArray = Object.keys(answersForUser(users, user));
+    // console.log("filterUnansweredQuestions, answersForUserArray ", answersForUserArray);
+
     questionsArray = Object.values(questions);
     questionsArray.map(q => {
                     if (!(isInArray(q.id, answersForUserArray))){
-
+                              console.log("qid is not in the answered column", q.id)
                               returnValue.push(q);
                             }
                           return returnValue;
                         }
                       )
+      console.log ("filterUnansweredQuestions, result", returnValue);
       return returnValue;
     } 
     else{
@@ -147,13 +153,18 @@ const filterAnsweredQuestions = (questions, users, user )  => {
   if (!isEmpty(questions) && !isEmpty(users)){
       questionsArray = Object.values(questions);
       answersForUserArray= Object.keys(answersForUser(users, user));
+      // console.log("filterUnansweredQuestions, answersForUserArray ", answersForUserArray);
+
       let result = [];
       questionsArray.map( q => {
                             if(isInArray(q.id, answersForUserArray)){
+                              console.log("qid is in the answered column", q.id)
+
                               result.push(q);
                             }    
                           return result;
       })
+        console.log ("filterAnsweredQuestions, result", result);
         return result;
       }
       else {
@@ -162,7 +173,11 @@ const filterAnsweredQuestions = (questions, users, user )  => {
   }
 
 function isInArray(value, array) {
-  return array.indexOf(value) > -1;
+  console.log("el has index: ", array.indexOf(value));
+
+  let result = array.indexOf(value)> -1;
+  console.log("isinarray result: ", result);
+  return result;
 }
     
 var answersForUser = (users, user) => {
