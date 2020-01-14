@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateQuestion } from '../actions/questions'
+import { saveQuestionAnswer } from '../actions/shared'
 
 class Answer extends React.Component{
   constructor(props){
@@ -26,24 +26,20 @@ class Answer extends React.Component{
                         // already exists, we can now assume that a user
                         // only exists once in the array
 
-                  if(!isEmpty(questionsArr[key])){
-                   let optionOneVotes = questionsArr[key]['optionOne'].votes.length;
-                   let optionTwoVotes = questionsArr[key]['optionTwo'].votes.length;
-                    countArray[key] = {
-                                              optionOne : optionOneVotes, 
-                                              optionTwo : optionTwoVotes
-                                              };
-                                            
-                  }else {
-                    countArray[key] = {
-                      optionOne : 0, 
-                      optionTwo : 0
-                      }}
-
-                      return countArray;
-
-                  }
-
+      if(!isEmpty(questionsArr[key])){
+        let optionOneVotes = questionsArr[key]['optionOne'].votes.length;
+        let optionTwoVotes = questionsArr[key]['optionTwo'].votes.length;
+        countArray[key] = {
+          optionOne : optionOneVotes, 
+          optionTwo : optionTwoVotes
+          };  
+        }else {
+          countArray[key] = {
+            optionOne : 0, 
+            optionTwo : 0
+          }}
+        return countArray;
+      }
     )
     return countArray;
   }
@@ -51,17 +47,15 @@ class Answer extends React.Component{
 percentagePerQuestion = () => {
   let noOfUsers = this.returnNoUsers();
   let countArray = this.countNoVotesPerQuestion();
-
   let percentagePerQuestArr = [];
 
   countArray.map( element => {
-      percentagePerQuestArr[element.id] = {optionOne : (element.optionOne/noOfUsers),
-                                            optionTwo : (element.optionTwo/noOfUsers) };
-  
+      percentagePerQuestArr[element.id] = {
+        optionOne : (element.optionOne/noOfUsers),
+        optionTwo : (element.optionTwo/noOfUsers) };
       return percentagePerQuestArr;
-                                          })
+  })
 return percentagePerQuestArr;
-
 }
 returnNoUsers = () => {
   let usersArray = Object.values(this.props.users);
@@ -72,82 +66,89 @@ returnNoUsers = () => {
   }
 }  
 
+ // four cases
+    /** if user already exists in A , but clicked on b, then add user to B ( and remove from A)
+    if user already exists in B, but clicked on am then add user to A (and remove from B)
+
+    if user already exists in A, but clicked on a, then do nothing
+    if user already exists in B, but clicked on b, then do nothing
+    */
 handleVote = ( e ) => {
-  let user = this.props.authenticatedUser;
-  let questions2 = this.props.questions;
-  let option = e.target.name;
-  let optionOneVotes, optionTwoVotes;
+      let authUser = this.props.authenticatedUser;
+      let users = this.props.users;
+      let questions = this.props.questions;
+      let option = e.target.name;
+      let optionOneVotes, optionTwoVotes;
+      console.log("# of users", this.returnNoUsers());
+      // what option is chosen?
+      if (option === "optionOne"){
+        // oppositOption = "optionTwo";
+        this.setState({optionOne : true});
+      } else{
+        // oppositOption ="optionOne"
+        this.setState({optionOne : false});
+      }
+      // get the id of the question
+      let id = e.target.value;
+      // let user = this.props.authenticatedUser;
+      // let questions = this.props.questions;
+      console.log("user in handleVote", authUser);
+      console.log("question in handleVote", questions);
+      console.log("option in handleVote", option);
 
-console.log("# of users", this.returnNoUsers());
+      if (!isEmpty(id) && !isEmpty(option) && !isEmpty(authUser)) {
+        optionOneVotes = questions[id]['optionOne'].votes;
+        optionTwoVotes = questions[id]['optionTwo'].votes;
+        
 
-  // what option is chosen?
-  if (option === "optionOne"){
-    // oppositOption = "optionTwo";
-    this.setState({optionOne : true});
-  } else{
-    // oppositOption ="optionOne"
-    this.setState({optionOne : false});
-  }
+        let question = questions[id];
+        // let answers = users[authUser].answers;
+        // the user voted for one of the options
 
-  // get the id of the question
-  let id = e.target.value;
-  // let user = this.props.authenticatedUser;
-  // let questions = this.props.questions;
+        if (!(optionOneVotes.includes(authUser)) && !(optionTwoVotes.includes(authUser))){
+          let optionVotes = questions[id][option].votes;
 
-  console.log("user in handleVote", user);
-  console.log("question in handleVote", questions2);
-  
-  if (!isEmpty(id) && !isEmpty(option) && !isEmpty(user)) {
+          optionVotes.push(authUser);
+          question[option].votes = optionVotes;
 
-    optionOneVotes = questions2[id]['optionOne'].votes;
-    optionTwoVotes = questions2[id]['optionTwo'].votes;
+          let answer = option;
+          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
+        }
 
-    let question = questions2[id];
-    // let _option = question[option];
-    // let _v = _option.votes;
+        if ((optionOneVotes.includes(authUser)) && !(optionTwoVotes.includes(authUser)) 
+              && option === "optionTwo"){
+          optionOneVotes.pop(authUser);
+          optionTwoVotes.push(authUser);
+          
+          question["optionOne"].votes = optionOneVotes;
+          question["optionTwo"].votes = optionTwoVotes;
 
-    // let _oppositOption = question[oppositOption];
-    // let _v_o = _oppositOption.votes;
+          // this.answers.pop(id);
+          // answers.push({ id : "optionTwo" });
 
+          let answer = "optionTwo";
 
-    //   if (!(_v.includes(user)) && !(_v_o.includes(user))){
-// four cases
-/** if user already exists in A , but clicked on b, then add user to B ( and remove from A)
-if user already exists in B, but clicked on am then add user to A (and remove from B)
+          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
+        } else if(optionTwoVotes.includes(authUser) && !(optionOneVotes.includes(authUser)) 
+            && option === "optionOne"){
+          optionOneVotes.push(authUser);
+          optionTwoVotes.pop(authUser);
 
-if user already exists in A, but clicked on a, then do nothing
-if user already exists in B, but clicked on b, then do nothing
- */
-    // the user voted for one of the options
-    if ((optionOneVotes.includes(user)) && !(optionTwoVotes.includes(user)) 
-          && option === "optionTwo"){
-      optionOneVotes.pop(user);
-      optionTwoVotes.push(user);
-      
-      question["optionOne"].votes = optionOneVotes;
-      question[option].votes = optionTwoVotes;
-      this.props.dispatch(updateQuestion(id, question));
+          question["optionTwo"].votes = optionTwoVotes;
+          question["optionOne"].votes = optionOneVotes;
 
-    } else if(optionTwoVotes.includes(user) && !(optionOneVotes.includes(user)) 
-        && option === "optionOne"){
-      optionOneVotes.push(user);
-      optionTwoVotes.pop(user);
+          // answers.pop(id);
+          // answers.push({ id : "optionOne" });
 
-      question["optionTwo"].votes = optionTwoVotes;
-      question[option].votes = optionOneVotes;
-      this.props.dispatch(updateQuestion(id, question));
+          let answer = {id : "optionOne"};
+
+          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
+        }
     }
-    
-    // _v.push(user);
-    //   question[option].votes = _v;
-     
-      
-    }
-  }
+}
   render (){
     const { users } = this.props; 
     const { question }  = this.props.location.state;
-
 
   return(<div className="Answer">
             <h2 className="component-title">Answer</h2>
@@ -208,5 +209,3 @@ function isEmpty(val){
 }
 
 export default connect(mapStateToProps) (Answer);
-
-

@@ -38,9 +38,6 @@ function isEmpty(val){
 const mapStateToProps = ( state ) => {
     //  console.log("inside map state to props, state: ", state)
      return {
-          questions : state.questions,
-          authenticatedUser : state.authenticatedUser,
-          users : state.users,
      }
   }
 

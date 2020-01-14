@@ -18,7 +18,7 @@ class Menu extends React.Component{
   }
 
   userLoggedIn = () => {
-    let user = this.props.authenticatedUser.authenticatedUser;
+    let user = this.props.authenticatedUser;
     let msg_1 = "No user"; 
     let msg_2 = " is currently logged in";
     let msg  = "";
@@ -44,8 +44,8 @@ class Menu extends React.Component{
               </tr>
         </thead>
         <tbody>
-                {console.log(this.props.authenticatedUser.authenticatedUser)}
-                {!isEmpty(this.props.authenticatedUser.authenticatedUser) && 
+                {console.log(this.props)}
+                {!isEmpty(this.props.authenticatedUser) && 
                 <tr>
                   <td>
                   {this.userLoggedIn()}
@@ -90,7 +90,7 @@ class Menu extends React.Component{
   return {
     users : state.users,
     questions: state.questions,
-    authenticatedUser : state.authenticatedUser,
+    authenticatedUser : state.authenticatedUser.authenticatedUser,
     }
   }
   

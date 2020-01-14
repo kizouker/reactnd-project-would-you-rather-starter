@@ -1,9 +1,7 @@
-import {_getQuestions, _saveQuestionAnswer, _saveQuestion } from '../_DATA.js';
 
 import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS, 
-    ACTION_UPDATE_QUESTION } from '../actionTypes'
-
-import { updateUsers } from './users.js';
+    ACTION_UPDATE_QUESTION, ACTION_POST_UPDATE_ANSWERS_USERS,
+    ACTION_POST_UPDATE_ANSWERS_QUESTIONS } from '../actionTypes'
 
 export function receiveQuestions(questions){
     return {    
@@ -26,40 +24,10 @@ export function updateQuestion(id, question) {
             question 
         }
 }
-
-export const handleInitialQuestionsData = () => {
-    return (dispatch) => {
-        return _getQuestions()
-            .then ((response) => {
-                dispatch(receiveQuestions(response));
-        })
-    }
+export function updateAnswersQuestion(question, id) {
+    return { 
+            type: ACTION_POST_UPDATE_ANSWERS_QUESTIONS, 
+            question,  
+            id
+        }
 }
-
-// post a new poll question
-export const saveQuestion = (question) => {
-    return (dispatch) => {
-        return _saveQuestion(question)
-            //.then(res  => res)
-            .then (([formattedQuestion, users]) => {
-                console.log("formattedQuestion",formattedQuestion);
-                dispatch(postQuestion(formattedQuestion));
-                console.log("users",users);
-                dispatch(updateUsers(users));
-        })
-    }
-}
-
-// answering a poll, voting
-export const saveQuestionAnswer = () => {
-    return (dispatch) => {
-        return _saveQuestionAnswer()
-            .then(res  => res)
-            .then ((data) => {
-                dispatch(updateQuestion(data));
-        })
-    }
-}
-
-    // _saveQuestion
-    // _saveQuestionAnswer

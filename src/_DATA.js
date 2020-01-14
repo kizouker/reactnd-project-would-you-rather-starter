@@ -161,52 +161,17 @@ export function formatQuestion (optionOneText, optionTwoText, author ) {
 
 export function _saveQuestion (question) {
   return new Promise((resolve, reject) => {
-    const authedUser = question.author;
+    const author = question.author;
     const formattedQuestion = formatQuestion(question.optionOne, question.optionTwo,
-      authedUser);
-    setTimeout(() => {
-      questions = {
-        ...questions,
-        [formattedQuestion.id]: formattedQuestion
-      }   
-      users = {
-        ...users,
-        [authedUser]: {
-          ...users[authedUser],
-          questions: users[authedUser].questions.concat([formattedQuestion.id])
-        }
-      }
-      resolve([formattedQuestion, users])
-    }, 1000)
-  })
-}
+      author);
+      resolve(formattedQuestion)
+    })
+  }  
 
-export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      users = {
-        ...users,
-        [authedUser]: {
-          ...users[authedUser],
-          answers: {
-            ...users[authedUser].answers,
-            [qid]: answer
-          }
-        }
-      }
-
-      questions = {
-        ...questions,
-        [qid]: {
-          ...questions[qid],
-          [answer]: {
-            ...questions[qid][answer],
-            votes: questions[qid][answer].votes.concat([authedUser])
-          }
-        }
-      }
-
-      res()
-    }, 500)
+export function _saveQuestionAnswer ( authedUser, qid, answer ) {
+  return new Promise((resolve, rej) => {
+    console.log("in saveQA", authedUser, qid, answer);
+    let response ="test";
+    resolve(response);
   })
 }

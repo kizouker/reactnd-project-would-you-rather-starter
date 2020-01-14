@@ -2,8 +2,7 @@ import React from 'react';
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import { connect } from 'react-redux';
-
-import { setAuthenticatedUser } from '../actions/authedUser'
+import { handleInitialData } from '../actions/shared'
 
 class Login extends React.Component{
     constructor(props){
@@ -25,21 +24,13 @@ class Login extends React.Component{
         }
         this.state.authenticated ? (this.setState({authenticated : false})) : 
                                     (this.setState({authenticated : true}))
-   //     console.log("authenticated: " + this.state.authenticated);
     }
 
     setAuthUser = ( value ) => {
-        // console.log("setAuthenticatedUser");
-        // console.log(this.props)
-        this.props.dispatch(setAuthenticatedUser(value));
-        // console.log("setAuthenticatedUser");
+        this.props.dispatch(handleInitialData(value));
     }
 
     _onSelect = ( obj ) => {
-        // console.log(" _onSelect")
-        // console.log(obj)
-        // console.log(" _onSelect")
-
         this.setState({authenticatedUser : obj.value})
     }
     
@@ -58,16 +49,11 @@ class Login extends React.Component{
                         value : user.id,
                         label : user.name
                     }
-                    // console.log("user");
-                    // console.log(object);
-                    // console.log("user");
                     optionsDyn.push(object);
                     return optionsDyn; // TODO:
             })
         }
-        // console.log("optionsDyn");
-        // console.log(optionsDyn);
-        // console.log("optionsDyn");
+
         const defaultOption = optionsDyn[0]; //TODO: fix default option
    
       return(<div className="Login">
@@ -90,7 +76,7 @@ const mapStateToProps = ( state ) => {
     return {
         state,
         users : state.users,
-        authenticatedUser : state.authenticatedUser
+        authenticatedUser : state.authenticatedUser.authenticatedUser
       }
 }
 

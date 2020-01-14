@@ -1,5 +1,6 @@
 import {_getUsers } from '../_DATA.js';
-import { GET_INITIAL_USERS, ACTION_UPDATE_USERS } from '../actionTypes'
+import { GET_INITIAL_USERS, ACTION_UPDATE_QUESTION_USERS,
+    ACTION_POST_UPDATE_ANSWERS_USERS } from '../actionTypes'
 //TODO: inout=?
 export function receiveUsers(users){
     return {    
@@ -8,18 +9,19 @@ export function receiveUsers(users){
         }
 }
 
-export function updateUsers(users){
+export function updateQuestionsInUsers(formattedQuestion, authUser){
     return {    
-            type: ACTION_UPDATE_USERS,
-            users
+            type: ACTION_UPDATE_QUESTION_USERS,
+            formattedQuestion,
+            authUser
         }
 }
 
-export const handleInitialUserData = () => {
-    return (dispatch) => {
-        return _getUsers()
-            .then ((response) => {
-                dispatch(receiveUsers(response));    
-            })
+export function updateAnswersUsers(question, authUser, answer) {
+    return { 
+            type: ACTION_POST_UPDATE_ANSWERS_USERS, 
+            question,
+            authUser,
+            answer
         }
-    }
+}
