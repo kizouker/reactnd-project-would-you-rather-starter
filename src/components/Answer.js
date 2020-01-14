@@ -75,7 +75,6 @@ returnNoUsers = () => {
     */
 handleVote = ( e ) => {
       let authUser = this.props.authenticatedUser;
-      let users = this.props.users;
       let questions = this.props.questions;
       let option = e.target.name;
       let optionOneVotes, optionTwoVotes;
@@ -90,20 +89,13 @@ handleVote = ( e ) => {
       }
       // get the id of the question
       let id = e.target.value;
-      // let user = this.props.authenticatedUser;
-      // let questions = this.props.questions;
-      console.log("user in handleVote", authUser);
-      console.log("question in handleVote", questions);
-      console.log("option in handleVote", option);
+    
 
       if (!isEmpty(id) && !isEmpty(option) && !isEmpty(authUser)) {
         optionOneVotes = questions[id]['optionOne'].votes;
         optionTwoVotes = questions[id]['optionTwo'].votes;
         
-
         let question = questions[id];
-        // let answers = users[authUser].answers;
-        // the user voted for one of the options
 
         if (!(optionOneVotes.includes(authUser)) && !(optionTwoVotes.includes(authUser))){
           let optionVotes = questions[id][option].votes;
@@ -123,9 +115,6 @@ handleVote = ( e ) => {
           question["optionOne"].votes = optionOneVotes;
           question["optionTwo"].votes = optionTwoVotes;
 
-          // this.answers.pop(id);
-          // answers.push({ id : "optionTwo" });
-
           let answer = "optionTwo";
 
           this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
@@ -137,10 +126,7 @@ handleVote = ( e ) => {
           question["optionTwo"].votes = optionTwoVotes;
           question["optionOne"].votes = optionOneVotes;
 
-          // answers.pop(id);
-          // answers.push({ id : "optionOne" });
-
-          let answer = {id : "optionOne"};
+          let answer = "optionOne";
 
           this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
         }

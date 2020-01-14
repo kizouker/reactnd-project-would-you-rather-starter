@@ -81,6 +81,16 @@ constructor(props){
     }
 }         
 
+let sortFn = function(a, b) {
+  if (a.timestamp > b.timestamp) {
+    return 1;
+  }
+  if (a.timestamp < b.timestamp) {
+    return -1;
+  }
+  return 0;
+};
+
 const mapStateToProps = ( state ) => {
   console.log("inside map state to props App, state: ", state)
   //inside mapStateToProps
@@ -91,19 +101,18 @@ const mapStateToProps = ( state ) => {
   let u = state.users;
   let au = state.authenticatedUser.authenticatedUser;
 
-  console.log("unans", unansweredQuestions);
-  console.log("ans", answeredQuestions);
-
   if (state && !isEmpty(qs) && !isEmpty(u) && !isEmpty(au)){
-      unansweredQuestions = filterUnansweredQuestions(qs, u, au);
-      answeredQuestions = filterAnsweredQuestions(qs, u, au);                 
+      unansweredQuestions = (filterQuestions(qs, u, au)).unansw.sort(sortFn);;
+      answeredQuestions = (filterQuestions(qs, u, au)).answ.sort(sortFn);;   
+      console.log("unans", unansweredQuestions);
+      console.log("ans", answeredQuestions);                
     return {
-              users : u,
-              questions: qs,
-              unAnsweredQuestions: unansweredQuestions,
-              answeredQuestions: answeredQuestions,
-              authenticatedUser : au
-            }     
+      users : u,
+      questions: qs,
+      unAnsweredQuestions: unansweredQuestions,
+      answeredQuestions: answeredQuestions,
+      authenticatedUser : au
+    }     
   } else {
     return {
       users : u,
@@ -120,57 +129,40 @@ export default connect(mapStateToProps) (List);
 function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
-
-const filterUnansweredQuestions = (questions, users, user)  => {
+const filterQuestions = (questions, users, user)  => {
   let answersForUserArray = [];
-  let returnValue = [];
+  let unansweredResult = [];
+  let answeredResult = [];
   let questionsArray = [];
+  let result;
 
   if (!isEmpty(questions) && !isEmpty(users)){
+  
     answersForUserArray = Object.keys(answersForUser(users, user));
     // console.log("filterUnansweredQuestions, answersForUserArray ", answersForUserArray);
 
     questionsArray = Object.values(questions);
     questionsArray.map(q => {
-                    if (!(isInArray(q.id, answersForUserArray))){
-                              console.log("qid is not in the answered column", q.id)
-                              returnValue.push(q);
-                            }
-                          return returnValue;
-                        }
-                      )
-      console.log ("filterUnansweredQuestions, result", returnValue);
-      return returnValue;
-    } 
-    else{
-        return [];
-    }
-}
-
-const filterAnsweredQuestions = (questions, users, user )  => {
-  let questionsArray = [];
-  let answersForUserArray= [];
-  if (!isEmpty(questions) && !isEmpty(users)){
-      questionsArray = Object.values(questions);
-      answersForUserArray= Object.keys(answersForUser(users, user));
-      // console.log("filterUnansweredQuestions, answersForUserArray ", answersForUserArray);
-
-      let result = [];
-      questionsArray.map( q => {
-                            if(isInArray(q.id, answersForUserArray)){
-                              console.log("qid is in the answered column", q.id)
-
-                              result.push(q);
-                            }    
-                          return result;
-      })
-        console.log ("filterAnsweredQuestions, result", result);
+        if (!(isInArray(q.id, answersForUserArray))){
+          console.log("qid is not in the answered column", q.id)
+          unansweredResult.push(q);
+        } else{
+          console.log("qid is in the answered column", q.id)
+          answeredResult.push(q);
+        }
+        result = {
+          unansw: unansweredResult,
+          answ: answeredResult
+        };
         return result;
-      }
-      else {
-        return [];
-    }
+        })
+     console.log ("filterQuestions, result", result);
+
+    return result;
+  } else{
+      return [];
   }
+}
 
 function isInArray(value, array) {
   console.log("el has index: ", array.indexOf(value));
