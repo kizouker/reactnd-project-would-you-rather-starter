@@ -6,10 +6,7 @@ class Answer extends React.Component{
   constructor(props){
     super(props);
     this.handleVote = this.handleVote.bind(this);
-    this.returnNoUsers = this.returnNoUsers.bind(this);
-    this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
-    this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
-
+  
     this.state = {
       optionOne : 'true',
     }
@@ -17,55 +14,6 @@ class Answer extends React.Component{
   componentDidMount() {
     const { question } = this.props.location.state; 
   }
-  countNoVotesPerQuestion = () => {
-    let questionsArr = Object.values(this.props.questions);
-    let questionKeys = Object.keys(this.props.questions);
-    let countArray = [];
-    questionKeys.map(key => {
-                        // since we check when we add votes if the user
-                        // already exists, we can now assume that a user
-                        // only exists once in the array
-
-      if(!isEmpty(questionsArr[key])){
-        let optionOneVotes = questionsArr[key]['optionOne'].votes.length;
-        let optionTwoVotes = questionsArr[key]['optionTwo'].votes.length;
-        countArray[key] = {
-          optionOne : optionOneVotes, 
-          optionTwo : optionTwoVotes
-          };  
-        }else {
-          countArray[key] = {
-            optionOne : 0, 
-            optionTwo : 0
-          }}
-        return countArray;
-      }
-    )
-    return countArray;
-  }
-
-percentagePerQuestion = () => {
-  let noOfUsers = this.returnNoUsers();
-  let countArray = this.countNoVotesPerQuestion();
-  let percentagePerQuestArr = [];
-
-  countArray.map( element => {
-      percentagePerQuestArr[element.id] = {
-        optionOne : (element.optionOne/noOfUsers),
-        optionTwo : (element.optionTwo/noOfUsers) };
-      return percentagePerQuestArr;
-  })
-return percentagePerQuestArr;
-}
-returnNoUsers = () => {
-  let usersArray = Object.values(this.props.users);
-  if (!isEmpty(usersArray)){
-    return usersArray.length;
-  }else {
-    return 0;
-  }
-}  
-
  // four cases
     /** if user already exists in A , but clicked on b, then add user to B ( and remove from A)
     if user already exists in B, but clicked on am then add user to A (and remove from B)
@@ -132,55 +80,56 @@ handleVote = ( e ) => {
         }
     }
 }
-  render (){
-    const { users } = this.props; 
-    const { question }  = this.props.location.state;
 
-  return(<div className="Answer">
+
+render (){
+  const { users } = this.props; 
+  const { question }  = this.props.location.state;
+
+    return(<div className="Answer">
             <h2 className="component-title">Answer</h2>
-              <table>
-                <thead> 
-                  <tr>
-                    <th>Would you rather...</th> 
-                  </tr>
-                </thead>
-                  <tbody >
-                    <tr>
-                      <td>... {question.author} ...
-                        <img src={window.location.origin + users[question.author].avatarURL} width="10%" height="10%"/>
-                        wonders if you, would you rather...
-                        </td>
-                        <td>{question.optionOne.text} 
-                          <button name="optionOne" value={question.id}
-                            onClick={ (e) => this.handleVote(e)}> Vote 
-                          </button>
-                          Votes: {question.optionOne.votes.length} 
-                         {/** Percentage: {this.percentagePerQuestion()[question.id].optionOne}
-                          * 
-                          * */} 
-                          {this.state.optionOne && (<div> 
-                          <b> Choosen </b>
-                        </div>)}
-                        </td>
-                       
-                        <td>   ...   or   ...   </td>
-                        <td>{question.optionTwo.text}  
-                          <button name="optionTwo" value={question.id}
-                              onClick={ (e) => this.handleVote(e)}> Vote 
-                            </button> 
-                            Votes: {question.optionTwo.votes.length}  
-                     {/**        Percentage: {this.percentagePerQuestion()[question.id].optionTwo}
-                         
-                          **/}
-                         {!this.state.optionOne && (<div> 
-                              <b> Choosen </b>
-                          </div>)}           
-                        </td> 
-                    </tr>                 
-                </tbody>
-                </table>
-            </div>);
-      }
+            <table>
+              <thead> 
+                <tr>
+                  <th>Would you rather...</th> 
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>... {question.author} ...
+                    <img src={window.location.origin + users[question.author].avatarURL} width="10%" height="10%"/>
+                    wonders if you, would you rather...
+                  </td>
+                  <td>{question.optionOne.text} 
+                    <button name="optionOne" value={question.id}
+                      onClick={ (e) => this.handleVote(e)}> Vote 
+                    </button>
+                  </td>
+                    
+                  <td>
+                    {this.state.optionOne && 
+                    (<div> 
+                        <b> Choosen </b>
+                    </div>)}
+                  </td>
+                    
+                  <td>   ...   or   ...   </td>
+                  <td>{question.optionTwo.text}  
+                    <button name="optionTwo" value={question.id}
+                        onClick={ (e) => this.handleVote(e)}> Vote 
+                      </button> 
+                  </td>
+                  <td>
+                    {!this.state.optionOne && 
+                    (<div> 
+                        <b> Choosen </b>
+                    </div>)}           
+                  </td> 
+                </tr>                 
+              </tbody>
+            </table>
+          </div>);
+    }
  }
  const mapStateToProps = ( state ) => {
    return {

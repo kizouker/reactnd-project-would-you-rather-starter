@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Categories from './Categories';
-import Answer from './Answer';
-import { Route, Link, BrowserRouter as Router, Switch } 
-  from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class List extends React.Component{
 // https://stackoverflow.com/questions/50735735/order-of-component-life-cycle-with-react-redux-connect-and-redux-data
@@ -14,7 +11,61 @@ constructor(props){
     id : '',
     option : '',
   }
+  this.returnNoUsers = this.returnNoUsers.bind(this);
+  this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
+  this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
 }
+
+percentagePerQuestion = () => {
+  console.log("percentage")
+  let noOfUsers = this.returnNoUsers();
+  let countArray = this.countNoVotesPerQuestion();
+  let percentagePerQuestArr = [];
+  
+  console.log("percentage", noOfUsers, countArray)
+  countArray.map( element => {
+      percentagePerQuestArr[element.id] = {
+        optionOne : (element.optionOne/noOfUsers),
+        optionTwo : (element.optionTwo/noOfUsers) };
+      return percentagePerQuestArr;
+  })
+  console.log("percentagePerQuestArr", percentagePerQuestArr)
+  return percentagePerQuestArr;
+}
+
+returnNoUsers = () => {
+  let usersArray = Object.values(this.props.users);
+
+  if (!isEmpty(usersArray)){
+    return usersArray.length;
+  }else {
+    return 0;
+  }
+}  
+
+countNoVotesPerQuestion = () => {
+  let questionsArr = Object.values(this.props.questions);
+  let countArray = [];
+  questionsArr.map(element => {
+                      // since we check when we add votes if the user
+                      // already exists, we can now assume that a user
+                      // only exists once in the array
+
+      let optionOneVotes = element.optionOne.votes.length;
+      let optionTwoVotes = element.optionTwo.votes.length;
+
+      console.log("votes", optionOneVotes, optionTwoVotes);
+
+      countArray.push({
+        id: element.id,
+        optionOne : optionOneVotes, 
+        optionTwo : optionTwoVotes
+      });
+
+      return countArray;
+      })
+    return countArray;
+  }
 //scope 2 -inside class 
   render (){
     const { unanswered } = this.props;
@@ -25,10 +76,6 @@ constructor(props){
     } else {
         questionsObj =this.props.unAnsweredQuestions; 
     }
-
-    console.log("Answered? :" + this.props.answered);
-    console.log("questionsObj", questionsObj);
-
     //scope 3 -inside RE 
     let users = this.props.users;
     let questionsArray = [];
@@ -55,10 +102,16 @@ constructor(props){
                               <td>{el.optionOne.text}    
                                   Votes: {el.optionOne.votes.length} 
                               </td>
+                              <td>
+                                Percentage: {this.percentagePerQuestion()[el.id].optionOne}
+                              </td>
                               <td>   ...   or   ...   </td>
                               <td>{el.optionTwo.text}  
                               Votes: {el.optionTwo.votes.length}
                               </td>          
+                              <td>
+                                Percentage: {this.percentagePerQuestion()[el.id].optionTwo}
+                              </td>
                               <td>
                                 <Link to={{
                                   pathname : '/questions/' + el.id,   
@@ -104,8 +157,6 @@ const mapStateToProps = ( state ) => {
   if (state && !isEmpty(qs) && !isEmpty(u) && !isEmpty(au)){
       unansweredQuestions = (filterQuestions(qs, u, au)).unansw.sort(sortFn);;
       answeredQuestions = (filterQuestions(qs, u, au)).answ.sort(sortFn);;   
-      console.log("unans", unansweredQuestions);
-      console.log("ans", answeredQuestions);                
     return {
       users : u,
       questions: qs,
@@ -129,7 +180,7 @@ export default connect(mapStateToProps) (List);
 function isEmpty(val){
   return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
-const filterQuestions = (questions, users, user)  => {
+let filterQuestions = (questions, users, user)  => {
   let answersForUserArray = [];
   let unansweredResult = [];
   let answeredResult = [];
@@ -137,17 +188,12 @@ const filterQuestions = (questions, users, user)  => {
   let result;
 
   if (!isEmpty(questions) && !isEmpty(users)){
-  
     answersForUserArray = Object.keys(answersForUser(users, user));
-    // console.log("filterUnansweredQuestions, answersForUserArray ", answersForUserArray);
-
     questionsArray = Object.values(questions);
     questionsArray.map(q => {
         if (!(isInArray(q.id, answersForUserArray))){
-          console.log("qid is not in the answered column", q.id)
           unansweredResult.push(q);
         } else{
-          console.log("qid is in the answered column", q.id)
           answeredResult.push(q);
         }
         result = {
@@ -156,8 +202,6 @@ const filterQuestions = (questions, users, user)  => {
         };
         return result;
         })
-     console.log ("filterQuestions, result", result);
-
     return result;
   } else{
       return [];
@@ -165,10 +209,7 @@ const filterQuestions = (questions, users, user)  => {
 }
 
 function isInArray(value, array) {
-  console.log("el has index: ", array.indexOf(value));
-
   let result = array.indexOf(value)> -1;
-  console.log("isinarray result: ", result);
   return result;
 }
     
@@ -176,3 +217,4 @@ var answersForUser = (users, user) => {
   let result = users[user].answers;
   return result;
 }
+

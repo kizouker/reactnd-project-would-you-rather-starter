@@ -45,22 +45,19 @@ class LeaderBoard extends React.Component{
               <table align="center">
               <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Image</th>
-                    <th># answered</th>
-                    <th># asked</th>
-                  </tr>
-                </thead>
-                <tbody>
-               
-            
+                  <th>User</th>
+                  <th>Image</th>
+                  <th># answered</th>
+                  <th># asked</th>
+                </tr>
+              </thead>
+              <tbody>
                 {foo = sortedArray.map(user => {
                    if (!isEmpty(user.answers)){
                       userAnswers_Array = Object.values(user.answers);
                         console.log("user.answers. ----",userAnswers_Array)
                       }
-                        
-                  return(
+                    return(
                     <tr key={user.id}>
                       <td>{user.name}</td>  
                       <td><img src={window.location.origin + user.avatarURL} width="10%" height="10%"/></td>
