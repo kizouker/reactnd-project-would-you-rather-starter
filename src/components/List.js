@@ -25,8 +25,8 @@ percentagePerQuestion = () => {
   console.log("percentage", noOfUsers, countArray)
   countArray.map( element => {
       percentagePerQuestArr[element.id] = {
-        optionOne : (element.optionOne/noOfUsers),
-        optionTwo : (element.optionTwo/noOfUsers) };
+        optionOne : Math.round((element.optionOne/noOfUsers)*100),
+        optionTwo : Math.round((element.optionTwo/noOfUsers)*100) };
       return percentagePerQuestArr;
   })
   console.log("percentagePerQuestArr", percentagePerQuestArr)
