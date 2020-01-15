@@ -38,7 +38,6 @@ Answer
 User
 Post
 List
-Statistics
 LeaderBoard
 
 - definiera alla 
@@ -88,7 +87,6 @@ Leaderboard
 ## Define all actions
 - put them in a separate file
 ACTION_POST_QUESTION V
-ACTION_UPDATE_STATISTICS V
 ACTION_UPDATE_LIST V
 ACTION_UPDATE_LEADERBOARD V
 

@@ -2,7 +2,6 @@ import React from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
 import LeaderBoard from './LeaderBoard';
-import Statistics from './Statistics';
 import Post from './Post';
 import Login from './Login';
 import Answer from './Answer';
@@ -59,16 +58,12 @@ class Menu extends React.Component{
                   <td>
                     <Link to="/post">| Post new Question |</Link> 
                   </td>
-                  <td>
-                    <Link to="/statistics">| Statistics |</Link> 
-                  </td>                
                 </tr>}  
           </tbody>
       </table> 
         <Switch>  
           <Route exact path="/" component={Categories} />   
           <Route path="/login" component={Login} />    
-          <Route path="/statistics" component={Statistics} />
           <Route path="/leaderboard" component={LeaderBoard} />
           <Route path="/post" component={Post}/>
           <Route exact path='/questions/:id' component={Answer}/>

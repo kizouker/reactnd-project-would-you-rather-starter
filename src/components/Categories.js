@@ -28,19 +28,19 @@ render (){
                         <div className="grid-container"></div>
                         <div className="grid-item">
                             <button id="switchState" name="switchState" onClick={this.handleToggle}>
-                                Toggle
+                                <h3>
+                                  { unAnswered ? "unAnswered" : "Answered" }
+                                </h3>
                             </button>
                                 {  unAnswered && (<div>
-                                                    <h4> unAnswered </h4>          
                                                     <List unanswered={unAnswered}> </List> 
                                                     </div>)
                                 } 
                                 { !unAnswered && (<div>
-                                                    <h4> Answered </h4>
                                                     <List unanswered={unAnswered}></List>
                                                     </div>)
                                 }
-                                                </div>
+                        </div>
                 </div>
             </div>)
         }
