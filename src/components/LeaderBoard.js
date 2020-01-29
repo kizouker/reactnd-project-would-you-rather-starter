@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { isEmpty } from './Shared.js'
 
 class LeaderBoard extends React.Component{
-  
   render (){
     const { users } = this.props;
     let foo;
@@ -40,46 +40,40 @@ class LeaderBoard extends React.Component{
       });
 
     return(<div className="LeaderBoard">
-              <h2 className="component-title">LeaderBoard</h2>
-              <h3>Other people have voted like this...</h3>  
-              <table align="center">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Image</th>
-                  <th># answered</th>
-                  <th># asked</th>
-                </tr>
-              </thead>
-              <tbody>
-                {foo = sortedArray.map(user => {
-                   if (!isEmpty(user.answers)){
-                      userAnswers_Array = Object.values(user.answers);
-                        console.log("user.answers. ----",userAnswers_Array)
-                      }
-                    return(
-                    <tr key={user.id}>
-                      <td>{user.name}</td>  
-                      <td><img src={window.location.origin + user.avatarURL} width="10%" height="10%"/></td>
-                      <td>{userAnswers_Array.length}</td>  
-                      <td>{user.questions.length}</td>
-                    </tr>);
-                    })
-                  }
-                </tbody>
-              </table>
-            </div>)
+            <h2 className="component-title">LeaderBoard</h2>
+            <h3>Other people have voted like this...</h3>  
+            <table align="center">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Image</th>
+                <th># answered</th>
+                <th># asked</th>
+              </tr>
+            </thead>
+            <tbody>
+              {foo = sortedArray.map(user => {
+                  if (!isEmpty(user.answers)){
+                    userAnswers_Array = Object.values(user.answers);
+                      console.log("user.answers. ----",userAnswers_Array)
+                    }
+                  return(
+                  <tr key={user.id}>
+                    <td>{user.name}</td>  
+                    <td><img src={window.location.origin + user.avatarURL} width="10%" height="10%"/></td>
+                    <td>{userAnswers_Array.length}</td>  
+                    <td>{user.questions.length}</td>
+                  </tr>);
+                  })}
+              </tbody>
+            </table>
+          </div>)
       }
 }
 
  function mapStateToProps(state)  {
    return {
-    users : state.users,
+      users : state.users,
    }
  }
  export default connect(mapStateToProps) (LeaderBoard);
-
- function isEmpty(val){
-  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
-}
-

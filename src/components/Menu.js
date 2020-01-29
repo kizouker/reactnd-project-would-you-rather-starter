@@ -5,17 +5,18 @@ import LeaderBoard from './LeaderBoard';
 import Post from './Post';
 import Login from './Login';
 import Answer from './Answer';
-
 import '../App.css';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Categories from './Categories';
+import Protected from './Protected';
+import NotFound from './NotFound';
+import PrivateRoute from './PrivateRoute';
 
 class Menu extends React.Component{
   constructor(props){
     super(props);
     this.userLoggedIn = this.userLoggedIn.bind(this);
   }
-
   userLoggedIn = () => {
     let user = this.props.authenticatedUser;
     let msg_1 = "No user"; 
@@ -34,46 +35,38 @@ class Menu extends React.Component{
     </div>)
   }
   render (){
-    return(<Router>        
-    <div className="menu">
-     <table>
-        <thead>
-              <tr>
-                <th> <Link to="/login"> | Login | </Link> </th> 
-              </tr>
-        </thead>
-        <tbody>
-                {console.log(this.props)}
-                {!isEmpty(this.props.authenticatedUser) && 
-                <tr>
-                  <td>
-                  {this.userLoggedIn()}
-                  </td>
-                  <td>
-                    <Link to="/">| HomePage |</Link> 
-                  </td>
-                  <td>
-                    <Link to="/leaderboard">| LeaderBoard |</Link> 
-                  </td>
-                  <td>
-                    <Link to="/post">| Post new Question |</Link> 
-                  </td>
-                </tr>}  
-          </tbody>
-      </table> 
-        <Switch>  
-          <Route exact path="/" component={Categories} />   
-          <Route path="/login" component={Login} />    
-          <Route path="/leaderboard" component={LeaderBoard} />
-          <Route path="/post" component={Post}/>
-          <Route exact path='/questions/:id' component={Answer}/>
-          <Route component={ NoMatch } />
-        </Switch>
+    return(
+    <Router>
+       <div>
+        {/* <Link to="/protected"> | Menu | </Link> */}
+           <Link to="/">| HomePage |</Link> 
+           <Link to="/leaderboard">| LeaderBoard |</Link> 
+           <Link to="/post">| Post new Question |</Link> 
+           <Link to="/login">|Login / Logout|</Link> 
+        {/* sdadasö 
+        
+        Var ska jag sätta login - den ska alltid visas från och med att vi är inne
+        men då logout...om jag trycker på en route så försvinner den*/}
       </div>
-    </Router>);
+      <Switch>
+        <Route path="/login" component={ Login } 
+                            authenticatedUser={ this.props.authenticatedUser }/>
+                            
+        <PrivateRoute exact path="/protected" component={ Protected } 
+                            authenticatedUser={ this.props.authenticatedUser }/>   
+                            
+        <PrivateRoute path="/leaderboard" component={LeaderBoard} authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute path='/post' component={Post} authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute exact path='/questions/:id' component={Answer} authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute exact path="/" component={Categories} authenticatedUser={this.props.authenticatedUser}/> 
+        <PrivateRoute path="/nomatch" component={ NoMatch } />
+      </Switch>
+    </Router>)
+    ;
   }
  }
- 
+
+
  const NoMatch = ({ location }) => (
   <div>
     <h3>404</h3>

@@ -81,13 +81,12 @@ handleVote = ( e ) => {
     }
 }
 
-
 render (){
   const { users } = this.props; 
   const { question }  = this.props.location.state;
 
     return(<div className="Answer">
-            <h2 className="component-title">Answer</h2>
+           ß<h2 className="component-title">Answer</h2>
             <table>
               <thead> 
                 <tr>
@@ -105,14 +104,12 @@ render (){
                       onClick={ (e) => this.handleVote(e)}> Vote 
                     </button>
                   </td>
-                    
                   <td>
                     {this.state.optionOne && 
                     (<div> 
                         <b> Choosen </b>
                     </div>)}
                   </td>
-                    
                   <td>   ...   or   ...   </td>
                   <td>{question.optionTwo.text}  
                     <button name="optionTwo" value={question.id}

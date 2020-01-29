@@ -2,18 +2,16 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
-import { handleInitialData } from './actions/shared.js'
-import Menu from './components/Menu.js'
+import { handleInitialData } from './actions/shared.js';
+import Menu from './components/Menu.js';
 
 class App extends React.Component{
   constructor(props){
     super(props);
   }
-
   componentWillMount(){
     this.props.dispatch(handleInitialData());
   }
-
   render(){
     return(
     <div>
@@ -23,12 +21,6 @@ class App extends React.Component{
     } 
 }
 
-function isEmptyObj(obj){
-  return Object.keys(obj).length === 0 && obj.constructor === Object
-}
-function isEmpty(val){
-  return (val === undefined || val == null || val.length <= 0  || isEmptyObj(val)) ? true : false;
-}
           
 // the idea is to prepare the component with the data it needs
 // ie filter the questions _before_ it is initialised

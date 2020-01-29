@@ -29,6 +29,8 @@ const questions =  (state = {}, action) => {
                 ...state.questions,
                 [action.id] : action.question,
             }
+
+            //TODO: redudant above
            return returnvalue;
 
            case ACTION_POST_UPDATE_ANSWERS_QUESTIONS:
@@ -38,7 +40,7 @@ const questions =  (state = {}, action) => {
                     [action.id] : action.question,
                 }
            return returnvalue;
-
+   //TODO: redudant above
             default :
                 return state;
     }

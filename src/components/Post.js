@@ -66,7 +66,8 @@ class Post extends React.Component{
   
     render (){
       //handleInput => parent
-      return(<div className="Post" >
+      return(
+            <div className="Post" >
             <h2 className="component-title">Post a new question</h2>
             <h3>Would you rather:</h3>
             <div className="form">
