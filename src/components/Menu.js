@@ -9,7 +9,6 @@ import '../App.css';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Categories from './Categories';
 import Protected from './Protected';
-import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
 
 class Menu extends React.Component{
@@ -65,7 +64,6 @@ class Menu extends React.Component{
     ;
   }
  }
-
 
  const NoMatch = ({ location }) => (
   <div>
