@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import List from './List';
 
 class Categories extends React.Component{
@@ -37,12 +36,5 @@ render (){
         }
     }
 
-const mapStateToProps = ( state ) => {
-    //  console.log("inside map state to props, state: ", state)
-     return {
-     }
-  }
-  
-  export default connect(mapStateToProps) (Categories);
-
+export default Categories;
              
