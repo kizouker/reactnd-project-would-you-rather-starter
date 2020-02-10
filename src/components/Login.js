@@ -10,7 +10,6 @@ class Login extends React.Component{
         super(props);
         this.state = {  
             authenticatedUser : '',
-            redirectToReferrer: false
       }
       this._onSelectSetAuthUser = this._onSelectSetAuthUser.bind(this);
       this.handleClick = this.handleClick.bind(this)
@@ -67,9 +66,7 @@ class Login extends React.Component{
 
                  { this.props.authenticatedUser && <div>Logout</div>} 
                  { !this.props.authenticatedUser && <div>Login</div>} 
-
                 </button>
-                <AuthButton history={this.props.history}/>
               </div>
               );
     }
