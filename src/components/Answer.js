@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveQuestionAnswer } from '../actions/shared'
+import { isEmpty } from './Shared'
 
 class Answer extends React.Component{
   constructor(props){
@@ -132,10 +133,6 @@ render (){
     authenticatedUser : state.authenticatedUser.authenticatedUser,
     users : state.users,
    }
-}
-
-function isEmpty(val){
-  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
 }
 
 export default connect(mapStateToProps) (Answer);

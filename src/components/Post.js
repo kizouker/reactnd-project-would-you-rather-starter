@@ -31,12 +31,11 @@ class Post extends React.Component{
   }
 
   handleInputChange(event) {
-   console.log("handleInputChange", this.props.authenticatedUser);
-  const target = event.target;
+    console.log("handleInputChange", this.props.authenticatedUser);
+    const target = event.target;
     const value = target.value;
     const name = target.name;
-    /** problem: state is not updated directly it's postponed */
-    /** solved - problem was declaration with beloq */
+   
     const {author, optionOne, optionTwo} = this.state.question;
 
     this.setState( currentState => ({
@@ -46,12 +45,10 @@ class Post extends React.Component{
         }
       }
     ), () => console.log(this.state))
-  console.log("State in Post", this.state);
   }
   
     render (){
-      const {author, optionOne, optionTwo} = this.state.question;
-      //handleInput => parent
+      const {optionOne, optionTwo} = this.state.question;
       return(
             <div className="Post" >
             <h2 className="component-title">Post a new question</h2>

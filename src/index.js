@@ -5,12 +5,10 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createStore } from 'redux'
 import reducers from './reducers/index.js'
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import middleware from './middleware';
 
 const store = createStore(reducers, middleware);
-// console.log(store.getState())
-
 
 ReactDOM.render(
     <Provider store={store}>

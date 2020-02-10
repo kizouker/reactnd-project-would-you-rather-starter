@@ -2,7 +2,7 @@ import React from 'react';
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import { connect } from 'react-redux';
-import { AuthButton, isEmpty } from './Shared'
+import { isEmpty } from './Shared'
 import { setAuthenticatedUser} from '../actions/authedUser'
 
 class Login extends React.Component{
@@ -57,9 +57,9 @@ class Login extends React.Component{
 
       return(<div className="Login">
                  <div className="component-title"></div>
-                  <Dropdown options={optionsDyn} 
-                            onChange={this._onSelectSetAuthUser} 
-                            value={authenticatedUser} 
+                  <Dropdown options={ optionsDyn } 
+                            onChange={ this._onSelectSetAuthUser } 
+                            value={ authenticatedUser } 
                             placeholder="Choose user to login:"/>
 
                  <button onClick={(e) => {this.handleClick(e)}} name="loginBtn"> 

@@ -15,14 +15,11 @@ export function handleInitialData (authedUser) {
         })
     }
   }
-
-
   
 export const saveQuestion = (question, authUser) => {
   return (dispatch) => {
       return _saveQuestion(question)
           .then ((formattedQuestion) => {
-              console.log("formattedQuestion",formattedQuestion, authUser);
               dispatch(postQuestion(formattedQuestion));;
               dispatch(updateQuestionsInUsers(formattedQuestion,authUser));
       })
@@ -32,7 +29,7 @@ export const saveQuestion = (question, authUser) => {
 // answering a poll, voting
 export const saveQuestionAnswer = (question, authUser, answer) => {
   return (dispatch) => {
-      return _saveQuestionAnswer(authUser, question.id, answer ) //TODO: WHAT SHOULD BE IMPL HERE
+      return _saveQuestionAnswer(authUser, question.id, answer ) 
           .then ((response) => {
               dispatch(updateAnswersQuestion(question, question.id));
               dispatch(updateAnswersUsers(question, authUser, answer));

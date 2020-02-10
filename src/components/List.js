@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { isEmpty } from './Shared'
 
 class List extends React.Component{
-// https://stackoverflow.com/questions/50735735/order-of-component-life-cycle-with-react-redux-connect-and-redux-data
-  
-constructor(props){
+
+  constructor(props){
   super(props);
   this.state = {
     id : '',
@@ -17,7 +17,6 @@ constructor(props){
 }
 
 percentagePerQuestion = () => {
-  console.log("percentage")
   let noOfUsers = this.returnNoUsers();
   let countArray = this.countNoVotesPerQuestion();
   let percentagePerQuestArr = [];
@@ -29,7 +28,6 @@ percentagePerQuestion = () => {
         optionTwo : Math.round((element.optionTwo/noOfUsers)*100) };
       return percentagePerQuestArr;
   })
-  console.log("percentagePerQuestArr", percentagePerQuestArr)
   return percentagePerQuestArr;
 }
 
@@ -144,8 +142,6 @@ let sortFn = function(a, b) {
 };
 
 const mapStateToProps = ( state ) => {
-  console.log("inside map state to props App, state: ", state)
-  //inside mapStateToProps
   let unansweredQuestions = []; 
   let answeredQuestions = [];
 
@@ -176,9 +172,7 @@ const mapStateToProps = ( state ) => {
 
 export default connect(mapStateToProps) (List);
 
-function isEmpty(val){
-  return (val === undefined || val == null || val.length <= 0  ) ? true : false;
-}
+
 let filterQuestions = (questions, users, user)  => {
   let answersForUserArray = [];
   let unansweredResult = [];
