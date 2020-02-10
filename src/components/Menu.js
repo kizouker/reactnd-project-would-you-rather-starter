@@ -28,9 +28,9 @@ class Menu extends React.Component{
       msg = msg_1 + msg_2;
     }
     return (<div>
-      <h5>
+      <i><h6>
         {msg}
-      </h5>
+      </h6></i>
     </div>)
   }
   render (){
@@ -38,6 +38,8 @@ class Menu extends React.Component{
     <Router>
        <div>
         {/* <Link to="/protected"> | Menu | </Link> */}
+  {this.userLoggedIn() }
+        
            <Link to="/">| HomePage |</Link> 
            <Link to="/leaderboard">| LeaderBoard |</Link> 
            <Link to="/post">| Post new Question |</Link> 

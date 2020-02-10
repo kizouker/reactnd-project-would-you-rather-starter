@@ -8,36 +8,34 @@ class Answer extends React.Component{
     this.handleVote = this.handleVote.bind(this);
   
     this.state = {
-      optionOne : 'true',
+      optionOne : false,
+      optionTwo : false
     }
   }
   componentDidMount() {
     const { question } = this.props.location.state; 
   }
- // four cases
-    /** if user already exists in A , but clicked on b, then add user to B ( and remove from A)
-    if user already exists in B, but clicked on am then add user to A (and remove from B)
+    /** 
+      four cases
+      if user already exists in A , but clicked on b, then add user to B ( and remove from A)
+      if user already exists in B, but clicked on am then add user to A (and remove from B)
 
-    if user already exists in A, but clicked on a, then do nothing
-    if user already exists in B, but clicked on b, then do nothing
+     if user already exists in A, but clicked on a, then do nothing
+     if user already exists in B, but clicked on b, then do nothing
     */
 handleVote = ( e ) => {
       let authUser = this.props.authenticatedUser;
       let questions = this.props.questions;
       let option = e.target.name;
       let optionOneVotes, optionTwoVotes;
-      console.log("# of users", this.returnNoUsers());
-      // what option is chosen?
+        // what option is chosen?
       if (option === "optionOne"){
-        // oppositOption = "optionTwo";
-        this.setState({optionOne : true});
-      } else{
-        // oppositOption ="optionOne"
-        this.setState({optionOne : false});
+        this.setState({optionOne : true, optionTwo : false});
+      } else if (option === 'optionTwo'){
+        this.setState({optionOne : false, optionTwo : true});
       }
       // get the id of the question
       let id = e.target.value;
-    
 
       if (!isEmpty(id) && !isEmpty(option) && !isEmpty(authUser)) {
         optionOneVotes = questions[id]['optionOne'].votes;
@@ -86,7 +84,7 @@ render (){
   const { question }  = this.props.location.state;
 
     return(<div className="Answer">
-           ß<h2 className="component-title">Answer</h2>
+           <h2 className="component-title">Answer</h2>
             <table>
               <thead> 
                 <tr>
@@ -117,7 +115,7 @@ render (){
                       </button> 
                   </td>
                   <td>
-                    {!this.state.optionOne && 
+                    {this.state.optionTwo && 
                     (<div> 
                         <b> Choosen </b>
                     </div>)}           

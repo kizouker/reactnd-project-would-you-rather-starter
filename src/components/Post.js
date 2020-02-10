@@ -20,27 +20,14 @@ class Post extends React.Component{
     alert('An new question was posted');
     let authUser = this.props.authenticatedUser;
     
-  let question = {  
-    optionOne : this.state.question.optionOne,
-    optionTwo : this.state.question.optionTwo,
-    author : authUser
-  };
+    let question = {  
+      optionOne : this.state.question.optionOne,
+      optionTwo : this.state.question.optionTwo,
+      author : authUser
+    };
   
-
-  /**
-   *             <div className="form">
-                <form onSubmit={this.handleSubmit}>
-                  <textarea cols="100" rows="4" name="optionOne" placeholder="Here you write the first option ..." onChange={this.handleInputChange}>
-                  </textarea>
-                  <br></br>
-                  <textarea cols="100" rows="4" name="optionTwo" placeholder="Here you write the second option ... ..." onChange={this.handleInputChange}>
-                  </textarea>
-                  <br></br>
-                  <input type="submit" value="submit"/>
-                </form
-   */
-  this.props.dispatch(saveQuestion(question, authUser));
-  event.preventDefault();
+    this.props.dispatch(saveQuestion(question, authUser));
+    event.preventDefault();
   }
 
   handleInputChange(event) {
@@ -50,37 +37,42 @@ class Post extends React.Component{
     const name = target.name;
     /** problem: state is not updated directly it's postponed */
     /** solved - problem was declaration with beloq */
-     const {author, optionOne, optionTwo} = this.state.question;
+    const {author, optionOne, optionTwo} = this.state.question;
 
     this.setState( currentState => ({
       question : {
-        // author : this.props.authenticatedUser,
           ...currentState.question,
           [name]: value
         }
       }
     ), () => console.log(this.state))
-  //  console.log(this.state); //postponed en state change
-  console.log("tate in Post", this.state);
+  console.log("State in Post", this.state);
   }
   
     render (){
+      const {author, optionOne, optionTwo} = this.state.question;
       //handleInput => parent
       return(
             <div className="Post" >
             <h2 className="component-title">Post a new question</h2>
             <h3>Would you rather:</h3>
-            <div className="form">
-                <form onSubmit={this.handleSubmit}>
-                  <input name="optionOne" type="text" placeholder="1" onChange={this.handleInputChange}>
-                  </input>
-                  <input name="optionTwo" type="text" placeholder="2" onChange={this.handleInputChange}>
-                  </input>
-                  <br></br>
-                  <input type="submit" value="submit"/>
-                </form>
-            </div>
-          </div>);
+                <div className="form">
+                  <form onSubmit={this.handleSubmit}>
+                    <textarea rows="4" cols="100" name="optionOne" type="text" 
+                      placeholder="Here you write the first option ..." onChange={this.handleInputChange}
+                      value={optionOne.value}  > 
+                    </textarea>
+
+                    <textarea rows="4" cols="100" name="optionTwo" type="text" 
+                      placeholder="Here you write the second option ..." onChange={this.handleInputChange}
+                      value={optionTwo.value}  >
+                    </textarea>
+                
+                    <br></br>
+                    <input type="submit" value="submit"/>
+                  </form>
+               </div>
+            </div>);
       }
   }
 
