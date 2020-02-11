@@ -80,15 +80,14 @@ Leaderboard
 
 ## Define all actions
 - put them in a separate file
-ACTION_POST_QUESTION V
-ACTION_UPDATE_LIST V
-ACTION_UPDATE_LEADERBOARD V
+- ACTION_POST_QUESTION V
+- ACTION_UPDATE_LIST V
+- ACTION_UPDATE_LEADERBOARD V
 
 ## Define reducers
 - use switch / case statements
 
-## define user log in component
-
+## Define user log in component
 
 # Initial information 
 
