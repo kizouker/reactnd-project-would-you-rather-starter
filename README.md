@@ -1,6 +1,17 @@
-# TODO
+#### Documentation
 
-## read differance btw comp and stateless comp
+### Installation
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+### `yarn install`
+To build the project.
+
+### `yarn start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
 
 ## setup git account
 git remote -v
@@ -8,16 +19,10 @@ git remote rm origin
 git remote add origin https://github.com/kizouker/reactnd-project-would-you-rather-starter.git
 git push --set-upstream origin master
 
-
-## Define all views
-
-### Documentation
-
+### Work process
 
 ## Project plan, etc
-
 https://onedrive.live.com/edit.aspx?resid=9E495D9EC53B2CA3%21692&nd=1
-
 https://onedrive.live.com/?id=9E495D9EC53B2CA3%21691&cid=9E495D9EC53B2CA3
 
 
@@ -32,33 +37,23 @@ https://review.udacity.com/#!/rubrics/1567/view
 http://either.io/7095/would-you-rather
 
 
-
+## Define all views
 ## Define all components
 Answer
 User
 Post
 List
 LeaderBoard
-
-- definiera alla 
 ## Draw a hierchy btwn components
 ## What events happen in the cmp 
 
-Post
-----
-Gives new questions
-Updates List / unanswered or answered questions
-Updates Leaderboard
+## Post
+Posts a new question with two alternatives
 
-Answer
-------
+## Answer
 Updates List / unanswered or answered questions
 Updates Statistics for questions
 Updates Leaderboard
-
-User
------
-Updates ? Leaderboard
 
 ## Decide what states lives in the store
 - Question
@@ -95,7 +90,10 @@ ACTION_UPDATE_LEADERBOARD V
 
 ## define user log in component
 
-# Would You Rather Project
+
+### Initial information ---
+
+## Would You Rather Project
 
 This is the starter code for the final assessment project for Udacity's React & Redux course.
 
