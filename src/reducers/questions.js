@@ -5,7 +5,6 @@ const questions =  (state = {}, action) => {
     let returnvalue;
         switch (action.type){
             case GET_INITIAL_QUESTIONS: 
-            // console.log("state in q reducer", state);
                 returnvalue =  { 
                     ...state,
                     ...state.questions,
@@ -13,9 +12,7 @@ const questions =  (state = {}, action) => {
                 }
                 return returnvalue;
             
-                //same as in _DATA.js...
             case ACTION_POST_QUESTION: 
-            // console.log("state in q reducer", state);
                  returnvalue =  { 
                     ...state,
                     ...state.questions,
@@ -29,8 +26,6 @@ const questions =  (state = {}, action) => {
                 ...state.questions,
                 [action.id] : action.question,
             }
-
-            //TODO: redudant above
            return returnvalue;
 
            case ACTION_POST_UPDATE_ANSWERS_QUESTIONS:
@@ -40,7 +35,6 @@ const questions =  (state = {}, action) => {
                     [action.id] : action.question,
                 }
            return returnvalue;
-   //TODO: redudant above
             default :
                 return state;
     }

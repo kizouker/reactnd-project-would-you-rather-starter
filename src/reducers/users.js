@@ -14,17 +14,13 @@ const users = (state = {}, action) => {
                 }           
                 return returnvalue;
                 
-                //TODO: should this be done here or in the _DATA savequestion ????
             case ACTION_UPDATE_QUESTION_USERS:   
                 authUser = action.authUser //TODO - wrong
-                //  slet authedUser = state.authedUser;
-               // state = users
                 qid = action.formattedQuestion.id;
                 userss = state;
                 user = userss[authUser];
                 questions = user.questions;
 
-                console.log("state in users reducer", state);
                 returnvalue = {
                     ...userss, // spread from the state
                     [authUser]: {
