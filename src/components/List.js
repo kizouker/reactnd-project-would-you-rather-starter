@@ -90,37 +90,43 @@ countNoVotesPerQuestion = () => {
                   <th>Would you rather...</th> 
                 </tr>
               </thead>
-              {questionsArray.map ((el) => {
+              { questionsArray.map ((el) => {
       return(<tbody key={el.id}>
-              <tr>
-                <td>... {el.author} ...
-                  <img src={window.location.origin + users[el.author].avatarURL} 
-                    width="10%" height="10%"/>
-                    wonders if you, would you rather...
-                </td>
-                <td>
-                  {el.optionOne.text}   
-                </td>
-                {!unanswered && (<td>Votes: {el.optionOne.votes.length}</td>)}
-                {!unanswered && (<td>Percentage: 
-                  {this.percentagePerQuestion()[el.id].optionOne}</td>)}
-                <td>   ...   or   ...   </td>
-                <td>
-                  {el.optionTwo.text}   
-                </td>
-                {!unanswered && (<td>
+              { !unanswered && (
+                <tr>
+                  <td>... {el.author} ...</td>
+                  <td><img src={window.location.origin + users[el.author].avatarURL} 
+                      width="10%" height="10%"/>wonders if you, would you rather...
+                  </td>
+                  <td>{el.optionOne.text}</td>
+                  <td>Votes: {el.optionOne.votes.length}</td>
+                  <td>Percentage: <br></br>
+                    {this.percentagePerQuestion()[el.id].optionOne} %
+                  </td>
+                  <td>... or ...</td>
+                  <td>{el.optionTwo.text}</td>
+                  <td>
                     Votes: {el.optionTwo.votes.length} 
-                  </td>)}
-                {!unanswered && (<td>
-                    Percentage: {this.percentagePerQuestion()[el.id].optionTwo}
-                  </td>)}
-                  {unanswered && (<td>
-                      <Link to={{ pathname : '/questions/' + el.id,   
-                        state: {
-                        question : el,
-                          }}}>| Answer Poll |</Link>
-                    </td>)}
-                </tr>
+                  </td>
+                  <td>
+                    Percentage: <br></br>
+                    {this.percentagePerQuestion()[el.id].optionTwo} %
+                  </td>
+                </tr>)}              
+
+              {unanswered && (
+                <tr>
+                <Link to={{ pathname : '/questions/' + el.id,   
+                          state: {
+                          question : el,
+                            }}}>
+                  <td>... {el.author} ...</td>
+                  <td><img src={window.location.origin + users[el.author].avatarURL} 
+                      width="10%" height="10%"/>wonders if you, would you rather...</td>
+                  <td>{el.optionOne.text}</td>
+                  <td>{el.optionTwo.text}</td>
+                  </Link>
+                </tr>)}
               </tbody>)
             })}
             </table>
