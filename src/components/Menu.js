@@ -41,14 +41,25 @@ class Menu extends React.Component{
            <Link to="/post">| Post new Question |</Link> 
            <Link to="/login">|Login / Logout|</Link> 
       </div>
+      {/***
+        * Goes through a list of possible matches and routes
+        * to the correct one.
+        */}
       <Switch>
         <Route path="/login" component={ Login } 
                             authenticatedUser={ this.props.authenticatedUser }/>
-        <PrivateRoute path="/leaderboard" component={LeaderBoard} authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path='/post' component={Post} authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path='/questions/:id' component={Answer} authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path="/" component={Categories} authenticatedUser={this.props.authenticatedUser}/> 
+        <PrivateRoute path="/leaderboard" component={ LeaderBoard } authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute exact path='/post' component={ Post } authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute exact path='/questions/:id' component={ Answer } 
+        authenticatedUser={this.props.authenticatedUser}/>
         <Route path="/nomatch" component={ NoMatch } />
+        <PrivateRoute exact path="/" component={ Categories } authenticatedUser={this.props.authenticatedUser}/> 
+  
+  {/** the homepage should show first...
+      * I have put it last to make it match last
+      * but its the nomatch that matches...
+      * PrivateRoute is used to 
+      */}
       </Switch>
     </Router>)
     ;

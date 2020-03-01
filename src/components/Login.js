@@ -4,6 +4,7 @@ import 'react-dropdown/style.css'
 import { connect } from 'react-redux';
 import { isEmpty } from './Shared'
 import { setAuthenticatedUser} from '../actions/authedUser'
+import { withRouter } from 'react-router';
 
 class Login extends React.Component{
     constructor(props){
@@ -13,6 +14,9 @@ class Login extends React.Component{
       }
       this._onSelectSetAuthUser = this._onSelectSetAuthUser.bind(this);
       this.handleClick = this.handleClick.bind(this)
+      this.authenticate = this.authenticate.bind(this)
+      this.signout = this.signout.bind(this)
+      
     }
 
     _onSelectSetAuthUser = ( authenticatedUser ) => {
@@ -22,9 +26,15 @@ class Login extends React.Component{
     }
     
     authenticate() {
+        // let history = this.props.history; the history is alread in the this
+        // object ...
+        // const history = useHistory();
+        let history = this.props.history;
+        console.log("history ", history)
         this.setAuthUser( this.state.authenticatedUser );
+        history.push('/');
     }
-    
+        
     signout() {
         this.setState({ authenticatedUser : ''}, 
         () => console.log('authUser', this.state.authenticatedUser));
@@ -35,9 +45,9 @@ class Login extends React.Component{
         this.props.dispatch(setAuthenticatedUser(obj.value));
     }
          
-  handleClick = (e) => { 
-        this.props.authenticatedUser ? this.signout() : this.authenticate();
-    }  
+  handleClick = ( history ) => { 
+        this.props.authenticatedUser ? this.signout() : this.authenticate(history);
+       }  
     render (){
         const { authenticatedUser } = this.state;
           let users = this.props.users;
@@ -61,9 +71,11 @@ class Login extends React.Component{
                             onChange={ this._onSelectSetAuthUser } 
                             value={ authenticatedUser } 
                             placeholder="Choose user to login:"/>
-
-                 <button onClick={(e) => {this.handleClick(e)}} name="loginBtn"> 
-
+            
+                 <button onClick={e => this.handleClick(e)} 
+                    name="loginBtn"> 
+                {/*** Checks if the user is autheticated and shows the
+                * appropriate button "Login" or "Logout" */}
                  { this.props.authenticatedUser && <div>Logout</div>} 
                  { !this.props.authenticatedUser && <div>Login</div>} 
                 </button>
@@ -79,4 +91,4 @@ const mapStateToProps = ( state ) => {
       }
 }
 
-export default connect(mapStateToProps) (Login);
+export default withRouter(connect(mapStateToProps) (Login));

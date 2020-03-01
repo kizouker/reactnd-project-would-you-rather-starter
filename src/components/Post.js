@@ -1,6 +1,8 @@
 import { saveQuestion } from '../actions/shared.js';
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom'
+import { withRouter } from 'react-router';
 
 class Post extends React.Component{
   constructor(props){
@@ -16,27 +18,26 @@ class Post extends React.Component{
       this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-  handleSubmit = (event) => {
-    alert('An new question was posted');
-    let authUser = this.props.authenticatedUser;
+  handleSubmit = ( event ) => {
+  let authUser = this.props.authenticatedUser;
     
-    let question = {  
-      optionOne : this.state.question.optionOne,
-      optionTwo : this.state.question.optionTwo,
-      author : authUser
-    };
-  
-    this.props.dispatch(saveQuestion(question, authUser));
+  let question = {  
+    optionOne : this.state.question.optionOne,
+    optionTwo : this.state.question.optionTwo,
+    author : authUser
+  };
+
+  this.props.dispatch(saveQuestion(question, authUser));
+    const { history } = this.props;
+    history.push('/');
     event.preventDefault();
   }
 
-  handleInputChange(event) {
+  handleInputChange( event ) {
     console.log("handleInputChange", this.props.authenticatedUser);
     const target = event.target;
     const value = target.value;
     const name = target.name;
-   
-    const {author, optionOne, optionTwo} = this.state.question;
 
     this.setState( currentState => ({
       question : {
@@ -48,28 +49,31 @@ class Post extends React.Component{
   }
   
     render (){
-      const {optionOne, optionTwo} = this.state.question;
-      return(
-            <div className="Post" >
-            <h2 className="component-title">Post a new question</h2>
-            <h3>Would you rather:</h3>
-                <div className="form">
-                  <form onSubmit={this.handleSubmit}>
-                    <textarea rows="4" cols="100" name="optionOne" type="text" 
-                      placeholder="Here you write the first option ..." onChange={this.handleInputChange}
-                      value={optionOne.value}  > 
-                    </textarea>
+      const { optionOne, optionTwo } = this.state.question;
+      return(<Router>
+              <div className="Post" >
+              <h2 className="component-title">Post a new question</h2>
+              <h3>Would you rather:</h3>
+                  <div className="form">
+                    <form onSubmit={this.handleSubmit}>
+                      <textarea rows="4" cols="100" name="optionOne" type="text" 
+                        placeholder="Here you write the first option ..." 
+                        onChange={this.handleInputChange}
+                        value={optionOne.value} > 
+                      </textarea>
 
-                    <textarea rows="4" cols="100" name="optionTwo" type="text" 
-                      placeholder="Here you write the second option ..." onChange={this.handleInputChange}
-                      value={optionTwo.value}  >
-                    </textarea>
-                
-                    <br></br>
-                    <input type="submit" value="submit"/>
-                  </form>
-               </div>
-            </div>);
+                      <textarea rows="4" cols="100" name="optionTwo" type="text" 
+                        placeholder="Here you write the second option ..." 
+                        onChange={this.handleInputChange}
+                        value={optionTwo.value} >
+                      </textarea>
+                  
+                      <br></br>
+                      <input type="submit" value="submit"/>
+                    </form>
+                </div>
+              </div>
+            </Router>);
       }
   }
 
@@ -81,4 +85,4 @@ class Post extends React.Component{
    }
  }
 
- export default connect(mapStateToProps)(Post);
+ export default withRouter(connect(mapStateToProps) (Post))
