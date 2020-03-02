@@ -2,7 +2,7 @@ import { getInitialData } from '../_DATA.js';
 import { receiveUsers, updateAnswersUsers } from '../actions/users'
 import { receiveQuestions, updateAnswersQuestion, postQuestion } from '../actions/questions'
 import { setAuthenticatedUser } from '../actions/authedUser'
-import {_getQuestions, _saveQuestionAnswer, _saveQuestion } from '../_DATA.js';
+import { _saveQuestionAnswer, _saveQuestion } from '../_DATA.js';
 import { updateQuestionsInUsers } from './users.js';
 
 export function handleInitialData (authedUser) {

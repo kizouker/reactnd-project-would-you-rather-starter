@@ -13,9 +13,7 @@ class Answer extends React.Component{
       optionTwo : false
     }
   }
-  componentDidMount() {
-    const { question } = this.props.location.state; 
-  }
+
     /** 
       four cases
       if user already exists in A , but clicked on b, then add user to B ( and remove from A)
@@ -95,7 +93,8 @@ render (){
               <tbody>
                 <tr>
                   <td>... {question.author} ...
-                    <img src={window.location.origin + users[question.author].avatarURL} width="10%" height="10%"/>
+                    <img src={window.location.origin + users[question.author].avatarURL} 
+                    width="10%" height="10%" alt="Avatar of the author." />
                     wonders if you, would you rather...
                   </td>
                   <td>{question.optionOne.text} 

@@ -5,9 +5,7 @@ import Menu from './components/Menu.js';
 import { connect } from 'react-redux';
 
 class App extends React.Component{
-  constructor(props){
-    super(props);
-  }
+ 
   componentWillMount(){
     this.props.dispatch(handleInitialData());
   }

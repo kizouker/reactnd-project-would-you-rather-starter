@@ -5,7 +5,6 @@ import { isEmpty } from './Shared.js'
 class LeaderBoard extends React.Component{
   render (){
     const { users } = this.props;
-    let foo;
     let userAnswers_Array;
     let usersArray = Object.values(users);;    
     console.log("leaderboard", users)
@@ -52,7 +51,7 @@ class LeaderBoard extends React.Component{
               </tr>
             </thead>
             <tbody>
-              {foo = sortedArray.map(user => {
+              {sortedArray.map(user => {
                   if (!isEmpty(user.answers)){
                     userAnswers_Array = Object.values(user.answers);
                       console.log("user.answers. ----",userAnswers_Array)
@@ -60,7 +59,10 @@ class LeaderBoard extends React.Component{
                   return(
                   <tr key={user.id}>
                     <td>{user.name}</td>  
-                    <td><img src={window.location.origin + user.avatarURL} width="10%" height="10%"/></td>
+                    <td><img src={window.location.origin + user.avatarURL} 
+                      width = "10%" height = "10%" 
+                      alt = "This is an avatar of the user."/>
+                    </td>
                     <td>{userAnswers_Array.length}</td>  
                     <td>{user.questions.length}</td>
                   </tr>);

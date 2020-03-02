@@ -96,7 +96,8 @@ countNoVotesPerQuestion = () => {
                 <tr>
                   <td>... {el.author} ...</td>
                   <td><img src={window.location.origin + users[el.author].avatarURL} 
-                      width="10%" height="10%"/>wonders if you, would you rather...
+                      width="10%" height="10%" alt="The avatar of the author"/>
+                      wonders if you, would you rather...
                   </td>
                   <td>{el.optionOne.text}</td>
                   <td>Votes: {el.optionOne.votes.length}</td>
@@ -122,7 +123,8 @@ countNoVotesPerQuestion = () => {
                             }}}>
                   <td>... {el.author} ...</td>
                   <td><img src={window.location.origin + users[el.author].avatarURL} 
-                      width="10%" height="10%"/>wonders if you, would you rather...</td>
+                      width="10%" height="10%" alt="The avatar of the author"/>
+                      'wonders if you, would you rather...</td>
                   <td>{el.optionOne.text}</td>
                   <td>{el.optionTwo.text}</td>
                   </Link>

@@ -1,4 +1,3 @@
-import {_getUsers } from '../_DATA.js';
 import { GET_INITIAL_USERS, ACTION_UPDATE_QUESTION_USERS,
     ACTION_POST_UPDATE_ANSWERS_USERS } from '../actionTypes'
     
