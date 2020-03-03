@@ -7,6 +7,7 @@ import { isEmpty } from './Shared'
 
 const PrivateRoute = props => {
     let { component: Component, path, authenticatedUser, ...rest } = props;
+
     if (authenticatedUser) {
         return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
@@ -15,11 +16,12 @@ const PrivateRoute = props => {
         return <Redirect to='/nomatch' />
       }
       // else => to home /
-      else if(!isEmpty(Component)){
-        return <Redirect to='/' />
+      else if(!isEmpty(Component) && (path.includes('leaderboard') 
+        || (path.includes('post')))){
+        return <Redirect to='/login' />
       }
-    // if not authenticated => redirect to /login
-    return <Redirect to='/login' />
+      // if not authenticated => redirect to /login
+      return <Redirect to='/' />
     }
   };
 
