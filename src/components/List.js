@@ -116,19 +116,20 @@ countNoVotesPerQuestion = () => {
                 </tr>)}              
 
               {unanswered && (
+                  <Link to={{ pathname : '/questions/' + el.id,   
+                  state: {
+                  question : el,
+                    }}}>
                 <tr>
-                <Link to={{ pathname : '/questions/' + el.id,   
-                          state: {
-                          question : el,
-                            }}}>
                   <td>... {el.author} ...</td>
                   <td><img src={window.location.origin + users[el.author].avatarURL} 
                       width="10%" height="10%" alt="The avatar of the author"/>
                       'wonders if you, would you rather...</td>
                   <td>{el.optionOne.text}</td>
                   <td>{el.optionTwo.text}</td>
-                  </Link>
-                </tr>)}
+                </tr>
+                </Link>
+                )}
               </tbody>)
             })}
             </table>

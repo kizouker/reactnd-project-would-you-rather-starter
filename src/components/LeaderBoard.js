@@ -11,23 +11,26 @@ class LeaderBoard extends React.Component{
       // sorting the mapped array containing the reduced values
       let sum = 0;
         var mappedUsersSum = usersArray.map(function(user, i) {
-          if (!isEmpty(users.answers)){
-            userAnswers_Array = Object.values(users.answers);
+          if (!isEmpty(user.answers)){
+            userAnswers_Array = Object.values(user.answers);
             sum = userAnswers_Array.length;
-            console.log("user", userAnswers_Array);
-          } else if(!isEmpty(user.questions)){
+            console.log("user.answers: ", userAnswers_Array.length);
+            console.log("user.answers, sum: ", sum);
+          } 
+         if(!isEmpty(user.questions)){
             sum = sum + user.questions.length;
-            console.log("user.questions.",user.questions)
+            console.log("user.questions: ",user.questions.length);
+            console.log("user.questions, sum: ", sum)
           }
         return { index: i, sum};
       })
 
       mappedUsersSum.sort(function(a, b) {
         if (a.sum > b.sum) {
-          return 1;
+          return -1;
         }
         if (a.sum < b.sum) {
-          return -1;
+          return 1;
         }
         return 0;
       });
@@ -37,6 +40,8 @@ class LeaderBoard extends React.Component{
         console.log("sort element", el);
         return usersArray[el.index];
       });
+
+      console.log("sortedArray, ", sortedArray);
 
     return(<div className="LeaderBoard">
             <h2 className="component-title">LeaderBoard</h2>

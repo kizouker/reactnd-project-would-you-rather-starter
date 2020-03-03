@@ -26,9 +26,6 @@ class Login extends React.Component{
     }
     
     authenticate() {
-        // let history = this.props.history; the history is alread in the this
-        // object ...
-        // const history = useHistory();
         let history = this.props.history;
         console.log("history ", history)
         this.setAuthUser( this.state.authenticatedUser );
@@ -45,8 +42,8 @@ class Login extends React.Component{
         this.props.dispatch(setAuthenticatedUser(obj.value));
     }
          
-  handleClick = ( history ) => { 
-        this.props.authenticatedUser ? this.signout() : this.authenticate(history);
+  handleClick = () => { 
+        this.props.authenticatedUser ? this.signout() : this.authenticate();
        }  
     render (){
         const { authenticatedUser } = this.state;

@@ -20,7 +20,7 @@ class Post extends React.Component{
 
   handleSubmit = ( event ) => {
   let authUser = this.props.authenticatedUser;
-    
+      
   let question = {  
     optionOne : this.state.question.optionOne,
     optionTwo : this.state.question.optionTwo,
@@ -29,6 +29,7 @@ class Post extends React.Component{
 
   this.props.dispatch(saveQuestion(question, authUser));
     const { history } = this.props;
+    console.log("history ", history);  
     history.push('/');
     event.preventDefault();
   }

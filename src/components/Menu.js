@@ -47,13 +47,21 @@ class Menu extends React.Component{
         */}
       <Switch>
         <Route path="/login" component={ Login } 
-                            authenticatedUser={ this.props.authenticatedUser }/>
-        <PrivateRoute path="/leaderboard" component={ LeaderBoard } authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path='/post' component={ Post } authenticatedUser={this.props.authenticatedUser}/>
+          authenticatedUser={ this.props.authenticatedUser }/>
+        <PrivateRoute path="/leaderboard" component={ LeaderBoard } 
+          authenticatedUser={this.props.authenticatedUser}/>
+        <PrivateRoute exact path='/post' component={ Post } 
+          authenticatedUser={this.props.authenticatedUser}/>
         <PrivateRoute exact path='/questions/:id' component={ Answer } 
-        authenticatedUser={this.props.authenticatedUser}/>
-        <Route path="/nomatch" component={ NoMatch } />
-        <PrivateRoute exact path="/" component={ Categories } authenticatedUser={this.props.authenticatedUser}/> 
+          authenticatedUser={this.props.authenticatedUser}/>
+
+        {/** In case of a missing or bad url is requested - we 
+          ** redirect to the 404 - no match page */}   
+        <PrivateRoute exact path="/" component={ Categories } 
+          authenticatedUser={this.props.authenticatedUser}/>  
+         
+        <Route component={ NoMatch } /> 
+
   
   {/** the homepage should show first...
       * I have put it last to make it match last
@@ -69,7 +77,7 @@ class Menu extends React.Component{
  const NoMatch = ({ location }) => (
   <div>
     <h3>404</h3>
-    <h3> cannot access this page while user not logged in</h3>
+    <h3>cannot access this page while user not logged in</h3>
   </div>)
 
  const mapStateToProps = ( state ) => {
