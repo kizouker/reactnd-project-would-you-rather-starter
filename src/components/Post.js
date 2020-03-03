@@ -11,7 +11,8 @@ class Post extends React.Component{
         question : {
           author : '',
           optionOne : '',
-          optionTwo : ''
+          optionTwo : '',
+          timestap: '',
         }
       }
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,20 +20,25 @@ class Post extends React.Component{
     }
 
   handleSubmit = ( event ) => {
-  let authUser = this.props.authenticatedUser;
-      
-  let question = {  
-    optionOne : this.state.question.optionOne,
-    optionTwo : this.state.question.optionTwo,
-    author : authUser
-  };
+    let authUser = this.props.authenticatedUser;
+    let date = new Date();
+    let timestamp = date.getTime();
+    // console.log("timestamp ", timestamp);
 
-  this.props.dispatch(saveQuestion(question, authUser));
-    const { history } = this.props;
-    console.log("history ", history);  
-    history.push('/');
-    event.preventDefault();
-  }
+    let question = {  
+      optionOne : this.state.question.optionOne,
+      optionTwo : this.state.question.optionTwo,
+      author : authUser,
+      timestamp : timestamp
+    };
+
+    this.props.dispatch(saveQuestion(question, authUser));
+      const { history } = this.props;
+      console.log("history ", history);  
+      history.push('/');
+      event.preventDefault();
+    }
+
 
   handleInputChange( event ) {
     console.log("handleInputChange", this.props.authenticatedUser);

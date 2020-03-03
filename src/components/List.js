@@ -42,9 +42,9 @@ returnNoUsers = () => {
 }  
 
 countNoVotesPerQuestion = () => {
-  let questionsArr = Object.values(this.props.questions);
+  let questionsArrOrg = Object.values(this.props.questions);
   let countArray = [];
-  questionsArr.map(element => {
+  questionsArrOrg.map(element => {
                       // since we check when we add votes if the user
                       // already exists, we can now assume that a user
                       // only exists once in the array
@@ -65,6 +65,45 @@ countNoVotesPerQuestion = () => {
     return countArray;
   }
 //scope 2 -inside class 
+
+// sort =  () => {
+//   const { unanswered } = this.props;
+//   let questionsObj = this.props.questions;
+  
+//   if(!unanswered){
+//       questionsObj =this.props.answeredQuestions;
+//   } else {
+//       questionsObj =this.props.unAnsweredQuestions; 
+//   }
+//   //scope 3 -inside RE 
+//   // let users = this.props.users;
+//   // let questionsArray = [];
+//   let  questionsArrayUnSorted 
+//   if (!(isEmpty(questionsObj))) {
+//     questionsArrayUnSorted = Object.values(questionsObj);
+//   }
+
+//   let questSortedOnTimeStamp= questionsArrayUnSorted.sort(function(a, b) {
+//     if (a.timestamp > b.timestamp) {
+//       return -1;
+//     }
+//     if (a.timestamp < b.timestamp) {
+//       return 1;
+//     }
+//     return 0;
+//   });
+
+  // console.log("List sort,  ", questSortedOnTimeStamp);
+  // let questionArray; 
+  // let sortedArray = questSortedOnTimeStamp.map(function(el){
+  //   console.log("sort element", el);
+  //   return questionArray[el.index];
+  // });
+
+
+// }
+
+
   render (){
     const { unanswered } = this.props;
     let questionsObj = this.props.questions;
@@ -81,6 +120,7 @@ countNoVotesPerQuestion = () => {
     if (!(isEmpty(questionsObj))) {
       questionsArray = Object.values(questionsObj);
     }
+
     if (!isEmpty(users) && !(isEmpty(questionsArray))) { 
       return(
             <div>
@@ -142,10 +182,10 @@ countNoVotesPerQuestion = () => {
 
 let sortFn = function(a, b) {
   if (a.timestamp > b.timestamp) {
-    return 1;
+    return -1;
   }
   if (a.timestamp < b.timestamp) {
-    return -1;
+    return 1;
   }
   return 0;
 };

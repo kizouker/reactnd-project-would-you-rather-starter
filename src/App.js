@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 class App extends React.Component{
  
-  componentWillMount(){
+  componentDidMount(){ //componentDidMount - threw warning!!!
     this.props.dispatch(handleInitialData());
   }
   render(){
