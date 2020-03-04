@@ -25,6 +25,8 @@ class LeaderBoard extends React.Component{
         return { index: i, sum};
       })
 
+      // output is an array sorted on the the largest sum
+      // so elements in this array is the index, and the sum
       mappedUsersSum.sort(function(a, b) {
         if (a.sum > b.sum) {
           return -1;
@@ -36,6 +38,9 @@ class LeaderBoard extends React.Component{
       });
   
       // container for the resulting order
+      // the indices from above array is used to pin point
+      // the actual element in the original array
+      // and return it in a new array 
       var sortedArray = mappedUsersSum.map(function(el){
         console.log("sort element", el);
         return usersArray[el.index];

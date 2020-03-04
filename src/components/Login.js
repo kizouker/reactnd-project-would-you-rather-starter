@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 import { isEmpty } from './Shared'
 import { setAuthenticatedUser} from '../actions/authedUser'
 import { withRouter } from 'react-router';
-
+import { BrowserRouter as Router } from 'react-router-dom'
 class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {  
             authenticatedUser : '',
+            redirectFromReferrer : false
       }
       this._onSelectSetAuthUser = this._onSelectSetAuthUser.bind(this);
       this.handleClick = this.handleClick.bind(this)
       this.authenticate = this.authenticate.bind(this)
       this.signout = this.signout.bind(this)
-      
     }
 
     _onSelectSetAuthUser = ( authenticatedUser ) => {
@@ -29,7 +29,11 @@ class Login extends React.Component{
         let history = this.props.history;
         console.log("history ", history)
         this.setAuthUser( this.state.authenticatedUser );
-        history.push('/');
+  
+        this.setState({
+        redirectFromReferrer: true
+        }, () => console.log("redirectFromReferrer", this.state.redirectFromReferrer));
+
     }
         
     signout() {
@@ -46,9 +50,16 @@ class Login extends React.Component{
         this.props.authenticatedUser ? this.signout() : this.authenticate();
        }  
     render (){
+        let history = this.props.history;
         const { authenticatedUser } = this.state;
-          let users = this.props.users;
-          let optionsDyn = [];
+        const { users } = this.props;
+
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
+        if ( this.state.redirectFromReferrer ){
+            history.push(from);
+        }
+
+        let optionsDyn = [];
         if(!isEmpty(users)){
             let userArray = Object.values(users);
 
@@ -61,8 +72,9 @@ class Login extends React.Component{
                     return optionsDyn;
             })
         }
-
-      return(<div className="Login">
+       
+      return(<Router>
+                <div className="Login">
                  <div className="component-title"></div>
                   <Dropdown options={ optionsDyn } 
                             onChange={ this._onSelectSetAuthUser } 
@@ -77,6 +89,7 @@ class Login extends React.Component{
                  { !this.props.authenticatedUser && <div>Login</div>} 
                 </button>
               </div>
+            </Router>
               );
     }
 }

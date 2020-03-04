@@ -60,10 +60,9 @@ class Menu extends React.Component{
         <PrivateRoute exact path="/" component={ Categories } 
           authenticatedUser={this.props.authenticatedUser}/>  
          
-        <Route component={ NoMatch } /> 
-
+        <PrivateRoute path="/nomatch" component={NoMatch} /> 
   
-  {/** the homepage should show first...
+     {/** the homepage should show first...
       * I have put it last to make it match last
       * but its the nomatch that matches...
       * PrivateRoute is used to 
@@ -74,7 +73,7 @@ class Menu extends React.Component{
   }
  }
 
- const NoMatch = ({ location }) => (
+ export const NoMatch = ({ location }) => (
   <div>
     <h3>404</h3>
     <h3>cannot access this page while user not logged in</h3>

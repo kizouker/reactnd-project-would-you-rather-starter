@@ -13,7 +13,6 @@ class Answer extends React.Component{
       optionTwo : false
     }
   }
-
     /** 
       four cases
       if user already exists in A , but clicked on b, then add user to B ( and remove from A)
@@ -23,59 +22,61 @@ class Answer extends React.Component{
      if user already exists in B, but clicked on b, then do nothing
     */
 handleVote = ( e ) => {
-      let authUser = this.props.authenticatedUser;
-      let questions = this.props.questions;
-      let option = e.target.name;
-      let optionOneVotes, optionTwoVotes;
-        // what option is chosen?
-      if (option === "optionOne"){
-        this.setState({optionOne : true, optionTwo : false});
-      } else if (option === 'optionTwo'){
-        this.setState({optionOne : false, optionTwo : true});
-      }
-      // get the id of the question
-      let id = e.target.value;
+  const { questions, authenticatedUser } = this.props;
+  let option = e.target.name;
+  let optionOneVotes, optionTwoVotes;
 
-      if (!isEmpty(id) && !isEmpty(option) && !isEmpty(authUser)) {
-        optionOneVotes = questions[id]['optionOne'].votes;
-        optionTwoVotes = questions[id]['optionTwo'].votes;
-        
-        let question = questions[id];
+    // what option is chosen?
+  if (option === "optionOne"){
+    this.setState({optionOne : true, optionTwo : false});
+  } else if (option === 'optionTwo'){
+    this.setState({optionOne : false, optionTwo : true});
+  }
+  // get the id of the question
+  let id = e.target.value;
 
-        if (!(optionOneVotes.includes(authUser)) && !(optionTwoVotes.includes(authUser))){
-          let optionVotes = questions[id][option].votes;
+  if (!isEmpty(id) && !isEmpty(option) && !isEmpty(authenticatedUser)) {
+    optionOneVotes = questions[id]['optionOne'].votes;
+    optionTwoVotes = questions[id]['optionTwo'].votes;
+    
+    let question = questions[id];
 
-          optionVotes.push(authUser);
-          question[option].votes = optionVotes;
+    if (!(optionOneVotes.includes(authenticatedUser)) && !(optionTwoVotes.includes(authenticatedUser))){
+      let optionVotes = questions[id][option].votes;
 
-          let answer = option;
-          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
-        }
+      optionVotes.push(authenticatedUser);
+      question[option].votes = optionVotes;
 
-        if ((optionOneVotes.includes(authUser)) && !(optionTwoVotes.includes(authUser)) 
-              && option === "optionTwo"){
-          optionOneVotes.pop(authUser);
-          optionTwoVotes.push(authUser);
-          
-          question["optionOne"].votes = optionOneVotes;
-          question["optionTwo"].votes = optionTwoVotes;
-
-          let answer = "optionTwo";
-
-          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
-        } else if(optionTwoVotes.includes(authUser) && !(optionOneVotes.includes(authUser)) 
-            && option === "optionOne"){
-          optionOneVotes.push(authUser);
-          optionTwoVotes.pop(authUser);
-
-          question["optionTwo"].votes = optionTwoVotes;
-          question["optionOne"].votes = optionOneVotes;
-
-          let answer = "optionOne";
-
-          this.props.dispatch(saveQuestionAnswer(question, authUser, answer));
-        }
+      let answer = option;
+      this.props.dispatch(saveQuestionAnswer(question, authenticatedUser, answer));
     }
+
+    if ((optionOneVotes.includes(authenticatedUser)) && !(optionTwoVotes.includes(authenticatedUser)) 
+          && option === "optionTwo"){
+      optionOneVotes.pop(authenticatedUser);
+      optionTwoVotes.push(authenticatedUser);
+      
+      question["optionOne"].votes = optionOneVotes;
+      question["optionTwo"].votes = optionTwoVotes;
+
+      let answer = "optionTwo";
+
+      this.props.dispatch(saveQuestionAnswer(question, authenticatedUser, answer));
+    } else if(optionTwoVotes.includes(authenticatedUser) && !(optionOneVotes.includes(authenticatedUser)) 
+        && option === "optionOne"){
+      optionOneVotes.push(authenticatedUser);
+      optionTwoVotes.pop(authenticatedUser);
+
+      question["optionTwo"].votes = optionTwoVotes;
+      question["optionOne"].votes = optionOneVotes;
+
+      let answer = "optionOne";
+
+      this.props.dispatch(saveQuestionAnswer(question, authenticatedUser, answer));
+      
+    }
+  }
+
 }
 
 render (){

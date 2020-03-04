@@ -32,13 +32,12 @@ class Post extends React.Component{
       timestamp : timestamp
     };
 
-    this.props.dispatch(saveQuestion(question, authUser));
+      this.props.dispatch(saveQuestion(question, authUser));
       const { history } = this.props;
       console.log("history ", history);  
       history.push('/');
       event.preventDefault();
     }
-
 
   handleInputChange( event ) {
     console.log("handleInputChange", this.props.authenticatedUser);
