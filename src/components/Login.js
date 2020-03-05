@@ -57,6 +57,8 @@ class Login extends React.Component{
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         if ( this.state.redirectFromReferrer ){
             history.push(from);
+        } else {
+            
         }
 
         let optionsDyn = [];

@@ -60,7 +60,7 @@ class Menu extends React.Component{
         <PrivateRoute exact path="/" component={ Categories } 
           authenticatedUser={this.props.authenticatedUser}/>  
          
-        <PrivateRoute path="/nomatch" component={NoMatch} /> 
+        <Route component={ NoMatch } /> 
   
      {/** the homepage should show first...
       * I have put it last to make it match last

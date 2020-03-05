@@ -13,6 +13,10 @@ class Answer extends React.Component{
       optionTwo : false
     }
   }
+
+  // componentDidMount() {
+  //   const { question } = this.props.location.state; 
+  // }
     /** 
       four cases
       if user already exists in A , but clicked on b, then add user to B ( and remove from A)
@@ -22,7 +26,8 @@ class Answer extends React.Component{
      if user already exists in B, but clicked on b, then do nothing
     */
 handleVote = ( e ) => {
-  const { questions, authenticatedUser } = this.props;
+  let authenticatedUser = this.props.authenticatedUser;
+  let questions = this.props.questions;
   let option = e.target.name;
   let optionOneVotes, optionTwoVotes;
 
