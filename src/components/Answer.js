@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { saveQuestionAnswer } from '../actions/shared'
 import { isEmpty } from './Shared'
+import { withRouter } from 'react-router';
+import { Route, Redirect } from 'react-router-dom';
 
 class Answer extends React.Component{
   constructor(props){
@@ -74,19 +76,56 @@ handleVote = ( e ) => {
 
       question["optionTwo"].votes = optionTwoVotes;
       question["optionOne"].votes = optionOneVotes;
-
       let answer = "optionOne";
-
       this.props.dispatch(saveQuestionAnswer(question, authenticatedUser, answer));
-      
     }
   }
-
 }
 
 render (){
-  const { users } = this.props; 
-  const { question }  = this.props.location.state;
+  const { questions, history, users } = this.props;
+  // let location = this.props.location;
+  let locationState = this.props.location.state;
+  // const { question }  = this.props.location.state;
+  let location = history.location;
+
+  let question;
+  console.log ("questions", questions);
+
+  if ( locationState ){
+    question = locationState.question;
+    console.log("question from location", question);
+  } else {
+    console.log("Location history ", location);
+    console.log("state from history ", location.state);
+    
+    if (isEmpty(location.state) || isEmpty(location.state.question)){
+      let foo = location.pathname.split('/');
+      let id = foo[2];
+      console.log ("The question id is: ", id);
+      let questionsArray = Object.values(questions);
+      let question = questionsArray.find (q => q.id === id);
+
+      console.log ("The question from history is: ", question);
+      console.log ("The author sis ", question.author);
+      console.log ("----------------------------------");
+   
+    } else {
+      question = location.state.question;
+      console.log("question from history", question);
+    }
+  }
+ 
+
+  //   console.log ("The question from history is: ", question);
+  //   console.log ("The author sis ", question.author);
+  //   console.log ("----------------------------------");
+  // }
+  if (isEmpty(question)){
+    console.log ("Question does not exist", question);
+    console.log("=================");
+    history.push('/nomatch');
+  }
 
     return(<div className="Answer">
            <h2 className="component-title">Answer</h2>
@@ -140,4 +179,4 @@ render (){
    }
 }
 
-export default connect(mapStateToProps) (Answer);
+export default withRouter(connect(mapStateToProps) (Answer));

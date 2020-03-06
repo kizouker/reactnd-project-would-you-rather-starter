@@ -1,6 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { isEmpty } from './Shared';
+import { withRouter } from 'react-router';
+
+
 //import { NoMatch } from './Menu';
 //Used to route to se if the user is authenticated
 //If not the user is re-directed to a Login page
@@ -18,20 +21,31 @@ const PrivateRoute = props => {
     // and then to the original request, i.e. /xxx
 
     } else {
+      let location = props.location;
+      let history = props.history;
+      
+      console.log("location: ", location);
+      console.log("path ", history.location);
+
+      if (isEmpty (location)){
+        location = history.location;
+        console.log("location updated: ", location);
+      }
+
       if(!isEmpty(Component) && !isEmpty(path)){
           if(path.includes('question')){
             return  (<Redirect to={{
               pathname: '/login',
-              state: { from : props.location }
+              state: { from : location }
             }} />)
             // return <Redirect to='/nomatch' />
         }
      return(<Redirect to={{
         pathname: '/login',
-        state: { from : props.location }
+        state: { from : location }
       }} />)
     }
   }}
   
 
-export default PrivateRoute;
+ export default withRouter(PrivateRoute);

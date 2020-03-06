@@ -30,10 +30,8 @@ class Login extends React.Component{
         console.log("history ", history)
         this.setAuthUser( this.state.authenticatedUser );
   
-        this.setState({
-        redirectFromReferrer: true
-        }, () => console.log("redirectFromReferrer", this.state.redirectFromReferrer));
-
+        this.setState({ redirectFromReferrer: true }, 
+            () => console.log("redirectFromReferrer", this.state.redirectFromReferrer));
     }
         
     signout() {
@@ -58,7 +56,7 @@ class Login extends React.Component{
         if ( this.state.redirectFromReferrer ){
             history.push(from);
         } else {
-            
+            console.log ("no REDIRECT");
         }
 
         let optionsDyn = [];

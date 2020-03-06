@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { isEmpty } from './Shared'
-import Answer from './Answer';
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+
 class List extends React.Component{
 
   constructor(props){
@@ -64,139 +64,118 @@ countNoVotesPerQuestion = () => {
       })
     return countArray;
   }
+//scope 2 -inside class 
+
+// sort =  () => {
+//   const { unanswered } = this.props;
+//   let questionsObj = this.props.questions;
+  
+//   if(!unanswered){
+//       questionsObj =this.props.answeredQuestions;
+//   } else {
+//       questionsObj =this.props.unAnsweredQuestions; 
+//   }
+//   //scope 3 -inside RE 
+//   // let users = this.props.users;
+//   // let questionsArray = [];
+//   let  questionsArrayUnSorted 
+//   if (!(isEmpty(questionsObj))) {
+//     questionsArrayUnSorted = Object.values(questionsObj);
+//   }
+
+//   let questSortedOnTimeStamp= questionsArrayUnSorted.sort(function(a, b) {
+//     if (a.timestamp > b.timestamp) {
+//       return -1;
+//     }
+//     if (a.timestamp < b.timestamp) {
+//       return 1;
+//     }
+//     return 0;
+//   });
+
+  // console.log("List sort,  ", questSortedOnTimeStamp);
+  // let questionArray; 
+  // let sortedArray = questSortedOnTimeStamp.map(function(el){
+  //   console.log("sort element", el);
+  //   return questionArray[el.index];
+  // });
+
+
+// }
+
 
   render (){
     const { unanswered } = this.props;
     let questionsObj = this.props.questions;
-
+    
     if(!unanswered){
-      questionsObj =this.props.answeredQuestions;
-  } else {
-      questionsObj =this.props.unAnsweredQuestions; 
-  }
-  //scope 3 -inside RE 
-  let users = this.props.users;
-  let questionsArray = [];
-
- 
-    const Part2 = (questionsObj) => {
-      { 
-        if (!(isEmpty(questionsObj))) {
-          questionsArray = Object.values(questionsObj);
-        }
-        questionsArray.map ((el) => {
-        return(<tbody key={el.id}>
-                { !unanswered && (
-                  <tr>
-                    <td>... {el.author} ...</td>
-                    <td><img src={window.location.origin + users[el.author].avatarURL} 
-                        width="10%" height="10%" alt="The avatar of the author"/>
-                        wonders if you, would you rather...
-                    </td>
-                    <td>{el.optionOne.text}</td>
-                    <td>Votes: {el.optionOne.votes.length}</td>
-                    <td>Percentage: <br></br>
-                      {this.percentagePerQuestion()[el.id].optionOne} %
-                    </td>
-                    <td>... or ...</td>
-                    <td>{el.optionTwo.text}</td>
-                    <td>
-                      Votes: {el.optionTwo.votes.length} 
-                    </td>
-                    <td>
-                      Percentage: <br></br>
-                      {this.percentagePerQuestion()[el.id].optionTwo} %
-                    </td>
-                  </tr>)}              
-  
-                {unanswered && (
-                    <Link to={{ pathname : '/questions/' + el.id,   
-                    state: {
-                    question : el,
-                      }}}>
-                  <tr>
-                    <td>... {el.author} ...</td>
-                    <td><img src={window.location.origin + users[el.author].avatarURL} 
-                        width="10%" height="10%" alt="The avatar of the author"/>
-                        'wonders if you, would you rather...</td>
-                    <td>{el.optionOne.text}</td>
-                    <td>{el.optionTwo.text}</td>
-                  </tr>
-                  </Link>
-                  )}
-                </tbody>)
-              })}
+        questionsObj =this.props.answeredQuestions;
+    } else {
+        questionsObj =this.props.unAnsweredQuestions; 
     }
-    const Part1 = (questionsObj) => {
-      return(<Router>
-        <div>
+    //scope 3 -inside RE 
+    let users = this.props.users;
+    let questionsArray = [];
+
+    if (!(isEmpty(questionsObj))) {
+      questionsArray = Object.values(questionsObj);
+    }
+
+    if (!isEmpty(users) && !(isEmpty(questionsArray))) { 
+      return(
+            <div>
             <table>
               <thead> 
                 <tr>
                   <th>Would you rather...</th> 
                 </tr>
               </thead>
-              <tbody>
-              <Part2 questionsObj={questionsObj}></Part2>
-              </tbody>
-              </table>
-      </div>
-      <Switch>  
-        <Route path='/questions/:id' component={Answer}></Route>
-        </Switch>
-      </Router>)
-    };
+              { questionsArray.map ((el) => {
+      return(<tbody key={el.id}>
+              { !unanswered && (
+                <tr>
+                  <td>... {el.author} ...</td>
+                  <td><img src={window.location.origin + users[el.author].avatarURL} 
+                      width="10%" height="10%" alt="The avatar of the author"/>
+                      wonders if you, would you rather...
+                  </td>
+                  <td>{el.optionOne.text}</td>
+                  <td>Votes: {el.optionOne.votes.length}</td>
+                  <td>Percentage: <br></br>
+                    {this.percentagePerQuestion()[el.id].optionOne} %
+                  </td>
+                  <td>... or ...</td>
+                  <td>{el.optionTwo.text}</td>
+                  <td>
+                    Votes: {el.optionTwo.votes.length} 
+                  </td>
+                  <td>
+                    Percentage: <br></br>
+                    {this.percentagePerQuestion()[el.id].optionTwo} %
+                  </td>
+                </tr>)}              
 
-    if (!isEmpty(users) && !(isEmpty(questionsArray))) { 
-      return(<Part1 questionsObj={questionsObj}></Part1>);
-
-    
-
-      // const Part =  () =>
-      //   { questionsArray.map ((el) => {
-      // return(<tbody key={el.id}>
-      //         { !unanswered && (
-      //           <tr>
-      //             <td>... {el.author} ...</td>
-      //             <td><img src={window.location.origin + users[el.author].avatarURL} 
-      //                 width="10%" height="10%" alt="The avatar of the author"/>
-      //                 wonders if you, would you rather...
-      //             </td>
-      //             <td>{el.optionOne.text}</td>
-      //             <td>Votes: {el.optionOne.votes.length}</td>
-      //             <td>Percentage: <br></br>
-      //               {this.percentagePerQuestion()[el.id].optionOne} %
-      //             </td>
-      //             <td>... or ...</td>
-      //             <td>{el.optionTwo.text}</td>
-      //             <td>
-      //               Votes: {el.optionTwo.votes.length} 
-      //             </td>
-      //             <td>
-      //               Percentage: <br></br>
-      //               {this.percentagePerQuestion()[el.id].optionTwo} %
-      //             </td>
-      //           </tr>)}              
-
-      //         {unanswered && (
-      //             <Link to={{ pathname : '/questions/' + el.id,   
-      //             state: {
-      //             question : el,
-      //               }}}>
-      //           <tr>
-      //             <td>... {el.author} ...</td>
-      //             <td><img src={window.location.origin + users[el.author].avatarURL} 
-      //                 width="10%" height="10%" alt="The avatar of the author"/>
-      //                 'wonders if you, would you rather...</td>
-      //             <td>{el.optionOne.text}</td>
-      //             <td>{el.optionTwo.text}</td>
-      //           </tr>
-      //           </Link>
-      //           )}
-      //         </tbody>)
-      //       })}
-      //       </table>
-      //     </div>)
+              {unanswered && (
+                  <Link to={{ 
+                    pathname : '/questions/' + el.id,   
+                    state: {
+                        question : el,
+                      }
+                    }}>
+                <tr>
+                  <td>... {el.author} ...</td>
+                  <td><img src={window.location.origin + users[el.author].avatarURL} 
+                      width="10%" height="10%" alt="The avatar of the author"/>
+                      'wonders if you, would you rather...</td>
+                  <td>{el.optionOne.text}</td>
+                  <td>{el.optionTwo.text}</td>
+                </tr>
+                </Link>
+                )}
+              </tbody>)
+            })}
+            </table>
+          </div>)
         } else{
           return null;
       }

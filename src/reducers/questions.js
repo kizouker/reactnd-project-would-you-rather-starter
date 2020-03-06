@@ -1,6 +1,7 @@
-import {ACTION_POST_QUESTION,  GET_INITIAL_QUESTIONS, ACTION_UPDATE_QUESTION,
-    ACTION_POST_UPDATE_ANSWERS_QUESTIONS } from '../actionTypes.js'
-
+import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS, ACTION_UPDATE_QUESTION,
+     ACTION_POST_UPDATE_ANSWERS_QUESTIONS } 
+    from '../actionTypes.js'
+    
 const questions =  (state = {}, action) => {
     let returnvalue;
         switch (action.type){

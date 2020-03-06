@@ -1,6 +1,5 @@
-
-import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS, 
-    ACTION_UPDATE_QUESTION, ACTION_POST_UPDATE_ANSWERS_QUESTIONS } from '../actionTypes'
+import { ACTION_POST_QUESTION, GET_INITIAL_QUESTIONS, ACTION_UPDATE_QUESTION, 
+    ACTION_POST_UPDATE_ANSWERS_QUESTIONS } from '../actionTypes'
 
 export function receiveQuestions(questions){
     return {    
