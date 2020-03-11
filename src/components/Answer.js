@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { saveQuestionAnswer } from '../actions/shared'
 import { isEmpty } from './Shared'
 import { withRouter } from 'react-router';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class Answer extends React.Component{
   constructor(props){
@@ -15,10 +15,6 @@ class Answer extends React.Component{
       optionTwo : false
     }
   }
-
-  // componentDidMount() {
-  //   const { question } = this.props.location.state; 
-  // }
     /** 
       four cases
       if user already exists in A , but clicked on b, then add user to B ( and remove from A)
@@ -83,50 +79,21 @@ handleVote = ( e ) => {
 }
 
 render (){
-  const { questions, history, users } = this.props;
-  // let location = this.props.location;
-  let locationState = this.props.location.state;
-  // const { question }  = this.props.location.state;
-  let location = history.location;
+  const { questions, users } = this.props;
+  // get the question id from the route
+  const questionId = this.props.match.params.id;
+  console.log("the question id is: ", questionId) ;
+  let questionsArray = Object.values(questions);
+  let question = questionsArray.find (q => q.id === questionId);
 
-  let question;
-  console.log ("questions", questions);
-
-  if ( locationState ){
-    question = locationState.question;
-    console.log("question from location", question);
-  } else {
-    console.log("Location history ", location);
-    console.log("state from history ", location.state);
-    
-    if (isEmpty(location.state) || isEmpty(location.state.question)){
-      let foo = location.pathname.split('/');
-      let id = foo[2];
-      console.log ("The question id is: ", id);
-      let questionsArray = Object.values(questions);
-      let question = questionsArray.find (q => q.id === id);
-
-      console.log ("The question from history is: ", question);
-      console.log ("The author sis ", question.author);
-      console.log ("----------------------------------");
-   
-    } else {
-      question = location.state.question;
-      console.log("question from history", question);
-    }
-  }
- 
-
-  //   console.log ("The question from history is: ", question);
-  //   console.log ("The author sis ", question.author);
-  //   console.log ("----------------------------------");
-  // }
-  if (isEmpty(question)){
-    console.log ("Question does not exist", question);
+  if (!question){
+  console.log ("The question from history is: ", question);
+  console.log ("----------------------------------");
+  return(<Redirect to={'/nomatch'}/>)
+} else{
+    console.log ("Question does not exist");
     console.log("=================");
-    history.push('/nomatch');
   }
-
     return(<div className="Answer">
            <h2 className="component-title">Answer</h2>
             <table>

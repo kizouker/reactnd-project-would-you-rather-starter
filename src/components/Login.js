@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { isEmpty } from './Shared'
 import { setAuthenticatedUser} from '../actions/authedUser'
 import { withRouter } from 'react-router';
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect } from 'react-router-dom'
+
 class Login extends React.Component{
     constructor(props){
         super(props);
@@ -48,13 +49,12 @@ class Login extends React.Component{
         this.props.authenticatedUser ? this.signout() : this.authenticate();
        }  
     render (){
-        let history = this.props.history;
         const { authenticatedUser } = this.state;
         const { users } = this.props;
 
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         if ( this.state.redirectFromReferrer ){
-            history.push(from);
+            return <Redirect to = {from}/>
         } else {
             console.log ("no REDIRECT");
         }
@@ -81,16 +81,14 @@ class Login extends React.Component{
                             value={ authenticatedUser } 
                             placeholder="Choose user to login:"/>
             
-                 <button onClick={e => this.handleClick(e)} 
-                    name="loginBtn"> 
+                 <button onClick={e => this.handleClick(e)} name="loginBtn"> 
                 {/*** Checks if the user is autheticated and shows the
                 * appropriate button "Login" or "Logout" */}
                  { this.props.authenticatedUser && <div>Logout</div>} 
                  { !this.props.authenticatedUser && <div>Login</div>} 
                 </button>
               </div>
-            </Router>
-              );
+            </Router>);
     }
 }
 

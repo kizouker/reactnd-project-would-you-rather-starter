@@ -55,15 +55,12 @@ class Menu extends React.Component{
         <PrivateRoute exact path='/questions/:id' component={ Answer } 
           authenticatedUser={this.props.authenticatedUser}/>
 
-        {/** In case of a missing or bad url is requested - we 
-          ** redirect to the 404 - no match page */}   
         <PrivateRoute exact path="/" component={ Categories } 
           authenticatedUser={this.props.authenticatedUser}/>  
          {/** Redirects to page 404 - if you request /badurl */}
 
-        {/* <Route exact path="/nomatch" component={ NoMatch } /> */}
-
-        <Route exact path="/nomatch" component={ NoMatch } /> 
+        <PrivateRoute exact path="*" component={ NoMatch } 
+           authenticatedUser={this.props.authenticatedUser}/> 
   
      {/** the homepage should show first...
       * I have put it last to make it match last
