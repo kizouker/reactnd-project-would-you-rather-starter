@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LeaderBoard from './LeaderBoard';
 import Post from './Post';
 import Login from './Login';
-import Answer from './Answer';
+import UnAnsweredDetails from './UnAnsweredDetails';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Categories from './Categories';
 import PrivateRoute from './PrivateRoute';
@@ -52,7 +52,7 @@ class Menu extends React.Component{
           authenticatedUser={this.props.authenticatedUser}/>
         <PrivateRoute exact path='/post' component={ Post } 
           authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path='/questions/:id' component={ Answer } 
+        <PrivateRoute exact path='/questions/:id' component={ UnAnsweredDetails } 
           authenticatedUser={this.props.authenticatedUser}/>
 
         <PrivateRoute exact path="/" component={ Categories } 

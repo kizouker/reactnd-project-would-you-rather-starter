@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { isEmpty } from './Shared'
+import { withRouter } from 'react-router';
 
 class List extends React.Component{
 
@@ -14,6 +15,7 @@ class List extends React.Component{
   this.returnNoUsers = this.returnNoUsers.bind(this);
   this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
   this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
+  this.handleClickDetails = this.handleClickDetails.bind(this);
 }
 
 percentagePerQuestion = () => {
@@ -41,6 +43,16 @@ returnNoUsers = () => {
   }
 }  
 
+handleClickDetails = ( id ) => {
+  let history = this.props.history;
+  console.log("handkeClickDetails .... ---- .... ..-- ..-.");
+  console.log("ID ", id);
+  history.push('/questions/:'+ id);
+
+  console.log("...--....----....");
+// /questions/' + el.id
+}
+
 countNoVotesPerQuestion = () => {
   let questionsArrOrg = Object.values(this.props.questions);
   let countArray = [];
@@ -64,50 +76,11 @@ countNoVotesPerQuestion = () => {
       })
     return countArray;
   }
-//scope 2 -inside class 
-
-// sort =  () => {
-//   const { unanswered } = this.props;
-//   let questionsObj = this.props.questions;
-  
-//   if(!unanswered){
-//       questionsObj =this.props.answeredQuestions;
-//   } else {
-//       questionsObj =this.props.unAnsweredQuestions; 
-//   }
-//   //scope 3 -inside RE 
-//   // let users = this.props.users;
-//   // let questionsArray = [];
-//   let  questionsArrayUnSorted 
-//   if (!(isEmpty(questionsObj))) {
-//     questionsArrayUnSorted = Object.values(questionsObj);
-//   }
-
-//   let questSortedOnTimeStamp= questionsArrayUnSorted.sort(function(a, b) {
-//     if (a.timestamp > b.timestamp) {
-//       return -1;
-//     }
-//     if (a.timestamp < b.timestamp) {
-//       return 1;
-//     }
-//     return 0;
-//   });
-
-  // console.log("List sort,  ", questSortedOnTimeStamp);
-  // let questionArray; 
-  // let sortedArray = questSortedOnTimeStamp.map(function(el){
-  //   console.log("sort element", el);
-  //   return questionArray[el.index];
-  // });
-
-
-// }
-
 
   render (){
     const { unanswered } = this.props;
     let questionsObj = this.props.questions;
-    
+
     if(!unanswered){
         questionsObj =this.props.answeredQuestions;
     } else {
@@ -122,8 +95,7 @@ countNoVotesPerQuestion = () => {
     }
 
     if (!isEmpty(users) && !(isEmpty(questionsArray))) { 
-      return(
-            <div>
+      return(<div>
             <table>
               <thead> 
                 <tr>
@@ -131,47 +103,88 @@ countNoVotesPerQuestion = () => {
                 </tr>
               </thead>
               { questionsArray.map ((el) => {
-      return(<tbody key={el.id}>
+              return(<tbody key={el.id}>
               { !unanswered && (
                 <tr>
-                  <td>... {el.author} ...</td>
-                  <td><img src={window.location.origin + users[el.author].avatarURL} 
+                  <td><i> {el.author}  </i>
+                  <img src={window.location.origin + users[el.author].avatarURL} 
                       width="10%" height="10%" alt="The avatar of the author"/>
-                      wonders if you, would you rather...
                   </td>
-                  <td>{el.optionOne.text}</td>
-                  <td>Votes: {el.optionOne.votes.length}</td>
-                  <td>Percentage: <br></br>
-                    {this.percentagePerQuestion()[el.id].optionOne} %
-                  </td>
-                  <td>... or ...</td>
-                  <td>{el.optionTwo.text}</td>
+                  
                   <td>
-                    Votes: {el.optionTwo.votes.length} 
+                    <Link to={{ 
+                            pathname : '/questions/' + el.id,   
+                            state: {
+                                question : el,
+                                unanswered : unanswered,
+                                statsOption1 :  {
+                                  number : el.optionOne.votes.length,
+                                  percentage : this.percentagePerQuestion()[el.id].optionOne
+                                },
+                                statsOption2 : {
+                                  number : el.optionTwo.votes.length,
+                                  percentage : this.percentagePerQuestion()[el.id].optionTwo,
+                                }
+                              }
+                            }}><span> more details...</span>
+                    </Link>
                   </td>
                   <td>
-                    Percentage: <br></br>
-                    {this.percentagePerQuestion()[el.id].optionTwo} %
+                      wonders, would you rather
                   </td>
-                </tr>)}              
-
-              {unanswered && (
-                  <Link to={{ 
-                    pathname : '/questions/' + el.id,   
-                    state: {
-                        question : el,
-                      }
-                    }}>
+                  {/* <td>
+                    <table>
+                      <tbody>
+                      <tr>  
+                          <td><h5>{el.optionOne.text} </h5></td>
+                      </tr>
+                      <tr>
+                         <td>{el.optionOne.votes.length} votes</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {this.percentagePerQuestion()[el.id].optionOne} %
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                   </td> */}
+                   {/* <td>
+                    <table>
+                    <tbody>
+                      <tr>  
+                          <td><h5>{el.optionTwo.text} </h5></td>
+                      </tr>
+                      <tr>
+                         <td>{el.optionTwo.votes.length} votes</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {this.percentagePerQuestion()[el.id].optionTwo} %
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                   </td> */}
+                   </tr>)}              
+                {unanswered && (
                 <tr>
-                  <td>... {el.author} ...</td>
+                  <td><i>{el.author} </i> </td>
                   <td><img src={window.location.origin + users[el.author].avatarURL} 
                       width="10%" height="10%" alt="The avatar of the author"/>
-                      'wonders if you, would you rather...</td>
-                  <td>{el.optionOne.text}</td>
-                  <td>{el.optionTwo.text}</td>
+                      </td>
+                  <td>
+                      <Link to={{ 
+                          pathname : '/questions/' + el.id,   
+                          state: {
+                              question : el,
+                              unanswered : unanswered
+                            }
+                          }}><span>wonders, would you rather {el.optionOne.text} or {el.optionTwo.text}</span>
+                      </Link>
+                  </td>
                 </tr>
-                </Link>
-                )}
+               )}
               </tbody>)
             })}
             </table>
@@ -221,8 +234,8 @@ const mapStateToProps = ( state ) => {
   }
 }
 
-export default connect(mapStateToProps) (List);
-
+// export default connect(mapStateToProps) (List);
+export default withRouter(connect(mapStateToProps) (List));
 
 let filterQuestions = (questions, users, user)  => {
   let answersForUserArray = [];

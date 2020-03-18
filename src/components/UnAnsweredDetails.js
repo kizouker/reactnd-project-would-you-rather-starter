@@ -5,7 +5,7 @@ import { isEmpty } from './Shared'
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 
-class Answer extends React.Component{
+class UnAnsweredDetails extends React.Component{
   constructor(props){
     super(props);
     this.handleVote = this.handleVote.bind(this);
@@ -79,7 +79,10 @@ handleVote = ( e ) => {
 }
 
 render (){
-  const { questions, users } = this.props;
+  const { questions, users} = this.props;
+  const { unanswered, statsOption1, statsOption2 } = this.props.location.state;
+
+  console.log("--------------------------")
   // get the question id from the route
   const questionId = this.props.match.params.id;
   console.log("the question id is: ", questionId) ;
@@ -94,56 +97,115 @@ render (){
     console.log ("Question does not exist");
     console.log("=================");
   }
-    return(<div className="Answer">
-           <h2 className="component-title">Answer</h2>
+    return( <div className="Answer">
+    <h2 className="component-title">Answer</h2>
+     <table>
+       <thead> 
+         <tr>
+           <th>Would you rather...</th> 
+         </tr>
+       </thead>
+      { unanswered && (
+        <tbody>
+          <tr>
+            <td>... {question.author} ...
+              <img src={window.location.origin + users[question.author].avatarURL} 
+              width="10%" height="10%" alt="Avatar of the author." />
+              wonders if you, would you rather...
+            </td>
+            <td>{question.optionOne.text} 
+              <button name="optionOne" value={question.id}
+                onClick={ (e) => this.handleVote(e)}> Vote 
+              </button>
+            </td>
+            <td>
+              {this.state.optionOne && 
+              (<div> 
+                  <b> Choosen </b>
+              </div>)}
+            </td>
+            <td><h3>OR</h3></td>
+            <td>{question.optionTwo.text}  
+            <button name="optionTwo" value={question.id}
+                onClick={ (e) => this.handleVote(e)}> Vote 
+                    </button> 
+                </td>
+                <td>
+                  {this.state.optionTwo && 
+                  (<div> 
+                      <b> Choosen </b>
+                  </div>)}           
+                </td> 
+              </tr>                 
+        </tbody>)}
+
+        { !unanswered && (
+        <tbody>
+          <tr>
+            <td>... {question.author} ...
+              <img src={window.location.origin + users[question.author].avatarURL} 
+              width="10%" height="10%" alt="Avatar of the author." />
+              wonders if you, would you rather...
+            </td>
+            <td>
             <table>
-              <thead> 
-                <tr>
-                  <th>Would you rather...</th> 
-                </tr>
-              </thead>
               <tbody>
+                <tr>  
+                  <td><h5>{question.optionOne.text} </h5></td>
+                </tr>
                 <tr>
-                  <td>... {question.author} ...
-                    <img src={window.location.origin + users[question.author].avatarURL} 
-                    width="10%" height="10%" alt="Avatar of the author." />
-                    wonders if you, would you rather...
-                  </td>
-                  <td>{question.optionOne.text} 
-                    <button name="optionOne" value={question.id}
-                      onClick={ (e) => this.handleVote(e)}> Vote 
-                    </button>
-                  </td>
+                  <td>{statsOption1.number} votes</td>
+                </tr>
+                <tr>
                   <td>
-                    {this.state.optionOne && 
-                    (<div> 
-                        <b> Choosen </b>
-                    </div>)}
+                    {statsOption1.percentage} %
                   </td>
-                  <td>   ...   or   ...   </td>
-                  <td>{question.optionTwo.text}  
-                    <button name="optionTwo" value={question.id}
-                        onClick={ (e) => this.handleVote(e)}> Vote 
-                      </button> 
-                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <td>
+              {this.state.optionOne && 
+              (<div> 
+                  <b> Choosen </b>
+              </div>)}
+            </td>
+            <td><h3>OR</h3></td>
+            <td>
+            <table>
+              <tbody>
+                <tr>  
+                    <td><h5>{question.optionTwo.text} </h5></td>
+                </tr>
+                <tr>
+                    <td>{statsOption2.number} votes</td>
+                </tr>
+                <tr>
                   <td>
-                    {this.state.optionTwo && 
-                    (<div> 
-                        <b> Choosen </b>
-                    </div>)}           
-                  </td> 
-                </tr>                 
-              </tbody>
-            </table>
-          </div>);
-    }
- }
- const mapStateToProps = ( state ) => {
-   return {
+                    {statsOption2.percentage} %
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              </td>
+            <td>
+              {this.state.optionTwo && 
+              (<div> 
+                  <b> Choosen </b>
+              </div>)}           
+            </td> 
+        </tr>                 
+      </tbody>)}
+  </table>
+</div>)};
+
+}
+  const mapStateToProps = ( state ) => {
+    return {
     questions : state.questions,
     authenticatedUser : state.authenticatedUser.authenticatedUser,
     users : state.users,
-   }
+  }
 }
 
-export default withRouter(connect(mapStateToProps) (Answer));
+export default withRouter(connect(mapStateToProps) (UnAnsweredDetails));
