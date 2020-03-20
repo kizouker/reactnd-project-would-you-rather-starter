@@ -36,11 +36,14 @@ class Menu extends React.Component{
     <Router>
        <div>
       {this.userLoggedIn() }
-           <Link to="/">| HomePage |</Link> 
+           <Link to="/">|| HomePage |</Link> 
            <Link to="/leaderboard">| LeaderBoard |</Link> 
            <Link to="/post">| Post new Question |</Link> 
-           <Link to="/login">|Login / Logout|</Link> 
-      </div>
+           <Link to="/login">
+             { !this.props.authenticatedUser && "| Login ||"}
+             { this.props.authenticatedUser && "| Logout ||"}
+           </Link> 
+    </div>
       {/***
         * Goes through a list of possible matches and routes
         * to the correct one.
@@ -48,6 +51,10 @@ class Menu extends React.Component{
       <Switch>
         <Route path="/login" component={ Login } 
           authenticatedUser={ this.props.authenticatedUser }/>
+
+          <Route path="/logout" component={ Login } 
+          authenticatedUser={ this.props.authenticatedUser }/>
+
         <PrivateRoute path="/leaderboard" component={ LeaderBoard } 
           authenticatedUser={this.props.authenticatedUser}/>
         <PrivateRoute exact path='/post' component={ Post } 

@@ -75,17 +75,24 @@ class Login extends React.Component{
        
       return(<Router>
                 <div className="Login">
-                 <div className="component-title"></div>
-                  <Dropdown options={ optionsDyn } 
-                            onChange={ this._onSelectSetAuthUser } 
-                            value={ authenticatedUser } 
-                            placeholder="Choose user to login:"/>
-            
+                 
+                { !this.props.authenticatedUser &&
+                    <div className="dropdown">
+                        <Dropdown options={ optionsDyn } 
+                                    onChange={ this._onSelectSetAuthUser } 
+                                    value={ authenticatedUser } 
+                                    placeholder="Choose user to login:"/>
+                    
+                        
+                    </div>
+                }
+
                  <button onClick={e => this.handleClick(e)} name="loginBtn"> 
-                {/*** Checks if the user is autheticated and shows the
-                * appropriate button "Login" or "Logout" */}
-                 { this.props.authenticatedUser && <div>Logout</div>} 
-                 { !this.props.authenticatedUser && <div>Login</div>} 
+                    { !this.props.authenticatedUser && <div>Login</div>}
+                    {/*** Checks if the user is autheticated and shows the
+                    * appropriate button "Login" or "Logout" */}
+
+                    { this.props.authenticatedUser && <div>Logout</div>} 
                 </button>
               </div>
             </Router>);
