@@ -80,8 +80,22 @@ handleVote = ( e ) => {
 
 render (){
   const { questions, users} = this.props;
-  const { unanswered, statsOption1, statsOption2 } = this.props.location.state;
+  // const { statsOption1, statsOption2 } = this.props.location.state;
 
+  console.log(this.props);
+
+  if (!this.props.location || !this.props.location.state){
+    return <Redirect to={'/nomatch'} />; 
+  }
+  else {
+ 
+  let unanswered = this.props.location.state.unanswered;
+  let statsOption1 = this.props.location.state.statsOption1;
+  let statsOption2 = this.props.location.state.statsOption2;
+
+
+
+  
   console.log("--------------------------")
   // get the question id from the route
   const questionId = this.props.match.params.id;
@@ -199,6 +213,7 @@ render (){
   </table>
 </div>)};
 
+}
 }
   const mapStateToProps = ( state ) => {
     return {
