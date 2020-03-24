@@ -8,12 +8,14 @@ import { Redirect } from 'react-router-dom';
 class UnAnsweredDetails extends React.Component{
   constructor(props){
     super(props);
-    this.handleVote = this.handleVote.bind(this);
-  
     this.state = {
       optionOne : false,
       optionTwo : false
     }
+    this.handleVote = this.handleVote.bind(this);
+    this.returnNoUsers = this.returnNoUsers.bind(this);
+    this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
+    this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
   }
     /** 
       four cases
@@ -23,6 +25,50 @@ class UnAnsweredDetails extends React.Component{
      if user already exists in A, but clicked on a, then do nothing
      if user already exists in B, but clicked on b, then do nothing
     */
+
+
+returnNoUsers = () => {
+  let usersArray = Object.values(this.props.users);
+
+  if (!isEmpty(usersArray)){
+    return usersArray.length;
+  }else {
+    return 0;
+  }
+}  
+countNoVotesPerQuestion = ( id ) => {
+  console.log(" id: ", id);
+  let questions = this.props.questions;
+  console.log("questions: ", questions);
+
+  let element = questions[id];
+
+  let optionOneVotes = element.optionOne.votes.length;  
+  let optionTwoVotes = element.optionTwo.votes.length;
+
+  console.log("votes", optionOneVotes, optionTwoVotes);
+
+  return {
+    id: element.id,
+    optionOne : optionOneVotes, 
+    optionTwo : optionTwoVotes
+  };
+}
+
+percentagePerQuestion = ( id ) => {
+  console.log(" id: ", id);
+  let noOfUsers = this.returnNoUsers();
+  let votes = this.countNoVotesPerQuestion( id );
+  
+  console.log("percentage", noOfUsers, votes)
+  let statsPercent = {
+        optionOne : Math.round((votes.optionOne/noOfUsers)*100),
+        optionTwo : Math.round((votes.optionTwo/noOfUsers)*100) 
+      };
+ 
+  return statsPercent;
+}
+
 handleVote = ( e ) => {
   let authenticatedUser = this.props.authenticatedUser;
   let questions = this.props.questions;
@@ -81,21 +127,19 @@ handleVote = ( e ) => {
 render (){
   const { questions, users} = this.props;
   // const { statsOption1, statsOption2 } = this.props.location.state;
+  // let qid;
 
   console.log(this.props);
 
-  if (!this.props.location || !this.props.location.state){
-    return <Redirect to={'/nomatch'} />; 
+  // If we just post the url and want info - we have to set
+  // unanswered = false - since we don't use the <Link> and we don't
+  // want to vote
+  let unanswered;
+  if(!(this.props.location.state && this.props.location.state.unanswered)){
+    unanswered = false;
+  } else {
+    unanswered = this.props.location.state.unanswered;
   }
-  else {
- 
-  let unanswered = this.props.location.state.unanswered;
-  let statsOption1 = this.props.location.state.statsOption1;
-  let statsOption2 = this.props.location.state.statsOption2;
-
-
-
-  
   console.log("--------------------------")
   // get the question id from the route
   const questionId = this.props.match.params.id;
@@ -104,13 +148,10 @@ render (){
   let question = questionsArray.find (q => q.id === questionId);
 
   if (!question){
-  console.log ("The question from history is: ", question);
-  console.log ("----------------------------------");
-  return(<Redirect to={'/nomatch'}/>)
+    console.log ("The question from history is: ", question);
+    console.log ("----------------------------------");
+    return(<Redirect to={'/nomatch'}/>)
 } else{
-    console.log ("Question does not exist");
-    console.log("=================");
-  }
     return( <div className="Answer">
     <h2 className="component-title">Answer</h2>
      <table>
@@ -168,15 +209,20 @@ render (){
                   <td><h5>{question.optionOne.text} </h5></td>
                 </tr>
                 <tr>
-                  <td>{statsOption1.number} votes</td>
+                  <td>{question.optionOne.votes.length} votes</td>
                 </tr>
                 <tr>
                   <td>
-                    {statsOption1.percentage} %
+                    {/** this below is a fn definition - not a call 
+                     * The (e) => whateverFunction(2) is a callback 
+                     * definition to be used on onClickor onChange so no needed here
+                    */}
+                    {/* {( e )  => this.countNoVotesPerQuestion(e, question.id ).optionOne} */}
+                    {this.percentagePerQuestion( question.id ).optionOne} %
                   </td>
                 </tr>
-                </tbody>
-              </table>
+              </tbody>
+             </table>
             </td>
             <td>
               {this.state.optionOne && 
@@ -189,18 +235,18 @@ render (){
             <table>
               <tbody>
                 <tr>  
-                    <td><h5>{question.optionTwo.text} </h5></td>
+                  <td><h5>{question.optionOne.text} </h5></td>
                 </tr>
                 <tr>
-                    <td>{statsOption2.number} votes</td>
+                  <td>{question.optionOne.votes.length} votes</td>
                 </tr>
                 <tr>
                   <td>
-                    {statsOption2.percentage} %
+                    {this.percentagePerQuestion( question.id ).optionOne} %
                   </td>
                 </tr>
-                </tbody>
-              </table>
+              </tbody>
+             </table>
               </td>
             <td>
               {this.state.optionTwo && 
@@ -211,15 +257,14 @@ render (){
         </tr>                 
       </tbody>)}
   </table>
-</div>)};
+</div>)}}
+}
 
-}
-}
   const mapStateToProps = ( state ) => {
     return {
-    questions : state.questions,
-    authenticatedUser : state.authenticatedUser.authenticatedUser,
-    users : state.users,
+      questions : state.questions,
+      authenticatedUser : state.authenticatedUser.authenticatedUser,
+      users : state.users,
   }
 }
 

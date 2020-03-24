@@ -12,36 +12,8 @@ class List extends React.Component{
     id : '',
     option : '',
   }
-  this.returnNoUsers = this.returnNoUsers.bind(this);
-  this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
-  this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
   this.handleClickDetails = this.handleClickDetails.bind(this);
 }
-
-percentagePerQuestion = () => {
-  let noOfUsers = this.returnNoUsers();
-  let countArray = this.countNoVotesPerQuestion();
-  let percentagePerQuestArr = [];
-  
-  console.log("percentage", noOfUsers, countArray)
-  countArray.map( element => {
-      percentagePerQuestArr[element.id] = {
-        optionOne : Math.round((element.optionOne/noOfUsers)*100),
-        optionTwo : Math.round((element.optionTwo/noOfUsers)*100) };
-      return percentagePerQuestArr;
-  })
-  return percentagePerQuestArr;
-}
-
-returnNoUsers = () => {
-  let usersArray = Object.values(this.props.users);
-
-  if (!isEmpty(usersArray)){
-    return usersArray.length;
-  }else {
-    return 0;
-  }
-}  
 
 handleClickDetails = ( id ) => {
   let history = this.props.history;
@@ -53,31 +25,7 @@ handleClickDetails = ( id ) => {
 // /questions/' + el.id
 }
 
-countNoVotesPerQuestion = () => {
-  let questionsArrOrg = Object.values(this.props.questions);
-  let countArray = [];
-  questionsArrOrg.map(element => {
-                      // since we check when we add votes if the user
-                      // already exists, we can now assume that a user
-                      // only exists once in the array
-
-      let optionOneVotes = element.optionOne.votes.length;
-      let optionTwoVotes = element.optionTwo.votes.length;
-
-      console.log("votes", optionOneVotes, optionTwoVotes);
-
-      countArray.push({
-        id: element.id,
-        optionOne : optionOneVotes, 
-        optionTwo : optionTwoVotes
-      });
-
-      return countArray;
-      })
-    return countArray;
-  }
-
-  render (){
+render (){
     const { unanswered } = this.props;
     let questionsObj = this.props.questions;
 
@@ -110,63 +58,22 @@ countNoVotesPerQuestion = () => {
                   <img src={window.location.origin + users[el.author].avatarURL} 
                       width="10%" height="10%" alt="The avatar of the author"/>
                   </td>
-                  
                   <td>
-                    <Link to={{ 
-                            pathname : '/questions/' + el.id,   
-                            state: {
-                                question : el,
-                                unanswered : unanswered,
-                                statsOption1 :  {
-                                  number : el.optionOne.votes.length,
-                                  percentage : this.percentagePerQuestion()[el.id].optionOne
-                                },
-                                statsOption2 : {
-                                  number : el.optionTwo.votes.length,
-                                  percentage : this.percentagePerQuestion()[el.id].optionTwo,
-                                }
-                              }
-                            }}><span> more details...</span>
+                   <span>wonders, would you rather {el.optionOne.text} 
+                   or {el.optionTwo.text}</span>
+                  </td>
+                  <td>
+                    <Link to={{
+                      pathname : '/questions/' + el.id,   
+                      state: {
+                        question : el,
+                        unanswered : unanswered
+                      }
+                      }}><span> more details...</span>
                     </Link>
                   </td>
-                  <td>
-                      wonders, would you rather
-                  </td>
-                  {/* <td>
-                    <table>
-                      <tbody>
-                      <tr>  
-                          <td><h5>{el.optionOne.text} </h5></td>
-                      </tr>
-                      <tr>
-                         <td>{el.optionOne.votes.length} votes</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          {this.percentagePerQuestion()[el.id].optionOne} %
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                   </td> */}
-                   {/* <td>
-                    <table>
-                    <tbody>
-                      <tr>  
-                          <td><h5>{el.optionTwo.text} </h5></td>
-                      </tr>
-                      <tr>
-                         <td>{el.optionTwo.votes.length} votes</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          {this.percentagePerQuestion()[el.id].optionTwo} %
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                   </td> */}
-                   </tr>)}              
+                  
+              </tr>)}              
                 {unanswered && (
                 <tr>
                   <td><i>{el.author} </i> </td>
@@ -180,7 +87,8 @@ countNoVotesPerQuestion = () => {
                               question : el,
                               unanswered : unanswered
                             }
-                          }}><span>wonders, would you rather {el.optionOne.text} or {el.optionTwo.text}</span>
+                          }}><span>wonders, would you rather {el.optionOne.text} 
+                          or {el.optionTwo.text}</span>
                       </Link>
                   </td>
                 </tr>
