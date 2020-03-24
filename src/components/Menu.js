@@ -38,7 +38,7 @@ class Menu extends React.Component{
       {this.userLoggedIn() }
            <Link to="/">|| HomePage |</Link> 
            <Link to="/leaderboard">| LeaderBoard |</Link> 
-           <Link to="/post">| Post new Question |</Link> 
+           <Link to="/add">| Post new Question |</Link> 
            <Link to="/login">
              { !this.props.authenticatedUser && "| Login ||"}
              { this.props.authenticatedUser && "| Logout ||"}
@@ -57,7 +57,7 @@ class Menu extends React.Component{
 
         <PrivateRoute path="/leaderboard" component={ LeaderBoard } 
           authenticatedUser={this.props.authenticatedUser}/>
-        <PrivateRoute exact path='/post' component={ Post } 
+        <PrivateRoute exact path='/add' component={ Post } 
           authenticatedUser={this.props.authenticatedUser}/>
         <PrivateRoute exact path='/questions/:id' component={ UnAnsweredDetails } 
           authenticatedUser={this.props.authenticatedUser}/>
