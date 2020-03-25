@@ -16,6 +16,7 @@ class UnAnsweredDetails extends React.Component{
     this.returnNoUsers = this.returnNoUsers.bind(this);
     this.countNoVotesPerQuestion = this.countNoVotesPerQuestion.bind(this);
     this.percentagePerQuestion = this.percentagePerQuestion.bind(this);
+    this.triggerAnswered = this.triggerAnswered.bind(this);
   }
     /** 
       four cases
@@ -36,6 +37,7 @@ returnNoUsers = () => {
     return 0;
   }
 }  
+
 countNoVotesPerQuestion = ( id ) => {
   console.log(" id: ", id);
   let questions = this.props.questions;
@@ -56,17 +58,40 @@ countNoVotesPerQuestion = ( id ) => {
 }
 
 percentagePerQuestion = ( id ) => {
-  console.log(" id: ", id);
-  let noOfUsers = this.returnNoUsers();
-  let votes = this.countNoVotesPerQuestion( id );
-  
-  console.log("percentage", noOfUsers, votes)
+  console.log("id: ", id);
+  let noOfVotes = this.countNoVotesPerQuestion( id );
+
+  let noOptA = noOfVotes.optionOne;
+  let noOptB = noOfVotes.optionTwo;
+
+  let totalVotes = noOptA + noOptB;
+  let percentA; let percentB; 
+
+  if (noOptA !== 0 && totalVotes !==0 ){
+    percentA = Math.round((noOptA/totalVotes)*100)
+  } else {
+    percentA = 0;
+  }
+  if (noOptB !== 0 && totalVotes !==0 ){
+    percentB = Math.round((noOptB/totalVotes)*100)
+  } else{
+    percentB = 0;
+  }
+
   let statsPercent = {
-        optionOne : Math.round((votes.optionOne/noOfUsers)*100),
-        optionTwo : Math.round((votes.optionTwo/noOfUsers)*100) 
+        optionOne : percentA,
+        optionTwo : percentB 
       };
  
   return statsPercent;
+}
+
+triggerAnswered = () => {
+  console.log("-------------");
+  console.log("--- before ---", this.props.location.state.unanswered);
+  this.props.location.state.unanswered = false;
+  console.log("--- after ---", this.props.location.state.unanswered);
+  console.log("-------------");
 }
 
 handleVote = ( e ) => {
@@ -123,20 +148,14 @@ handleVote = ( e ) => {
     }
   }
 
-//  let question = questions[id];
-  //
-  console.log("-------------");
-  console.log("--- before ---", this.props.location.state.unanswered);
-  this.props.location.state.unanswered = false;
-  console.log("--- after ---", this.props.location.state.unanswered);
-  console.log("-------------");
+  // When we vote for a question => the questions now answered
+  // we trigger a re-render by setting unanswered=false
+  this.triggerAnswered();
   //
 }
 
 render (){
   const { questions, users} = this.props;
-  // const { statsOption1, statsOption2 } = this.props.location.state;
-  // let qid;
 
   console.log(this.props);
 
@@ -225,8 +244,8 @@ render (){
                     {/** this below is a fn definition - not a call 
                      * The (e) => whateverFunction(2) is a callback 
                      * definition to be used on onClickor onChange so no needed here
-                    */}
-                    {/* {( e )  => this.countNoVotesPerQuestion(e, question.id ).optionOne} */}
+                     * so this doesn't work..just a reminder.
+                    {( e )  => this.countNoVotesPerQuestion(e, question.id ).optionOne} */}
                     {this.percentagePerQuestion( question.id ).optionOne} %
                   </td>
                 </tr>
@@ -244,14 +263,14 @@ render (){
             <table>
               <tbody>
                 <tr>  
-                  <td><h5>{question.optionOne.text} </h5></td>
+                  <td><h5>{question.optionTwo.text} </h5></td>
                 </tr>
                 <tr>
-                  <td>{question.optionOne.votes.length} votes</td>
+                  <td>{question.optionTwo.votes.length} votes</td>
                 </tr>
                 <tr>
                   <td>
-                    {this.percentagePerQuestion( question.id ).optionOne} %
+                    {this.percentagePerQuestion( question.id ).optionTwo} %
                   </td>
                 </tr>
               </tbody>
