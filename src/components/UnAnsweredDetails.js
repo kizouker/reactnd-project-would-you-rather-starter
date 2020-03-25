@@ -122,6 +122,15 @@ handleVote = ( e ) => {
       this.props.dispatch(saveQuestionAnswer(question, authenticatedUser, answer));
     }
   }
+
+//  let question = questions[id];
+  //
+  console.log("-------------");
+  console.log("--- before ---", this.props.location.state.unanswered);
+  this.props.location.state.unanswered = false;
+  console.log("--- after ---", this.props.location.state.unanswered);
+  console.log("-------------");
+  //
 }
 
 render (){
