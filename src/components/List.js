@@ -54,10 +54,12 @@ render (){
               return(<tbody key={el.id}>
               { !unanswered && (
                 <tr>
-                  <td><i> {el.author}  </i>
-                  <img src={window.location.origin + users[el.author].avatarURL} 
-                      width="10%" height="10%" alt="The avatar of the author"/>
+                  <td><i> {el.author}  </i> </td>
+                  <td>
+                    <img className="image" src={window.location.origin + users[el.author].avatarURL} 
+                         alt="The avatar of the author"/>
                   </td>
+
                   <td>
                    <span>wonders, would you rather {el.optionOne.text} 
                    or {el.optionTwo.text}</span>
@@ -77,9 +79,11 @@ render (){
                 {unanswered && (
                 <tr>
                   <td><i>{el.author} </i> </td>
-                  <td><img src={window.location.origin + users[el.author].avatarURL} 
-                      width="10%" height="10%" alt="The avatar of the author"/>
-                      </td>
+                  <td>
+                    <img className="image" src={window.location.origin + users[el.author].avatarURL} 
+                       alt="The avatar of the author"/>
+                  </td>
+
                   <td>
                       <Link to={{ 
                           pathname : '/questions/' + el.id,   

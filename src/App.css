@@ -13,6 +13,12 @@
   color: white;
 }
 
+.image{
+border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 75px;
+}
 .nav {
   padding: 30px;
   align-items: center;
