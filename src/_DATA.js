@@ -130,14 +130,7 @@ export function _getQuestions () {
     setTimeout(() => res({...questions}), 1000)
   })
 }
-// export function _getQuestion ( id ) {
-//   return new Promise((res, rej) => {
-//     // get a specific questiom with id
-//     let question = questions.filter( q =>  q.id === id);
-//     console.log(" in _getQuestion, question ", question);
-//     res( question );
-//   })
-// }
+
 export function getInitialData () {
   return Promise.all([
     _getUsers(),
