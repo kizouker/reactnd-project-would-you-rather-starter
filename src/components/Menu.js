@@ -8,6 +8,7 @@ import UnAnsweredDetails from './UnAnsweredDetails';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Categories from './Categories';
 import PrivateRoute from './PrivateRoute';
+import { CompatRouter, CompatRoute } from "react-router-dom-v5-compat";
 
 class Menu extends React.Component {
   constructor(props) {
@@ -25,15 +26,12 @@ class Menu extends React.Component {
     } else {
       msg = msg_1 + msg_2;
     }
-    return (<div>
-      <i><h6>
-        {msg}
-      </h6></i>
-    </div>)
+    return (<div><i><h6>{msg}</h6></i></div>)
   }
   render() {
     return (
       <Router>
+        <CompatRouter>
         <div>
           {this.userLoggedIn()}
           <Link to="/">|| HomePage |</Link>
@@ -49,13 +47,13 @@ class Menu extends React.Component {
         * to the correct one.
         */}
         <Switch>
-          <Route path="/login" authenticatedUser={this.props.authenticatedUser}>
+          <CompatRoute path="/login" authenticatedUser={this.props.authenticatedUser}>
             <Login />
-          </Route>
+          </CompatRoute>
 
-          <Route path="/logout" authenticatedUser={this.props.authenticatedUser}>
+          <CompatRoute path="/logout" authenticatedUser={this.props.authenticatedUser}>
             <Login />
-          </Route>
+          </CompatRoute>
 
           <PrivateRoute path="/leaderboard" authenticatedUser={this.props.authenticatedUser}>
             <LeaderBoard />
@@ -85,6 +83,7 @@ class Menu extends React.Component {
           * PrivateRoute is used to 
           */}
         </Switch>
+        </CompatRouter>
       </Router>)
       ;
   }

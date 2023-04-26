@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { isEmpty } from './Shared'
 import { withRouter } from 'react-router';
+// import { withRouter } from './ComponentWithRouterProp.js'
+
 
 class List extends React.Component{
 
@@ -16,7 +18,7 @@ class List extends React.Component{
 }
 
 handleClickDetails = ( id ) => {
-  let history = this.props.history;
+  let history = this.props.history; 
   console.log("handkeClickDetails .... ---- .... ..-- ..-.");
   console.log("ID ", id);
   history.push('/questions/:'+ id);

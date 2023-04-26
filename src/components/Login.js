@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { isEmpty } from './Shared'
 import { setAuthenticatedUser} from '../actions/authedUser'
 import { withRouter } from 'react-router';
+// import withRouter  from './ComponentWithRouterProp.js'
 import { BrowserRouter as Router, Redirect } from 'react-router-dom'
+import { CompatRouter } from 'react-router-dom-v5-compat';
 
 class Login extends React.Component{
     constructor(props){
@@ -73,7 +75,10 @@ class Login extends React.Component{
             })
         }
        
-      return(<Router>
+      return(
+     <Router>
+      
+                {/* <CompatRouter> */}
                 <div className="Login">
                  
                 { !this.props.authenticatedUser &&
@@ -89,13 +94,12 @@ class Login extends React.Component{
 
                  <button onClick={e => this.handleClick(e)} name="loginBtn"> 
                     { !this.props.authenticatedUser && <div>Login</div>}
-                    {/*** Checks if the user is autheticated and shows the
-                    * appropriate button "Login" or "Logout" */}
-
                     { this.props.authenticatedUser && <div>Logout</div>} 
                 </button>
               </div>
-            </Router>);
+              {/* </CompatRouter> */}
+             </Router> 
+            );
     }
 }
 
