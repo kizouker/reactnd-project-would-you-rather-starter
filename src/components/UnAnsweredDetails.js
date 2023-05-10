@@ -64,6 +64,7 @@ const mapStateToProps = (state) => {
     questions: state.questions,
     authenticatedUser: state.authenticatedUser,
     users: state.users,
+    option : state.otion,
   }
 }
 

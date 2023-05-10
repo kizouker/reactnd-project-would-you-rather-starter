@@ -4,24 +4,37 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-const UnAnswered = ({ question, users, questions, authenticatedUser, e }) => {
+/*
+1, understand mapStateToprops vs useState
+2, behöver jag skicka med questions, etc i handlevote när de finnsi statet?
+*/
+const UnAnswered = ({ question, users, questions, authenticatedUser}) => {
     const [optionOne, setOptionOne] = useState(0);
     const [optionTwo, setOptionTwo] = useState(0);
 
     const [option, setOption] = useState({
-        name: '',
-        value: ''
+        "name": '',
     });
 
     const handleChange = event => {
-        const eventet = event.persist();
-        console.log(eventet);
+      
+        event.persist();
+        console.log(event.target.value);
+
         setOption(current => ({
             ...current,
-            [eventet.target.name]: eventet.target.value
+            "name": event.target.value
         }));
-        handleVote(option, questions, authenticatedUser);
+        
+        handleVote();
+        
     };
+
+    function handleClick(event) {
+        event.persist();
+        console.log(event.target.value);
+        
+      }
     return (
         <tbody>
             <tr>
@@ -32,7 +45,7 @@ const UnAnswered = ({ question, users, questions, authenticatedUser, e }) => {
                 </td>
                 <td>{question.optionOne.text}
                     <button name="optionOne" value={question.id}
-                        onClick={(e) => console.log(e)}>Vote
+                        onClick={(e) => handleChange(e) }>Vote
                     </button>
                 </td>
                 <td>
@@ -41,7 +54,7 @@ const UnAnswered = ({ question, users, questions, authenticatedUser, e }) => {
                 <td><h3>OR</h3></td>
                 <td>{question.optionTwo.text}
                     <button name="optionTwo" value={question.id}
-                        onClick={(e) => console.log(e)}> Vote
+                        onClick={(e) => handleChange(e)}> Vote
                     </button>
                 </td>
                 <td>

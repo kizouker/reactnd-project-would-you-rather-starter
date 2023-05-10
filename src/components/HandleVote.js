@@ -6,18 +6,14 @@ import { withRouter } from 'react-router';
 
 const HandleVote = ({option, questions, authenticatedUser}) => {
 
-    // console.log("questions: " + JSON.stringify(questions));
-    // console.log("authenticatedUser: " + JSON.stringify(authenticatedUser));
+    console.log("questions: " + JSON.stringify(questions));
+    console.log("authenticatedUser: " + JSON.stringify(authenticatedUser));
 
     const triggerAnswered = () => {
-        console.log("-------------");
-        console.log("--- before ---", this.props.location.state.unanswered);
-        this.props.location.state.unanswered = false;
-        console.log("--- after ---", this.props.location.state.unanswered);
-        console.log("-------------");
+           this.props.location.state.unanswered = false;
       }
     
-
+console.log ("handlevote");
   
     // let authenticatedUser = this.props.authenticatedUser;
     // let questions = this.props.questions;
@@ -91,6 +87,7 @@ const mapStateToProps = (state) => {
       questions: state.questions,
       authenticatedUser: state.authenticatedUser,
       users: state.users,
+      option : state.option,
     }
   }
 

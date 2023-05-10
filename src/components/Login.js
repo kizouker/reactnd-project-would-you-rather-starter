@@ -87,7 +87,6 @@ class Login extends React.Component{
                                     onChange={ this._onSelectSetAuthUser } 
                                     value={ authenticatedUser } 
                                     placeholder="Choose user to login:"/>
-                    
                         
                     </div>
                 }
